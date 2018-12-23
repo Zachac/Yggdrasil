@@ -1,4 +1,4 @@
-package model.world;
+package model;
 
 import java.io.Serializable;
 import java.util.Iterator;

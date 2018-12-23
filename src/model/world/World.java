@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
+import model.Entity;
+import model.Time;
 import model.charachters.Player;
 import model.world.Coordinate.Direction;
 import model.world.Tile.Biome;

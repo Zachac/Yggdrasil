@@ -3,8 +3,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import model.Entity;
 import model.charachters.Player;
-import model.world.Entity;
 import parser.Command.CommandException;
 
 public class CommandData {

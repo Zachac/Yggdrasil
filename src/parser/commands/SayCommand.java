@@ -1,7 +1,7 @@
 package parser.commands;
 
+import model.Entity;
 import model.charachters.Player;
-import model.world.Entity;
 import model.world.Tile;
 import model.world.TileTraverser;
 import parser.Command;

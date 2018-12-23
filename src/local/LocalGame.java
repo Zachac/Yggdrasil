@@ -3,7 +3,7 @@ package local;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
-import model.world.Persistence;
+import model.Persistence;
 import model.world.World;
 import server.client.Client;
 import server.socket.InputStreamIteratorAdapter;

@@ -3,7 +3,7 @@ package server.client;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 
-import model.world.Time;
+import model.Time;
 import server.exceptions.ClosedConnectionException;
 
 class ClientMessagePublisher implements Runnable {

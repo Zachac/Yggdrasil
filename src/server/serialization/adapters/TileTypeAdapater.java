@@ -9,7 +9,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import model.world.Entity;
+import model.Entity;
 import model.world.Tile;
 
 public class TileTypeAdapater implements JsonSerializer<Tile>  {

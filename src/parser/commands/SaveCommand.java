@@ -2,7 +2,7 @@ package parser.commands;
 
 import java.io.File;
 
-import model.world.Persistence;
+import model.Persistence;
 import model.world.World;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode;

@@ -1,6 +1,8 @@
-package model.world;
+package model;
 
 import java.io.Serializable;
+
+import model.world.World;
 
 public class Entity implements Comparable<Entity>, Serializable {
 

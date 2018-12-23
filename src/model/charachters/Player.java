@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 
-import model.world.Entity;
+import model.Entity;
+import model.Time.ContinuousEvent;
 import model.world.Tile;
-import model.world.Time.ContinuousEvent;
 
 public class Player extends Entity implements Serializable {
 

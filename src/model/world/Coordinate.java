@@ -4,47 +4,6 @@ import java.io.Serializable;
 
 public final class Coordinate implements Serializable, Comparable<Coordinate> {
 
-	public enum Direction {
-		N(new Coordinate(1,0,0)),
-		E(new Coordinate(0,1,0)),
-		S(new Coordinate(-1,0,0)),
-		W(new Coordinate(0,-1,0)),
-		U(new Coordinate(0,0,1)),
-		D(new Coordinate(0,0,-1));
-		
-		public static final int COUNT = Coordinate.Direction.values().length;
-		
-		public final Coordinate direction;
-		
-		private Direction(Coordinate d) {
-			this.direction = d;
-		}
-		
-		public Direction opposite() {
-			switch (this) {
-			case N: return S;
-			case E: return W;
-			case S: return N;
-			case W: return E;
-			case D: return U;
-			case U: return D;
-			default: return null;
-			}
-		}
-
-		public static Direction valueOf(char direction) {
-			switch (direction) {
-			case 'N': case 'n': return N;
-			case 'S': case 's': return S;
-			case 'E': case 'e': return E;
-			case 'W': case 'w': return W;
-			case 'U': case 'u': return U;
-			case 'D': case 'd': return D;
-			default: return null;
-			}
-		}
-	}
-	
 	private static final long serialVersionUID = -7679965990604777695L;
 
 	public final int x, y, z;
@@ -64,6 +23,21 @@ public final class Coordinate implements Serializable, Comparable<Coordinate> {
 				this.x + next.direction.x,
 				this.y + next.direction.y,
 				this.z + next.direction.z);
+	}
+	
+	public int getDistance(Coordinate other) {
+		int max = this.x - other.x;
+		if (max < 0) max = -max;
+		
+		int max2 = this.y - other.y;
+		if (max2 < 0) max2 = -max2;
+		if (max < max2) max = max2;
+		
+		max2 = this.z - other.z;
+		if (max2 < 0) max2 = -max2;
+		if (max < max2) max = max2;
+		
+		return max;
 	}
 	
 	@Override
@@ -123,5 +97,46 @@ public final class Coordinate implements Serializable, Comparable<Coordinate> {
 		}
 		
 		return result;
+	}
+	
+	public enum Direction {
+		N(new Coordinate(1,0,0)),
+		E(new Coordinate(0,1,0)),
+		S(new Coordinate(-1,0,0)),
+		W(new Coordinate(0,-1,0)),
+		U(new Coordinate(0,0,1)),
+		D(new Coordinate(0,0,-1));
+		
+		public static final int COUNT = Coordinate.Direction.values().length;
+		
+		public final Coordinate direction;
+		
+		private Direction(Coordinate d) {
+			this.direction = d;
+		}
+		
+		public Direction opposite() {
+			switch (this) {
+			case N: return S;
+			case E: return W;
+			case S: return N;
+			case W: return E;
+			case D: return U;
+			case U: return D;
+			default: return null;
+			}
+		}
+
+		public static Direction valueOf(char direction) {
+			switch (direction) {
+			case 'N': case 'n': return N;
+			case 'S': case 's': return S;
+			case 'E': case 'e': return E;
+			case 'W': case 'w': return W;
+			case 'U': case 'u': return U;
+			case 'D': case 'd': return D;
+			default: return null;
+			}
+		}
 	}
 }

@@ -7,7 +7,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import model.world.Time.ContinuousEvent;
+import model.Time.ContinuousEvent;
 
 public class ContinuousEventTypeAdapter implements JsonSerializer<ContinuousEvent> {
 

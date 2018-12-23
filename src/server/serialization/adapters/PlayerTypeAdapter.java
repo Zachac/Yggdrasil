@@ -9,8 +9,8 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import model.Time.ContinuousEvent;
 import model.charachters.Player;
-import model.world.Time.ContinuousEvent;
 
 public class PlayerTypeAdapter implements JsonSerializer<Player> {
 

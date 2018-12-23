@@ -3,10 +3,10 @@ package server.serialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import model.Time.ContinuousEvent;
 import model.charachters.Player;
 import model.world.Coordinate;
 import model.world.Tile;
-import model.world.Time.ContinuousEvent;
 import server.serialization.adapters.ContinuousEventTypeAdapter;
 import server.serialization.adapters.CoordinateTypeAdapter;
 import server.serialization.adapters.NetworkUpdateTypeAdapter;

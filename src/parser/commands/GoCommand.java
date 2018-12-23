@@ -3,12 +3,12 @@ package parser.commands;
 import java.io.Serializable;
 import java.util.Objects;
 
+import model.Time;
+import model.Time.ContinuousEvent;
 import model.charachters.Player;
 import model.world.Coordinate;
 import model.world.Tile;
-import model.world.Time;
 import model.world.World;
-import model.world.Time.ContinuousEvent;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode;
 import parser.CommandData;

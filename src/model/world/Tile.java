@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import model.Entity;
+
 public class Tile extends Entity implements Serializable {
 
 	private static final long serialVersionUID = -7676772836100313611L;

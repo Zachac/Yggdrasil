@@ -1,4 +1,4 @@
-package model.world;
+package model;
 
 import java.awt.FileDialog;
 import java.io.File;
@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Objects;
 import java.util.Scanner;
+
+import model.world.World;
 
 public class Persistence {
 

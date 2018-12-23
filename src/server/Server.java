@@ -2,7 +2,7 @@ package server;
 
 import java.io.FileNotFoundException;
 
-import model.world.Persistence;
+import model.Persistence;
 import model.world.World;
 import util.Strings;
 

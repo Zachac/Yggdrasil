@@ -2,7 +2,7 @@ package parser.commands;
 
 import java.util.Iterator;
 
-import model.world.Entity;
+import model.Entity;
 import model.world.Tile;
 import model.world.TileTraverser;
 import parser.Command;
