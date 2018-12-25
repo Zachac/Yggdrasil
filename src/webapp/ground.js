@@ -5,17 +5,23 @@ ground.unusedTiles = [];
 ground.tileLookup = {};
 
 ground.removeTile = function(t) {
-	ground.tiles[t.id] = null;
-	ground.unusedTiles.push(t.id);
+	delete ground.tiles[t.id];
+	ground.unusedTiles.push(t);
 	
 	let ys = ground.tileLookup[t.position.x];
 	
 	if (ys) {
 		let zs = ys[t.position.y];
 		if (zs) {
-			zs[t.position.z] = null;			
+			delete zs[t.position.z];			
 		}
 	}
+
+	t.contents.forEach((e) => {
+		entity.remove(e);
+	})
+
+	t.setEnabled(false);
 }
 
 ground.lookup = function(x, y, z) {
@@ -73,11 +79,15 @@ ground.newTile = function(id, type, x, y, z) {
 	if (ground.unusedTiles.length > 0) {
 		result = ground.unusedTiles.pop()
 	} else {
-		result = BABYLON.Mesh.CreateBox("ground.tiile", 1, model.scene);
+		result = BABYLON.Mesh.CreateBox("ground.tile", 1, model.scene);
 		result.setParent(ground.parent);
 	}
+	
+	result.setEnabled(true);
 
+	result.id = id;
 	ground.tiles[id] = result;
+	
 
 	
 	let ys = ground.tileLookup[x];
@@ -103,7 +113,6 @@ ground.newTile = function(id, type, x, y, z) {
 	
 	result.contents = [];
 	
-	result.setEnabled(true);
 	
 	return result;
 }

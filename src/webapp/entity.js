@@ -3,7 +3,7 @@ entities = {};
 
 
 entity.remove = function(e) {
-	entities[e.id] = undefined;
+	delete entities[e.id];
 	
 	if (e.isPlayer) {
 		player.remove(e);

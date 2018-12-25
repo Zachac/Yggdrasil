@@ -60,6 +60,7 @@ model.updateTiles = function(tiles) {
 		}
 	});
 	
+	model.cull();
 }
 
 model.checkLocalPlayer = function(tiles) {
@@ -91,17 +92,23 @@ model.checkLocalPlayer = function(tiles) {
 			}
 		}
 	}
-	
-	if (p != null) {
-		model.cull();
-	}
 }
 
 model.cull = function() {
 	if (!model.position) {
 		
 	} else {
-		
+		Object.keys(ground.tiles).forEach(function(key) {
+			let t = ground.tiles[key];
+//			console.log(t);
+			if (t.y2 != model.position.y) {
+				ground.removeTile(t);
+			} else if (Math.abs(t.position.x-model.position.x) > 15) {
+				ground.removeTile(t);
+			} else if (Math.abs(t.position.z-model.position.z) > 15) {
+				ground.removeTile(t);
+			}
+		});
 	}
 }
 

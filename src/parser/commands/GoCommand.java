@@ -117,7 +117,7 @@ public class GoCommand extends Command {
 					player.move(nextTile);
 					UpdateProcessor.publicUpdate(nextTile, n, directions[i].d.opposite().direction);
 					
-					if (directions[i].d != Coordinate.Direction.D || directions[i].d != Coordinate.Direction.D) {
+					if (directions[i].d != Coordinate.Direction.D && directions[i].d != Coordinate.Direction.U) {
 						// then send only the new blocks in range
 
 						int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
