@@ -37,6 +37,8 @@ public class TileTypeAdapater implements JsonSerializer<Tile>  {
 			root.add("contents", contents);			
 		}
 		
+		root.add("id", new JsonPrimitive(src.getId()));
+		
 		return root;
 	}
 

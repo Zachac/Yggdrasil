@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
@@ -15,12 +16,8 @@ public class NetworkUpdateTypeAdapter implements JsonSerializer<NetworkUpdate> {
 	public JsonElement serialize(NetworkUpdate src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
-		if (src.localPosition != null) {
-			root.add("localPosition", context.serialize(src.localPosition));
-		}
-		
 		if (src.localPlayer != null) {
-			root.add("localPlayer", context.serialize(src.localPlayer));
+			root.add("localPlayer", new JsonPrimitive(src.localPlayer.userName));
 		}
 		
 		if (!src.tiles.isEmpty()) {

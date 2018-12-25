@@ -3,12 +3,24 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Yggdrasil</title>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script
+	src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+<script src="network-update-handler.js"></script>
 <script src="websocket.js"></script>
+<script src="local-model.js"></script>
+<script src="ground.js"></script>
+<script src="entity.js"></script>
+<script src="player.js"></script>
+<script src="render.js"></script>
+<script src="main.js"></script>
 <link rel="stylesheet" href="yggdrasil-client.css">
 </head>
 <body>
 	<div id="header">Yggdrasil</div>
 	<div id="console-bounds">
+		<canvas id="renderCanvas" touch-action="none"></canvas>
 		<div id="display"></div>
 		<input id="input" type="text" autofocus>
 	</div>

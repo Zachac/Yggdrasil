@@ -43,6 +43,7 @@ public class Client implements Runnable {
 			this.close();
 		} catch (Exception e) {
 			if (player == null) {
+				e.printStackTrace();
 				System.out.println("INFO: Player failed to login.");
 			} else {
 				System.out.println("INFO: Player " + player + " closed connection.");				
@@ -69,6 +70,8 @@ public class Client implements Runnable {
 	public synchronized void close() {
 		if (!closing) {
 			closing = true;
+		} else {
+			return;
 		}
 		
 		try { publisher.interrupt(); } catch (Exception e) { }

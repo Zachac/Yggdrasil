@@ -10,7 +10,7 @@ import parser.CommandData;
 
 public class SayCommand extends Command {
 
-	public static final int SAY_RANGE = 30;
+	public static final int SAY_RANGE = LookCommand.DEFAULT_LOOK;
 
 	public SayCommand() {
 		this("say");

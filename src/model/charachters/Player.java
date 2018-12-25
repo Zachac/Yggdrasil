@@ -10,6 +10,7 @@ import java.util.Queue;
 
 import model.Entity;
 import model.Time.ContinuousEvent;
+import model.updates.UpdateProcessor;
 import model.world.Tile;
 
 public class Player extends Entity implements Serializable {
@@ -30,7 +31,6 @@ public class Player extends Entity implements Serializable {
 		Objects.requireNonNull(location);
 		
 		this.location = location;
-		this.location.contents.add(this);
 		this.userName = userName;
 		specialization = new ClassLevels();
 		experience=0;
@@ -78,10 +78,16 @@ public class Player extends Entity implements Serializable {
 		
 		loggedIn = true;
 		System.out.println("INFO: " + userName + " logged in.");
+		
+		this.location.contents.add(this);
+		UpdateProcessor.publicUpdate(this.location);		
 	}
 
 	public void logout() {
+		this.location.contents.remove(this);
 		loggedIn = false;
+		System.out.println("INFO " + userName + " logged out.");
+		UpdateProcessor.publicUpdate(this.location);
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ public class LookCommand extends Command {
 	private static final String NOTHING_INDICATOR = "You see nothing.";
 	private static final String ENTITY_LIST_PREFACE = "There is,\n";
 	public static final int MAX_LOOK = 100;
-	public static final int DEFAULT_LOOK = 10;
+	public static final int DEFAULT_LOOK = 15;
 	
 	public LookCommand() {
 		this("look");

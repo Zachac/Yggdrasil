@@ -26,6 +26,8 @@ public class PlayerTypeAdapter implements JsonSerializer<Player> {
 			root.add("actions", context.serialize(actions));
 		}
 		
+		root.add("id", new JsonPrimitive(src.getId()));
+		
 		return root;
 	}
 }

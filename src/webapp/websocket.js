@@ -20,6 +20,8 @@ function println(value) {
 	} else if (value.startsWith('\t')) {
 		display.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;";
 		println(value.substr(1));
+	} else if (value.startsWith("{")) {
+    	net.handleUpdate(value);
 	} else {
 		display.append(value)
 		display.innerHTML += "<br>";
@@ -35,12 +37,13 @@ function startSocket() {
 	    	
 	    };
 			
-	    ws.onmessage = function (evt) { 
+	    ws.onmessage = function (evt) {
 	    	println(evt.data);
 	    };
 			
 	    ws.onclose = function() {
 	    	println("Connection is closed."); 
+	    	render.closeScene();
 	    };
 
 	} else {
@@ -73,11 +76,3 @@ function addInputListener() {
 	    }
 	});
 }
-
-window.onload = function () {
-	loadElements();
-	addInputListener();
-	startSocket();
-}
-
-

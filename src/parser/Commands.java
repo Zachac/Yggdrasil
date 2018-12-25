@@ -10,7 +10,6 @@ import parser.commands.ExitCommand;
 import parser.commands.GoCommand;
 import parser.commands.HelpCommand;
 import parser.commands.LCommand;
-import parser.commands.LoadCommand;
 import parser.commands.LookCommand;
 import parser.commands.NoCommandCommand;
 import parser.commands.SaveCommand;
@@ -42,7 +41,7 @@ public class Commands {
 		addCommand(new HelpCommand());
 		addCommand(new NoCommandCommand());
 		addCommand(new SaveCommand());
-		addCommand(new LoadCommand());
+//		addCommand(new LoadCommand());
 		addCommand(new LookCommand());
 		addCommand(new LCommand());
 		addCommand(new GoCommand());

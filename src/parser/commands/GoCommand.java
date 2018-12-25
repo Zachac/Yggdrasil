@@ -6,12 +6,15 @@ import java.util.Objects;
 import model.Time;
 import model.Time.ContinuousEvent;
 import model.charachters.Player;
+import model.updates.UpdateProcessor;
 import model.world.Coordinate;
 import model.world.Tile;
+import model.world.TileTraverser;
 import model.world.World;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode;
 import parser.CommandData;
+import server.serialization.NetworkUpdate;
 
 // TODO expand updates
 public class GoCommand extends Command {
@@ -45,7 +48,6 @@ public class GoCommand extends Command {
 		
 		ContinuousEvent event = new MoveEvent(d.source, directions);
 		World.get().time.addContinuousEvent(event);
-		
 
 		d.source.messages.add("You start walking.");
 	}
@@ -108,15 +110,64 @@ public class GoCommand extends Command {
 				directions[i].steps--;
 				Tile nextTile = player.getLocation().links[directions[i].d.ordinal()];
 				
-				if (nextTile == null) {
-					nextTile = player.getLocation();
+				if (nextTile != null) {
+					NetworkUpdate n = new NetworkUpdate();
+					n.tiles.add(player.getLocation());
+					n.tiles.add(nextTile);
+					player.move(nextTile);
+					UpdateProcessor.publicUpdate(nextTile, n, directions[i].d.opposite().direction);
+					
+					if (directions[i].d != Coordinate.Direction.D || directions[i].d != Coordinate.Direction.D) {
+						// then send only the new blocks in range
+
+						int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
+						if (xdiff == 0) {
+							minx = nextTile.position.x + LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
+							maxx = minx;
+						} else {
+							minx = nextTile.position.x - xdiff; 
+							maxx = nextTile.position.x + xdiff;
+						}
+						
+						int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
+						if (ydiff == 0) {
+							miny = nextTile.position.y + LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
+							maxy = miny;
+						} else {
+							miny = nextTile.position.y - xdiff; 
+							maxy = nextTile.position.y + xdiff;
+						}
+
+						if (ydiff < 0) {
+							int swap = miny;
+							miny = maxy;
+							maxy = swap;
+						}
+						
+						if (xdiff < 0) {
+							int swap = minx;
+							minx = maxx;
+							maxx = swap;
+						}
+						
+						NetworkUpdate n2 = new NetworkUpdate();
+						TileTraverser.traverseAll((t) -> {n2.tiles.add(t);}, minx, maxx, miny, maxy, nextTile.position.z);
+						if (!n2.tiles.isEmpty()) {
+							UpdateProcessor.privateUpdate(player, n2);							
+						}
+					} else {
+						// we changed z levels so send everything visible
+						NetworkUpdate n2 = new NetworkUpdate();
+						TileTraverser.traverse(nextTile, LookCommand.DEFAULT_LOOK, (t) -> {n2.tiles.add(t);});
+						UpdateProcessor.privateUpdate(player, n2);
+					}
 				}
 				
-				player.move(nextTile);
 			} else {
 				finished = true;	
 				player.messages.add("You finished walking at " + player.getLocation().position);
 			}
+			
 			return finished;
 		}
 

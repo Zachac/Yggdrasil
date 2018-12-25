@@ -10,7 +10,7 @@ import parser.CommandData;
 
 public class LoadCommand extends Command {
 
-	public LoadCommand() {
+	private LoadCommand() {
 		super("load", getMyPattern(), true);
 	}
 	
@@ -41,6 +41,7 @@ public class LoadCommand extends Command {
 		try {
 			Persistence.load(new File(fileName));
 			result = "Loaded world succesfully!";
+			
 		} catch (Exception e) {
 			result = util.Strings.stringify(e);
 		}

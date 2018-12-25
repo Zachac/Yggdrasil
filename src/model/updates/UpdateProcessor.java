@@ -20,12 +20,14 @@ public class UpdateProcessor {
 		source.messages.add(Serializer.prepare(n));
 	}
 
+	public static void publicUpdate(Tile t) {
+		NetworkUpdate n = new NetworkUpdate();
+		n.tiles.add(t);
+		publicUpdate(t, n);
+	}
+	
 	public static void publicUpdate(NetworkUpdate n) {
 		Map<Integer, Coordinate> broadcastPositions = new TreeMap<>();
-
-		if (n.localPosition != null) {
-			broadcastPositions.put(n.localPosition.z, n.localPosition);
-		}
 
 		if (!n.tiles.isEmpty()) {
 			getBroadCastPositions(n.tiles, broadcastPositions);
@@ -38,7 +40,6 @@ public class UpdateProcessor {
 
 	public static void publicUpdate(Tile root, NetworkUpdate n) {
 		String toSend = Serializer.prepare(n);
-
 		TileTraverser.Handler h = (t) -> {
 			for (Entity e : t.contents) {
 				if (e instanceof Player) {
@@ -125,16 +126,54 @@ public class UpdateProcessor {
 			NetworkUpdate n) {
 		String toSend = Serializer.prepare(n);
 
-		TileTraverser.Handler h = (t) -> {
+		TileTraverser.Handler h = new UpdateSender(toSend);
+
+		for (Integer z : broadcastPositions.keySet()) {
+			TileTraverser.traverse(broadcastPositions.get(z), maxRanges.get(z) + LookCommand.DEFAULT_LOOK, h);
+		}
+	}
+
+	public static void publicUpdate(Tile t, NetworkUpdate n, Coordinate extension) {
+
+		int minX = t.position.x - LookCommand.DEFAULT_LOOK;
+		int maxX = t.position.x + LookCommand.DEFAULT_LOOK;
+
+		int minY = t.position.y - LookCommand.DEFAULT_LOOK;
+		int maxY = t.position.y + LookCommand.DEFAULT_LOOK;
+
+		if (extension.x > 0) {
+			maxX += extension.x;
+		} else {
+			minX -= extension.x;
+		}
+		
+		if (extension.y > 0) {
+			maxY += extension.y;
+		} else {
+			minY -= extension.y;
+		}
+		
+		TileTraverser.traverseAll(new UpdateSender(Serializer.prepare(n)),
+				minX, maxX,
+				minY, maxY,
+				t.position.z);
+	}
+	
+	private static final class UpdateSender implements TileTraverser.Handler {
+
+		private final String toSend;
+		
+		public UpdateSender(String s) {
+			this.toSend = s;
+		}
+
+		@Override
+		public void run(Tile t) {
 			for (Entity e : t.contents) {
 				if (e instanceof Player) {
 					((Player) e).messages.add(toSend);
 				}
 			}
-		};
-
-		for (Integer z : broadcastPositions.keySet()) {
-			TileTraverser.traverse(broadcastPositions.get(z), maxRanges.get(z) + LookCommand.DEFAULT_LOOK, h);
 		}
 	}
 }
