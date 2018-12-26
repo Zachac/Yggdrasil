@@ -94,9 +94,11 @@ ground.newTile = function(id, type, x, y, z) {
 	if (ground.unusedTiles.length > 0) {
 		result = ground.unusedTiles.pop()
 	} else {
-		result = BABYLON.Mesh.CreateBox("ground.tile", 1, model.scene);
+		result = BABYLON.MeshBuilder.CreatePlane("tile", {size: 1}, model.scene);
 		result.setParent(ground.parent);
 	}
+	
+	result.rotation.x =  Math.PI / 2;
 
 	result.id = id;
 	ground.tiles[id] = result;
@@ -121,7 +123,6 @@ ground.newTile = function(id, type, x, y, z) {
 	
 	result.position.x = x;
 	result.position.z = z;
-	result.y = -1;
 	result.y2= y;  // actual Yggdrasil value
 	
 	result.contents = [];

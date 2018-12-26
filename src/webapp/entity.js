@@ -17,7 +17,7 @@ entity.newEntity = function(e) {
 
 	result.id = e.id;
 	result.mesh = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:1}, model.scene);
-	result.mesh.position.y = 1;
+	result.mesh.position.y = 0.5;
 	result.position = {};
 	
 	entities[result.id] = result;
