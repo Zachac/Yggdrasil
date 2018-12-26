@@ -1,13 +1,11 @@
 model = {
 	localPlayer: null,
-	scene: null,
-	camera: null
 }
 
 model.setLocalPlayer = function(userName) {
 	model.localPlayer = userName;
 	
-	if (model.camera.target == null) {
+	if (render.camera.target == null) {
 		model.onLoseLocalPlayer()
 	}
 	
@@ -16,11 +14,6 @@ model.setLocalPlayer = function(userName) {
 	if (p != null) {
 		model.onGainLocalPlayer(p)		
 	}
-}
-
-model.setScene = function(scene, camera) {
-	model.scene = scene;
-	model.camera = camera;
 }
 
 model.updateTiles = function(tiles) {
@@ -84,7 +77,7 @@ model.checkLocalPlayer = function(tiles) {
 						entity.update(e, tile);
 					}
 					
-					if (model.camera.target == null) {
+					if (render.camera.target == null) {
 						model.onGainLocalPlayer(p);
 					}
 				}
@@ -112,10 +105,10 @@ model.cull = function() {
 
 model.onGainLocalPlayer = function(p) {
 	model.position = p.position;
-	model.camera.target = p.mesh;
+	render.camera.target = p.mesh;
 }
 
 model.onLoseLocalPlayer = function() {
 	model.position = null;
-	model.camera.target = null;
+	render.camera.target = null;
 }

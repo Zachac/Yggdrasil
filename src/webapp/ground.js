@@ -14,7 +14,7 @@ ground.initMats = function() {
 }
 
 ground.getMat = function(name, r, g, b) {
-	var myMaterial = new BABYLON.StandardMaterial(name, model.scene);
+	var myMaterial = new BABYLON.StandardMaterial(name, render.scene);
 	myMaterial.diffuseColor = new BABYLON.Color3(r, g, b);
 	return myMaterial;
 }
@@ -94,7 +94,7 @@ ground.newTile = function(id, type, x, y, z) {
 	if (ground.unusedTiles.length > 0) {
 		result = ground.unusedTiles.pop()
 	} else {
-		result = BABYLON.MeshBuilder.CreatePlane("tile", {size: 1}, model.scene);
+		result = BABYLON.MeshBuilder.CreatePlane("tile", {size: 1}, render.scene);
 		result.setParent(ground.parent);
 	}
 	

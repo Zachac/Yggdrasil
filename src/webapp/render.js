@@ -20,8 +20,6 @@ render.createScene = function(canvas, engine)  {
 	light = new BABYLON.HemisphericLight("sun", new BABYLON.Vector3(0, 800, 0), scene);
 	render.camera = new BABYLON.ArcFollowCamera("Camera", Math.PI / 2, Math.PI / 4, 5, null, scene);
 	render.camera.attachControl(canvas, true);
-
-	model.setScene(scene, render.camera);
 	
 	return scene;
 };
