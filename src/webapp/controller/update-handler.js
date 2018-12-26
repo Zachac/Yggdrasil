@@ -2,34 +2,29 @@ updateHandler = {}
 
 
 updateHandler.updateTiles = function(tiles) {
-	model.checkLocalPlayer(tiles);
-	
-	let maybeRemove = [];
+	let lostEntities = [];
 	
 	tiles.forEach((t) => {
-		
 		if (t.contents) {
 			t.contents.forEach((e) => {
-				entity.update(e, t);
-			})
+				
+			});
 		}
 		
 		let maybeRemoveSwap = ground.tileUpdate(t);
 		
 		if (maybeRemoveSwap.length > 0) {
-			maybeRemove = maybeRemove.concat(maybeRemoveSwap);
+			lostEntities = lostEntities.concat(maybeRemoveSwap);
 		}
 	})
 	
-	maybeRemove.forEach((e) => {
+	lostEntities.forEach((e) => {
 		let g = ground.lookup(e.position.x, e.position.y, e.position.z);
 		
 		if (g) {
-			let exists = g.contents.some((en) => {
-				return en.id == e.id; 
-			})
+			let found = g.contents.some((en) => { return en.id == e.id; })
 			
-			if (!exists) {
+			if (!found) {
 				entity.remove(e);
 			}
 		} else {
@@ -41,5 +36,5 @@ updateHandler.updateTiles = function(tiles) {
 }
 
 updateHandler.updateLocalPlayer = function(userName) {
-	model.setLocalPlayer(userName);
+	model.setLocalPlayer(player.get(userName));
 }

@@ -58,34 +58,34 @@ ground.tileUpdate = function(tile) {
 		t = ground.newTile(tile.id, tile.biome, tile.position.x, tile.position.y, tile.position.z);
 	}
 	
-	let lastContents = t.contents;
+	let lostContents = t.contents;
 	
 	if (tile.contents) {
 		t.contents = [];
 		tile.contents.forEach((e) => {
-			t.contents.push(entities[e.id]);
+			t.contents.push(entity.update(e, tile));
 		})
 	} else if (t.contents.length > 0) {
 		t.contents = [];
 	}
 	
-	if (lastContents.length > 0) {
-		lastContents.forEach((e, i) => {
+	if (lostContents.length > 0) {
+		lostContents.forEach((e, i) => {
 			let contains = t.contents.some((en) => {
 				return en.id == e.id;
 			});
 			
 			if (contains) {
-				lastContents.splice(i, 1);
+				lostContents.splice(i, 1);
 			}
 		});
 	}
 	
-	return lastContents;
+	return lostContents;
 }
 
 ground.clearTiles = function() {
-	
+	throw "Not yet implemented";
 }
 
 ground.newTile = function(id, type, x, y, z) {

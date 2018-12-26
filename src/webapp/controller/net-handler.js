@@ -6,14 +6,15 @@ net.handleUpdate = function(string) {
 	net.translateCoordinates(updt);
 	
 	console.log(updt);
-	
+
 	if (updt.localPlayer) {
-		model.setLocalPlayer(updt.localPlayer);
+		updateHandler.updateLocalPlayer(updt.localPlayer);
 	}
 	
 	if (updt.tiles) {
 		updateHandler.updateTiles(updt.tiles);
 	}
+
 }
 
 net.translateCoordinates = function(d) {

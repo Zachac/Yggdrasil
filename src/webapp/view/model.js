@@ -2,48 +2,13 @@ model = {
 	localPlayer: null,
 }
 
-model.setLocalPlayer = function(userName) {
-	model.localPlayer = userName;
-	
-	if (render.camera.target != null) {
-		model.onLoseLocalPlayer()
-	}
-	
-	p = entities[userName];
-	
+model.setLocalPlayer = function(p) {
 	if (p != null) {
-		model.onGainLocalPlayer(p)		
-	}
-}
-
-model.checkLocalPlayer = function(tiles) {
-	if (model.localPlayer == null) {
-		return;
-	}
-	
-	let p = null;
-	
-	for (let i = 0; i < tiles.length; i++) {
-		let tile = tiles[i];
-		
-		if (tile.contents) {
-			
-			for (let j = 0; j < tile.contents.length; j++) {
-				let e = tile.contents[j];
-				if (e.type = "Player" && e.userName == model.localPlayer) {
-					p = players[e.userName];
-					
-					if (p == null) {
-						p = entity.newEntity(e);
-						entity.update(e, tile);
-					}
-					
-					if (render.camera.target == null) {
-						model.onGainLocalPlayer(p);
-					}
-				}
-			}
-		}
+		model.position = p.position;
+		render.camera.target = p.mesh;	
+	} else {
+		model.position = null;
+		render.camera.target = null;
 	}
 }
 
@@ -62,14 +27,4 @@ model.cull = function() {
 			}
 		});
 	}
-}
-
-model.onGainLocalPlayer = function(p) {
-	model.position = p.position;
-	render.camera.target = p.mesh;
-}
-
-model.onLoseLocalPlayer = function() {
-	model.position = null;
-	render.camera.target = null;
 }

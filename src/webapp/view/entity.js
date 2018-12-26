@@ -41,6 +41,8 @@ entity.update = function(en, tile) {
 	if (e.isPlayer) {
 		player.update(en, tile);
 	}
+	
+	return e;
 }
 
 entity.move = function(e, x, y, z) {
