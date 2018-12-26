@@ -12,7 +12,7 @@ model.setLocalPlayer = function(p) {
 	}
 }
 
-model.cull = function() {
+model.cullTiles = function() {
 	if (model.position == null) {
 		
 	} else {
@@ -26,5 +26,19 @@ model.cull = function() {
 				ground.removeTile(t);
 			}
 		});
+	}
+}
+
+model.cullEntity = function(e) {
+	let g = ground.lookup(e.position.x, e.position.y, e.position.z);
+	
+	if (g) {
+		let found = g.contents.some((en) => { return en.id == e.id; })
+		
+		if (!found) {
+			entity.remove(e);
+		}
+	} else {
+		entity.remove(e);
 	}
 }
