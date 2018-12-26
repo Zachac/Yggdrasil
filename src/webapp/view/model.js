@@ -5,7 +5,7 @@ model = {
 model.setLocalPlayer = function(userName) {
 	model.localPlayer = userName;
 	
-	if (render.camera.target == null) {
+	if (render.camera.target != null) {
 		model.onLoseLocalPlayer()
 	}
 	
@@ -14,45 +14,6 @@ model.setLocalPlayer = function(userName) {
 	if (p != null) {
 		model.onGainLocalPlayer(p)		
 	}
-}
-
-model.updateTiles = function(tiles) {
-	model.checkLocalPlayer(tiles);
-	
-	let maybeRemove = [];
-	
-	tiles.forEach((t) => {
-		
-		if (t.contents) {
-			t.contents.forEach((e) => {
-				entity.update(e, t);
-			})
-		}
-		
-		let maybeRemoveSwap = ground.tileUpdate(t);
-		
-		if (maybeRemoveSwap.length > 0) {
-			maybeRemove = maybeRemove.concat(maybeRemoveSwap);
-		}
-	})
-	
-	maybeRemove.forEach((e) => {
-		let g = ground.lookup(e.position.x, e.position.y, e.position.z);
-		
-		if (g) {
-			let exists = g.contents.some((en) => {
-				return en.id == e.id; 
-			})
-			
-			if (!exists) {
-				entity.remove(e);
-			}
-		} else {
-			entity.remove(e);
-		}
-	});
-	
-	model.cull();
 }
 
 model.checkLocalPlayer = function(tiles) {

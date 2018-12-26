@@ -12,7 +12,7 @@ net.handleUpdate = function(string) {
 	}
 	
 	if (updt.tiles) {
-		model.updateTiles(updt.tiles);
+		updateHandler.updateTiles(updt.tiles);
 	}
 }
 
