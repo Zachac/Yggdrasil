@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.grizzly.websockets.WebSocketAddOn;
 import org.glassfish.grizzly.websockets.WebSocketEngine;
 
