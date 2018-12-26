@@ -9,7 +9,7 @@ import model.Entity;
 
 public class Tile extends Entity implements Serializable {
 
-	public enum Biome { GRASS, SAND, STONE, WATER, ROAD, TRAIL, NONE }
+	public enum Biome { GRASS, SAND, STONE, WATER, NONE }
 
 	private static final long serialVersionUID = -7676772836100313611L;
 	

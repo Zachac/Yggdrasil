@@ -4,5 +4,6 @@ window.onload = function() {
 	addInputListener();
 	startSocket();
 	render.loadRender();
+	ground.initMats();
 }
 

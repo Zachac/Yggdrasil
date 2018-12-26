@@ -109,13 +109,11 @@ public class GoCommand extends Command {
 				
 				directions[i].steps--;
 				Tile nextTile = player.getLocation().links[directions[i].d.ordinal()];
+				Tile oldTile = player.getLocation();
 				
 				if (nextTile != null) {
-					NetworkUpdate n = new NetworkUpdate();
-					n.tiles.add(player.getLocation());
-					n.tiles.add(nextTile);
+
 					player.move(nextTile);
-					UpdateProcessor.publicUpdate(nextTile, n, directions[i].d.opposite().direction);
 					
 					if (directions[i].d != Coordinate.Direction.D && directions[i].d != Coordinate.Direction.U) {
 						// then send only the new blocks in range
@@ -149,6 +147,10 @@ public class GoCommand extends Command {
 							minx = maxx;
 							maxx = swap;
 						}
+						NetworkUpdate n = new NetworkUpdate();
+						n.tiles.add(oldTile);
+						n.tiles.add(nextTile);
+						UpdateProcessor.publicUpdate(nextTile, n, directions[i].d.opposite().direction);
 						
 						NetworkUpdate n2 = new NetworkUpdate();
 						TileTraverser.traverseAll((t) -> {n2.tiles.add(t);}, minx, maxx, miny, maxy, nextTile.position.z);
@@ -156,10 +158,19 @@ public class GoCommand extends Command {
 							UpdateProcessor.privateUpdate(player, n2);							
 						}
 					} else {
+						
+						NetworkUpdate n = new NetworkUpdate();
+						n.tiles.add(oldTile);
+						n.tiles.add(nextTile);
+						UpdateProcessor.privateUpdate(player, n);
+						
 						// we changed z levels so send everything visible
 						NetworkUpdate n2 = new NetworkUpdate();
 						TileTraverser.traverse(nextTile, LookCommand.DEFAULT_LOOK, (t) -> {n2.tiles.add(t);});
+						UpdateProcessor.publicUpdate(oldTile);
+						UpdateProcessor.publicUpdate(nextTile);
 						UpdateProcessor.privateUpdate(player, n2);
+
 					}
 				}
 				

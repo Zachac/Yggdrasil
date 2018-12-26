@@ -3,6 +3,21 @@ ground = {};
 ground.tiles = {};
 ground.unusedTiles = [];
 ground.tileLookup = {};
+ground.colors = {};
+
+ground.initMats = function() {
+	ground.colors.GRASS = ground.getMat("grass", 0, 1, 0); 
+	ground.colors.SAND = ground.getMat("sand", 1, 1, 0);
+	ground.colors.STONE = ground.getMat("stone", 0.3, 0.3, 0.3);
+	ground.colors.WATER = ground.getMat("water", 0, 0, 1);
+	ground.colors.NONE = null;
+}
+
+ground.getMat = function(name, r, g, b) {
+	var myMaterial = new BABYLON.StandardMaterial(name, model.scene);
+	myMaterial.diffuseColor = new BABYLON.Color3(r, g, b);
+	return myMaterial;
+}
 
 ground.removeTile = function(t) {
 	delete ground.tiles[t.id];
@@ -40,7 +55,7 @@ ground.tileUpdate = function(tile) {
 	t = ground.tiles[tile.id];
 	
 	if (t == null) {
-		t = ground.newTile(tile.id, tile.type, tile.position.x, tile.position.y, tile.position.z);
+		t = ground.newTile(tile.id, tile.biome, tile.position.x, tile.position.y, tile.position.z);
 	}
 	
 	let lastContents = t.contents;
@@ -82,8 +97,6 @@ ground.newTile = function(id, type, x, y, z) {
 		result = BABYLON.Mesh.CreateBox("ground.tile", 1, model.scene);
 		result.setParent(ground.parent);
 	}
-	
-	result.setEnabled(true);
 
 	result.id = id;
 	ground.tiles[id] = result;
@@ -113,6 +126,9 @@ ground.newTile = function(id, type, x, y, z) {
 	
 	result.contents = [];
 	
+	result.material = ground.colors[type];
+	
+	result.setEnabled(true);
 	
 	return result;
 }

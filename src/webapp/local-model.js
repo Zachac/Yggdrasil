@@ -55,7 +55,6 @@ model.updateTiles = function(tiles) {
 				entity.remove(e);
 			}
 		} else {
-			console.log(e);
 			entity.remove(e);
 		}
 	});
@@ -95,12 +94,11 @@ model.checkLocalPlayer = function(tiles) {
 }
 
 model.cull = function() {
-	if (!model.position) {
+	if (model.position == null) {
 		
 	} else {
 		Object.keys(ground.tiles).forEach(function(key) {
 			let t = ground.tiles[key];
-//			console.log(t);
 			if (t.y2 != model.position.y) {
 				ground.removeTile(t);
 			} else if (Math.abs(t.position.x-model.position.x) > 15) {
@@ -115,8 +113,6 @@ model.cull = function() {
 model.onGainLocalPlayer = function(p) {
 	model.position = p.position;
 	model.camera.target = p.mesh;
-	
-	
 }
 
 model.onLoseLocalPlayer = function() {
