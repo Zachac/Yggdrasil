@@ -1,5 +1,6 @@
 package model.updates;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -8,8 +9,10 @@ import model.charachters.Player;
 import model.world.Tile;
 import server.serialization.Serializer;
 
-public class NetworkUpdate {
+public class NetworkUpdate implements Serializable {
 
+	private static final long serialVersionUID = -4875831612778534546L;
+	
 	private final Set<Tile> tiles;
 	public Player localPlayer;
 	

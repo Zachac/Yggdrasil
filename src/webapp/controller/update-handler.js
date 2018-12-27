@@ -16,5 +16,7 @@ updateHandler.updateTiles = function(tiles) {
 }
 
 updateHandler.updateLocalPlayer = function(userName) {
-	model.setLocalPlayer(player.get(userName));
+	let e = player.get(userName);
+	
+	model.setLocalPlayer(e? e: userName);
 }

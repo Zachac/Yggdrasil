@@ -3,7 +3,9 @@ model = {
 }
 
 model.setLocalPlayer = function(p) {
-	if (p != null) {
+	if (typeof p == "string") {
+		model.localPlayer = p;
+	} else if (p != null) {
 		model.position = p.position;
 		render.camera.target = p.mesh;	
 	} else {
