@@ -1,14 +1,13 @@
 package parser.commands;
 
+import model.charachters.Player;
 import model.updates.UpdateProcessor;
 import model.world.Coordinate;
 import model.world.Tile;
 import model.world.World;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode.Flag;
-import server.serialization.NetworkUpdate;
 import parser.CommandData;
-import parser.CommandParser;
 
 public class SysTPCommand extends Command {
 
@@ -46,21 +45,22 @@ public class SysTPCommand extends Command {
 		
 		if (t == null) {
 			d.source.messages.add("Invalid location, could not find " + c);
-		} else {
-			NetworkUpdate previousPos = new NetworkUpdate();
-			previousPos.tiles.add(d.source.getLocation());
-			
-			NetworkUpdate newPos = new NetworkUpdate();
-			newPos.tiles.add(t);
-			
-			d.source.move(t);
-			
-			UpdateProcessor.publicUpdate(previousPos.tiles.get(0), previousPos);			
-			CommandParser.parse(new String[] {"sysupdate"}, d.source).run();
-			UpdateProcessor.publicUpdate(newPos.tiles.get(0), newPos);
-			
-			d.source.messages.add("With a pop, you arrive at " + d.source.getLocation().position);
+			return;
 		}
+		
+		teleport(d.source, t);
+		
+		d.source.messages.add("With a pop, you arrive at " + d.source.getLocation().position);
+	}
+
+	protected void teleport(Player p, Tile t) {
+		Tile previous = p.getLocation();
+		
+		p.move(t);
+
+		UpdateProcessor.update(previous);
+		UpdateProcessor.update(t);
+		UpdateProcessor.completeUpdate(p);
 	}
 
 	

@@ -39,6 +39,10 @@ class ClientMessagePublisher implements Runnable {
 			c.out.println(messages.next());
 			messages.remove();
 		}
+		
+		if (c.player.updates.shouldSend()) {
+			c.out.println(c.player.updates.consume());
+		}
 
 		if (hasMessages) {
 			c.out.flush();

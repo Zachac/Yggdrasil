@@ -53,6 +53,7 @@ ground.lookup = function(x, y, z) {
 
 ground.tileUpdate = function(tile) {
 	t = ground.tiles[tile.id];
+	console.log("here");
 	
 	if (t == null) {
 		t = ground.newTile(tile.id, tile.biome, tile.position.x, tile.position.y, tile.position.z);

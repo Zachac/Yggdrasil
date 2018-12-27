@@ -1,6 +1,8 @@
 package parser.commands;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import model.Time;
@@ -10,13 +12,12 @@ import model.updates.UpdateProcessor;
 import model.world.Coordinate;
 import model.world.Tile;
 import model.world.TileTraverser;
+import model.world.TileTraverser.SearchField;
 import model.world.World;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode;
 import parser.CommandData;
-import server.serialization.NetworkUpdate;
 
-// TODO expand updates
 public class GoCommand extends Command {
 	
 	public GoCommand() {
@@ -106,80 +107,76 @@ public class GoCommand extends Command {
 			while (i < directions.length && directions[i].steps <= 0) i++;
 			
 			if (i < directions.length) {
-				
-				directions[i].steps--;
-				Tile nextTile = player.getLocation().links[directions[i].d.ordinal()];
-				Tile oldTile = player.getLocation();
-				
-				if (nextTile != null) {
-
-					player.move(nextTile);
-					
-					if (directions[i].d != Coordinate.Direction.D && directions[i].d != Coordinate.Direction.U) {
-						// then send only the new blocks in range
-
-						int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
-						if (xdiff == 0) {
-							minx = nextTile.position.x + LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
-							maxx = minx;
-						} else {
-							minx = nextTile.position.x - xdiff; 
-							maxx = nextTile.position.x + xdiff;
-						}
-						
-						int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
-						if (ydiff == 0) {
-							miny = nextTile.position.y + LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
-							maxy = miny;
-						} else {
-							miny = nextTile.position.y - xdiff; 
-							maxy = nextTile.position.y + xdiff;
-						}
-
-						if (ydiff < 0) {
-							int swap = miny;
-							miny = maxy;
-							maxy = swap;
-						}
-						
-						if (xdiff < 0) {
-							int swap = minx;
-							minx = maxx;
-							maxx = swap;
-						}
-						NetworkUpdate n = new NetworkUpdate();
-						n.tiles.add(oldTile);
-						n.tiles.add(nextTile);
-						UpdateProcessor.publicUpdate(nextTile, n, directions[i].d.opposite().direction);
-						
-						NetworkUpdate n2 = new NetworkUpdate();
-						TileTraverser.traverseAll((t) -> {n2.tiles.add(t);}, minx, maxx, miny, maxy, nextTile.position.z);
-						if (!n2.tiles.isEmpty()) {
-							UpdateProcessor.privateUpdate(player, n2);							
-						}
-					} else {
-						
-						NetworkUpdate n = new NetworkUpdate();
-						n.tiles.add(oldTile);
-						n.tiles.add(nextTile);
-						UpdateProcessor.privateUpdate(player, n);
-						
-						// we changed z levels so send everything visible
-						NetworkUpdate n2 = new NetworkUpdate();
-						TileTraverser.traverse(nextTile, LookCommand.DEFAULT_LOOK, (t) -> {n2.tiles.add(t);});
-						UpdateProcessor.publicUpdate(oldTile);
-						UpdateProcessor.publicUpdate(nextTile);
-						UpdateProcessor.privateUpdate(player, n2);
-
-					}
-				}
-				
+				move(i);
 			} else {
 				finished = true;	
 				player.messages.add("You finished walking at " + player.getLocation().position);
 			}
 			
 			return finished;
+		}
+
+		protected void move(int i) {
+			directions[i].steps--;
+			Tile nextTile = player.getLocation().links[directions[i].d.ordinal()];
+			Tile oldTile = player.getLocation();
+			
+			UpdateProcessor.update(oldTile);
+			UpdateProcessor.update(nextTile);
+			player.move(nextTile);
+			
+			sendUpdates(i, nextTile);
+		}
+
+		protected void sendUpdates(int i, Tile nextTile) {
+			if (nextTile != null) {
+
+				if (directions[i].d != Coordinate.Direction.D && directions[i].d != Coordinate.Direction.U) {
+					// then send only the new blocks in range
+
+					SearchField s = getNewlyExposedSearchField(i, nextTile);
+					List<Tile> tiles = new LinkedList<>();
+					TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
+					
+					UpdateProcessor.update(player, tiles);
+				} else {
+					UpdateProcessor.completeUpdate(player);
+				}
+			}
+		}
+
+		protected SearchField getNewlyExposedSearchField(int i, Tile nextTile) {
+			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
+			if (xdiff == 0) {
+				minx = nextTile.position.x + LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
+				maxx = minx;
+			} else {
+				minx = nextTile.position.x - xdiff; 
+				maxx = nextTile.position.x + xdiff;
+			}
+			
+			int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
+			if (ydiff == 0) {
+				miny = nextTile.position.y + LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
+				maxy = miny;
+			} else {
+				miny = nextTile.position.y - xdiff; 
+				maxy = nextTile.position.y + xdiff;
+			}
+
+			if (ydiff < 0) {
+				int swap = miny;
+				miny = maxy;
+				maxy = swap;
+			}
+			
+			if (xdiff < 0) {
+				int swap = minx;
+				minx = maxx;
+				maxx = swap;
+			}
+			SearchField s = new SearchField(minx, miny, maxx, maxy, nextTile.position.z);
+			return s;
 		}
 
 		@Override

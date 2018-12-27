@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import model.Time.ContinuousEvent;
 import model.charachters.Player;
+import model.updates.NetworkUpdate;
 import model.world.Coordinate;
 import model.world.Tile;
 import server.serialization.adapters.ContinuousEventTypeAdapter;

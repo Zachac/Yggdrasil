@@ -5,12 +5,11 @@ import java.util.Iterator;
 import model.updates.UpdateProcessor;
 import model.world.Coordinate.Direction;
 import model.world.Tile;
-import model.world.World;
 import model.world.Tile.Biome;
+import model.world.World;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode;
 import parser.CommandData;
-import server.serialization.NetworkUpdate;
 
 public class BuildCommand extends Command {
 
@@ -66,13 +65,10 @@ public class BuildCommand extends Command {
 		}
 
 		BuildReturnValue result = new BuildReturnValue(cursor, true);
-		NetworkUpdate n = new NetworkUpdate();
 		
 		do {
-			result = place(type, result.cursor, paths.next(), n);
+			result = place(type, result.cursor, paths.next());
 		} while (result.completed && paths.hasNext());
-		
-		UpdateProcessor.publicUpdate(n);
 		
 		if (result.completed) {
 			d.source.messages.add("Completed at " + result.cursor.position);
@@ -81,7 +77,7 @@ public class BuildCommand extends Command {
 		}
 	}
 
-	public static BuildReturnValue place(Biome type, Tile cursor, String path, NetworkUpdate n) {
+	public static BuildReturnValue place(Biome type, Tile cursor, String path) {
 		Direction d;
 		int length;
 
@@ -97,7 +93,7 @@ public class BuildCommand extends Command {
 		while (cursor.links[d.ordinal()] == null && length > 0) {
 			
 			Tile swap = World.get().addTile(cursor.position.get(d), type);
-			n.tiles.add(swap);
+			UpdateProcessor.update(swap);
 			
 			if (d == Direction.D || d == Direction.U) {
 				cursor.links[d.ordinal()] = swap;

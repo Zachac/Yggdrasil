@@ -8,20 +8,20 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import server.serialization.NetworkUpdate;
+import model.updates.NetworkUpdate;
 
 public class NetworkUpdateTypeAdapter implements JsonSerializer<NetworkUpdate> {
 
 	@Override
-	public JsonElement serialize(NetworkUpdate src, Type typeOfSrc, JsonSerializationContext context) {
+	public JsonElement serialize(model.updates.NetworkUpdate src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
 		if (src.localPlayer != null) {
 			root.add("localPlayer", new JsonPrimitive(src.localPlayer.userName));
 		}
 		
-		if (!src.tiles.isEmpty()) {
-			root.add("tiles", context.serialize(src.tiles));
+		if (!src.getTiles().isEmpty()) {
+			root.add("tiles", context.serialize(src.getTiles()));
 		}
 		
 		

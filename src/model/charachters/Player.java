@@ -10,6 +10,7 @@ import java.util.Queue;
 
 import model.Entity;
 import model.Time.ContinuousEvent;
+import model.updates.NetworkUpdate;
 import model.updates.UpdateProcessor;
 import model.world.Tile;
 
@@ -26,12 +27,15 @@ public class Player extends Entity implements Serializable {
 	private final List<ContinuousEvent> actions;
 	public final Queue<String> messages;
 	
+	public final NetworkUpdate updates;
+	
 	public Player(String userName, Tile location) {
 		Objects.requireNonNull(userName);
 		Objects.requireNonNull(location);
 		
 		this.location = location;
 		this.userName = userName;
+		this.updates = new NetworkUpdate();
 		specialization = new ClassLevels();
 		experience=0;
 		actions = new LinkedList<>();
@@ -80,14 +84,14 @@ public class Player extends Entity implements Serializable {
 		System.out.println("INFO: " + userName + " logged in.");
 		
 		this.location.contents.add(this);
-		UpdateProcessor.publicUpdate(this.location);		
+		UpdateProcessor.update(this.location);		
 	}
 
 	public void logout() {
 		this.location.contents.remove(this);
 		loggedIn = false;
 		System.out.println("INFO " + userName + " logged out.");
-		UpdateProcessor.publicUpdate(this.location);
+		UpdateProcessor.update(this.location);
 	}
 	
 	@Override
