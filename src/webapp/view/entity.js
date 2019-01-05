@@ -4,7 +4,6 @@ entity = {
 }
 entities = {};
 
-
 entity.remove = function (e) {
 	delete entities[e.id];
 
@@ -15,29 +14,11 @@ entity.remove = function (e) {
 	e.mesh.dispose();
 }
 
-entity.newEntity = function (e) {
-	let result = {};
-
-	result.id = e.id;
-	result.moveAnimId = `${e.id} anim`;
-	result.mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, render.scene);
-	result.mesh.position.y = 0.5;
-	result.position = {};
-
-	entities[result.id] = result;
-
-	if (e.type = "Player") {
-		player.init(result, e);
-	}
-
-	return result;
-}
-
 entity.update = function (en, tile) {
 	e = entities[en.id];
 
 	if (e == null) {
-		e = entity.newEntity(en);
+		e = entity.newEntity(en, tile);
 	}
 
 	entity.move(e, tile.position.x, tile.position.y, tile.position.z);
@@ -47,6 +28,32 @@ entity.update = function (en, tile) {
 	}
 
 	return e;
+}
+
+entity.newEntity = function (e, t) {
+	let result = {};
+
+	result.id = e.id;
+	result.moveAnimId = `${e.id} anim`;
+	result.mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, render.scene);
+	result.mesh.position.y = 0.5;
+	result.mesh.position.x = t.position.x;
+	result.mesh.position.z = t.position.z;
+	result.position = {
+		x: result.mesh.position.x,
+		y: result.mesh.position.y,
+		z: result.mesh.position.z,
+	}
+
+	result.moveAnims = [];
+
+	entities[result.id] = result;
+
+	if (e.type = "Player") {
+		player.init(result, e);
+	}
+
+	return result;
 }
 
 entity.move = function (e, x, y, z) {
@@ -71,23 +78,39 @@ entity.move = function (e, x, y, z) {
 }
 
 entity.animateMove = function (e, x, y, z) {
-	BABYLON.Animation.CreateAndStartAnimation(
-		e.moveAnimId, e.mesh, 'position.x',
-		render.fps, render.fps * entity.moveTime,
-		e.mesh.position.x, x,
-		0 /* loop mode */, animation.entityEasing);
+	entity.clearMoveAnimations(e);
 
-	BABYLON.Animation.CreateAndStartAnimation(
-		e.moveAnimId, e.mesh, 'position.y',
-		render.fps, render.fps * entity.moveTime,
-		e.mesh.position.y, y,
-		0, animation.entityEasing);
+	e.moveAnims = [];
 
-	BABYLON.Animation.CreateAndStartAnimation(
-		e.moveAnimId, e.mesh, 'position.z',
-		render.fps, render.fps * entity.moveTime,
-		e.mesh.position.z, z,
-		0, animation.entityEasing);
+	e.moveAnims.push(
+		BABYLON.Animation.CreateAndStartAnimation(
+			e.moveAnimId, e.mesh, 'position.x',
+			render.fps, render.fps * entity.moveTime,
+			e.mesh.position.x, x,
+			0 /* loop mode */, animation.entityEasing)
+	);
+
+	e.moveAnims.push(
+		BABYLON.Animation.CreateAndStartAnimation(
+			e.moveAnimId, e.mesh, 'position.y',
+			render.fps, render.fps * entity.moveTime,
+			e.mesh.position.y, y,
+			0, animation.entityEasing)
+	);
+
+	e.moveAnims.push(
+		BABYLON.Animation.CreateAndStartAnimation(
+			e.moveAnimId, e.mesh, 'position.z',
+			render.fps, render.fps * entity.moveTime,
+			e.mesh.position.z, z,
+			0, animation.entityEasing)
+	);
+}
+
+entity.clearMoveAnimations = function (e) {
+	e.moveAnims.forEach(anim => {
+		anim.stop();
+	});
 }
 
 entity.teleportMove = function (e, x, y, z) {
