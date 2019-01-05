@@ -42,6 +42,7 @@ class ClientMessagePublisher implements Runnable {
 		
 		if (c.player.updates.shouldSend()) {
 			c.out.println(c.player.updates.consume());
+			hasMessages = true;
 		}
 
 		if (hasMessages) {
