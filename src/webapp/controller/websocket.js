@@ -1,27 +1,34 @@
-var ws;
-var messages = [];
-var messagesSwap = [];
+websocket = {
+	messages: [],
+	messagesSwap: [],
+};
 
-function loadElements() {
-	const input = document.getElementById("input");
-	const display = document.getElementById("display");
+websocket.init = function () {
+	websocket.loadElements();
+	websocket.addInputListener();
+	websocket.startSocket();
 }
 
-function displayElement(value) {
-	display.innerHTML += value + "<br>";
-	display.scrollTop = display.scrollHeight
+websocket.loadElements = function () {
+	websocket.input = document.getElementById("input");
+	websocket.display = document.getElementById("display");
 }
 
-function println(value) {
+websocket.displayElement = function (value) {
+	websocket.display.innerHTML += value + "<br>";
+	websocket.display.scrollTop = display.scrollHeight
+}
+
+websocket.println = function (value) {
 	if (value.indexOf('\n') > -1) {
 		value.split('\n').forEach((value) => {
-			if (/\S+/.test(value)) println(value);
+			if (/\S+/.test(value)) websocket.println(value);
 		});
 	} else if (value.startsWith('\t')) {
 		display.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;";
-		println(value.substr(1));
+		websocket.println(value.substr(1));
 	} else if (value.startsWith("{")) {
-    	net.handleUpdate(value);
+		net.handleUpdate(value);
 	} else {
 		display.append(value)
 		display.innerHTML += "<br>";
@@ -29,50 +36,50 @@ function println(value) {
 	}
 }
 
-function startSocket() {
+websocket.startSocket = function () {
 	if ("WebSocket" in window) {
-	    ws = new WebSocket("ws://" + window.location.host + "/connect");
-			
-	    ws.onopen = function() {
-	    	
-	    };
-			
-	    ws.onmessage = function (evt) {
-	    	println(evt.data);
-	    };
-			
-	    ws.onclose = function() {
-	    	println("Connection is closed."); 
-	    	render.closeScene();
-	    };
+		websocket.ws = new WebSocket("ws://" + window.location.host + "/connect");
+
+		websocket.ws.onopen = function () { };
+
+		websocket.ws.onmessage = function (evt) {
+			websocket.println(evt.data);
+		};
+
+		websocket.ws.onclose = function () {
+			websocket.println("Connection is closed.");
+			render.closeScene();
+		};
 
 	} else {
 		println("WARNING: WebSocket is not supported by your Browser!");
 	}
 }
 
-function addInputListener() {
-	input.addEventListener("keyup", function(event) {
-	    if (event.key === "Enter") {
-	    	if (ws.readyState != ws.CLOSED && ws.readyState != ws.CLOSING) {
-	    		ws.send(input.value);	    		
-	    	}
-	    	
-	    	displayElement(input.value.fontcolor("marroon"));
-	    	messages.push(input.value);
-	    	input.value = "";
-	    }
+websocket.addInputListener = function () {
+	websocket.input.addEventListener("keyup", function (event) {
+		if (event.key === "Enter") {
+			if (websocket.ws.readyState != websocket.ws.CLOSED && websocket.ws.readyState != websocket.ws.CLOSING) {
+				websocket.ws.send(input.value);
+			}
 
-	    if (event.key === "ArrowUp") {
-	    	messagesSwap.push(input.value);
-	    	input.value = messages.pop();
-	    }
-	    
-	    if (event.key === "ArrowDown") {
-	    	if (messagesSwap.length > 0) {
-	    		messages.push(input.value);
-	    		input.value = messagesSwap.pop();
-	    	}
-	    }
+			websocket.displayElement(websocket.input.value.fontcolor("marroon"));
+			websocket.messages.push(websocket.input.value);
+			websocket.input.value = "";
+		}
+
+		if (event.key === "ArrowUp") {
+			websocket.messagesSwap.push(websocket.input.value);
+			websocket.input.value = messages.pop();
+		}
+
+		if (event.key === "ArrowDown") {
+			if (messagesSwap.length > 0) {
+				websocket.messages.push(websocket.input.value);
+				websocket.input.value = messagesSwap.pop();
+			}
+		}
 	});
 }
+
+main.onload.push(websocket.init);

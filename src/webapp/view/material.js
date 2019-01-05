@@ -13,3 +13,5 @@ material.getColor = function (name, r, g, b) {
     myMaterial.diffuseColor = new BABYLON.Color3(r, g, b);
     return myMaterial;
 }
+
+main.onload.push(material.init);

@@ -8,7 +8,8 @@ render = {
 	maxLookCap: 0.1,
 	scrollZoomScalar: 1 / 500,
 	maxCameraDistance: 10,
-	minCameraDistance: 2
+	minCameraDistance: 2,
+	fps: 60
 };
 
 render.closeScene = function () {
@@ -27,7 +28,7 @@ render.createScene = function (canvas, engine) {
 	return scene;
 };
 
-render.loadRender = function () {
+render.init = function () {
 	render.canvas = document.getElementById("renderCanvas");
 	render.engine = new BABYLON.Engine(render.canvas, true);
 	render.scene = render.createScene(render.canvas, render.engine);
@@ -68,5 +69,6 @@ render.loadRender = function () {
 			render.camera.radius = render.minCameraDistance;
 		}
 	});
-
 }
+
+main.onload.push(render.init);

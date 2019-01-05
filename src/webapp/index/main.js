@@ -1,9 +1,8 @@
 
-window.onload = function () {
-	loadElements();
-	addInputListener();
-	startSocket();
-	render.loadRender();
-	material.init();
+main = {
+	onload: []
 }
 
+window.onload = function () {
+	main.onload.forEach(f => f());
+}
