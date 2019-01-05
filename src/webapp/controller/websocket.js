@@ -5,18 +5,22 @@ websocket = {
 
 websocket.init = function () {
 	websocket.loadElements();
-	websocket.addInputListener();
 	websocket.startSocket();
 }
 
 websocket.loadElements = function () {
-	websocket.input = document.getElementById("input");
 	websocket.display = document.getElementById("display");
 }
 
 websocket.displayElement = function (value) {
 	websocket.display.innerHTML += value + "<br>";
 	websocket.display.scrollTop = display.scrollHeight
+}
+
+websocket.send = function (value) {
+	if (websocket.ws.readyState != websocket.ws.CLOSED && websocket.ws.readyState != websocket.ws.CLOSING) {
+		websocket.ws.send(value);
+	}
 }
 
 websocket.println = function (value) {
@@ -54,32 +58,6 @@ websocket.startSocket = function () {
 	} else {
 		println("WARNING: WebSocket is not supported by your Browser!");
 	}
-}
-
-websocket.addInputListener = function () {
-	websocket.input.addEventListener("keyup", function (event) {
-		if (event.key === "Enter") {
-			if (websocket.ws.readyState != websocket.ws.CLOSED && websocket.ws.readyState != websocket.ws.CLOSING) {
-				websocket.ws.send(input.value);
-			}
-
-			websocket.displayElement(websocket.input.value.fontcolor("marroon"));
-			websocket.messages.push(websocket.input.value);
-			websocket.input.value = "";
-		}
-
-		if (event.key === "ArrowUp") {
-			websocket.messagesSwap.push(websocket.input.value);
-			websocket.input.value = messages.pop();
-		}
-
-		if (event.key === "ArrowDown") {
-			if (messagesSwap.length > 0) {
-				websocket.messages.push(websocket.input.value);
-				websocket.input.value = messagesSwap.pop();
-			}
-		}
-	});
 }
 
 main.onload.push(websocket.init);
