@@ -16,12 +16,11 @@ input.addInputListeners = function () {
     input.in.addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
             websocket.send(input.in.value);
-            websocket.displayElement(input.in.value.fontcolor("marroon"));
+            output.displayElement(input.in.value.fontcolor("marroon"));
             input.messages.push(input.in.value);
             input.in.value = "";
             input.messageCursor = input.messages.length;
         }
-
 
         if (event.key === "ArrowUp") {
             let newCursor = input.messageCursor - 1;
