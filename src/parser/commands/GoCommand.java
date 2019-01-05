@@ -121,20 +121,22 @@ public class GoCommand extends Command {
 			Tile nextTile = player.getLocation().links[directions[i].d.ordinal()];
 			Tile oldTile = player.getLocation();
 			
-			UpdateProcessor.update(oldTile);
-			UpdateProcessor.update(nextTile);
-			player.move(nextTile);
-			
-			sendUpdates(i, nextTile);
+			if (nextTile != null) {
+				UpdateProcessor.update(oldTile);
+				UpdateProcessor.update(nextTile);
+				player.move(nextTile);
+				
+				sendUpdates(directions[i].d, nextTile);				
+			}
 		}
 
-		protected void sendUpdates(int i, Tile nextTile) {
+		protected void sendUpdates(Coordinate.Direction d, Tile nextTile) {
 			if (nextTile != null) {
 
-				if (directions[i].d != Coordinate.Direction.D && directions[i].d != Coordinate.Direction.U) {
+				if (d != Coordinate.Direction.D && d != Coordinate.Direction.U) {
 					// then send only the new blocks in range
 
-					SearchField s = getNewlyExposedSearchField(i, nextTile);
+					SearchField s = getNewlyExposedSearchField(d, nextTile);
 					List<Tile> tiles = new LinkedList<>();
 					TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
 					
@@ -145,19 +147,19 @@ public class GoCommand extends Command {
 			}
 		}
 
-		protected SearchField getNewlyExposedSearchField(int i, Tile nextTile) {
-			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
+		protected SearchField getNewlyExposedSearchField(Coordinate.Direction d, Tile nextTile) {
+			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.y;
 			if (xdiff == 0) {
-				minx = nextTile.position.x + LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
+				minx = nextTile.position.x + LookCommand.DEFAULT_LOOK * d.direction.x;
 				maxx = minx;
 			} else {
 				minx = nextTile.position.x - xdiff; 
 				maxx = nextTile.position.x + xdiff;
 			}
 			
-			int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * directions[i].d.direction.x;
+			int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * d.direction.x;
 			if (ydiff == 0) {
-				miny = nextTile.position.y + LookCommand.DEFAULT_LOOK * directions[i].d.direction.y;
+				miny = nextTile.position.y + LookCommand.DEFAULT_LOOK * d.direction.y;
 				maxy = miny;
 			} else {
 				miny = nextTile.position.y - xdiff; 
@@ -183,6 +185,5 @@ public class GoCommand extends Command {
 		public void cancel() {
 			this.finished = true;
 		}
-		
 	}
 }
