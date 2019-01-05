@@ -8,7 +8,6 @@ A list of things to do.
 * Add click to walk to html engine
 * Add height to html engine
 * Add ctrl-c to clear text in input
-* Teleport when outside of move range
 
 ### Back End
 * Add semicolon operator to allow multiple commands
