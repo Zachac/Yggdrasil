@@ -1,4 +1,7 @@
-entity = {}
+entity = {
+	moveTime: 0.5 + 0.02,
+	maxStep: 2
+}
 entities = {};
 
 
@@ -48,24 +51,47 @@ entity.update = function (en, tile) {
 
 entity.move = function (e, x, y, z) {
 
+	let xdiff = e.mesh.position.x - x;
+	let zdiff = e.mesh.position.z - z;
+
+	if (xdiff < -entity.maxStep || xdiff > entity.maxStep ||
+		zdiff < -entity.maxStep || zdiff > entity.maxStep) {
+		entity.teleportMove(e, x, e.mesh.position.y, z);
+	} else {
+		entity.animateMove(e, x, e.mesh.position.y, z);
+	}
+
 	e.position.x = x;
 	e.position.y = y;
 	e.position.z = z;
 
+	if (e.isPlayer) {
+		player.update(e, x, y, z);
+	}
+}
+
+entity.animateMove = function (e, x, y, z) {
 	BABYLON.Animation.CreateAndStartAnimation(
 		e.moveAnimId, e.mesh, 'position.x',
-		render.fps, render.fps * 0.52,
+		render.fps, render.fps * entity.moveTime,
 		e.mesh.position.x, x,
 		0 /* loop mode */, animation.entityEasing);
 
 	BABYLON.Animation.CreateAndStartAnimation(
+		e.moveAnimId, e.mesh, 'position.y',
+		render.fps, render.fps * entity.moveTime,
+		e.mesh.position.y, y,
+		0, animation.entityEasing);
+
+	BABYLON.Animation.CreateAndStartAnimation(
 		e.moveAnimId, e.mesh, 'position.z',
-		render.fps, render.fps * 0.52,
+		render.fps, render.fps * entity.moveTime,
 		e.mesh.position.z, z,
-		0 /* loop mode */, animation.entityEasing);
+		0, animation.entityEasing);
+}
 
-
-	if (e.isPlayer) {
-		player.update(e, x, y, z);
-	}
+entity.teleportMove = function (e, x, y, z) {
+	e.mesh.position.x = x;
+	e.mesh.position.y = y;
+	e.mesh.position.z = z;
 }
