@@ -122,15 +122,12 @@ public class GoCommand extends Command {
 			Tile oldTile = player.getLocation();
 			
 			if (nextTile != null) {
-				UpdateProcessor.update(oldTile);
-				UpdateProcessor.update(nextTile);
 				player.move(nextTile);
-				
-				sendUpdates(directions[i].d, nextTile);				
+				sendUpdates(directions[i].d, oldTile, nextTile);				
 			}
 		}
 
-		protected void sendUpdates(Coordinate.Direction d, Tile nextTile) {
+		protected void sendUpdates(Coordinate.Direction d, Tile oldTile, Tile nextTile) {
 			if (nextTile != null) {
 
 				if (d != Coordinate.Direction.D && d != Coordinate.Direction.U) {
@@ -139,9 +136,12 @@ public class GoCommand extends Command {
 					SearchField s = getNewlyExposedSearchField(d, nextTile);
 					List<Tile> tiles = new LinkedList<>();
 					TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
-					
-					UpdateProcessor.update(player, tiles);
+
+					UpdateProcessor.send(oldTile.position, player, 1);
+					UpdateProcessor.sendTiles(player, tiles);
 				} else {
+					UpdateProcessor.send(oldTile.position, player);
+					UpdateProcessor.send(nextTile.position, player);
 					UpdateProcessor.completeUpdate(player);
 				}
 			}

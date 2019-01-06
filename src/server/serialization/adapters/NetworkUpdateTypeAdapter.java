@@ -20,10 +20,9 @@ public class NetworkUpdateTypeAdapter implements JsonSerializer<NetworkUpdate> {
 			root.add("localPlayer", new JsonPrimitive(src.localPlayer.userName));
 		}
 		
-		if (!src.getTiles().isEmpty()) {
-			root.add("tiles", context.serialize(src.getTiles()));
+		if (!src.getEntities().isEmpty()) {
+			root.add("entities", context.serialize(src.getEntities()));
 		}
-		
 		
 		return root;
 	}

@@ -2,9 +2,10 @@ package model;
 
 import java.io.Serializable;
 
+import model.world.Coordinate;
 import model.world.World;
 
-public class Entity implements Comparable<Entity>, Serializable {
+public abstract class Entity implements Comparable<Entity>, Serializable {
 
 	private static final long serialVersionUID = 7073890008845835852L;
 	
@@ -20,7 +21,6 @@ public class Entity implements Comparable<Entity>, Serializable {
 		} else {
 			this.id = id;			
 		}
-		
 	}
 	
 	public long getId() {
@@ -31,4 +31,6 @@ public class Entity implements Comparable<Entity>, Serializable {
 	public int compareTo(Entity arg0) {
 		return (int) (this.id - arg0.id);
 	}
+	
+	public abstract Coordinate getPosition();
 }

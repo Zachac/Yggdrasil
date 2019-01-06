@@ -12,7 +12,6 @@ ground.tileUpdate = function (tile) {
 
 	ground.updatePosition(t, tile.position.x, tile.position.y, tile.position.z);
 	ground.updateBiome(t, tile.biome);
-	return ground.updateContents(tile, t);
 }
 
 ground.updatePosition = function (tile, x, y, z) {
@@ -39,33 +38,6 @@ ground.updateBiome = function (tile, type) {
 	tile.material = material[type];
 }
 
-ground.updateContents = function (tile, t) {
-	let lostContents = t.contents;
-
-	if (tile.contents) {
-		t.contents = [];
-		tile.contents.forEach((e) => {
-			t.contents.push(entity.update(e, tile));
-		})
-	} else if (t.contents.length > 0) {
-		t.contents = [];
-	}
-
-	if (lostContents.length > 0) {
-		lostContents.forEach((e, i) => {
-			let contains = t.contents.some((en) => {
-				return en.id == e.id;
-			});
-
-			if (contains) {
-				lostContents.splice(i, 1);
-			}
-		});
-	}
-
-	return lostContents;
-}
-
 ground.newTile = function (id) {
 	let result = null;
 
@@ -79,7 +51,6 @@ ground.newTile = function (id) {
 	result.rotation.x = Math.PI / 2;
 	result.id = id;
 	ground.tiles[id] = result;
-	result.contents = [];
 	result.setEnabled(true);
 
 	return result;
@@ -97,10 +68,6 @@ ground.removeTile = function (t) {
 			delete zs[t.position.z];
 		}
 	}
-
-	t.contents.forEach((e) => {
-		entity.remove(e);
-	})
 
 	t.setEnabled(false);
 }

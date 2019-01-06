@@ -3,10 +3,10 @@ A list of things to do.
 
 ## Basic Goals
 ### Front End
+* Add height to html engine
 * Add basic movement animations for entities
 * Add models
 * Add click to walk to html engine
-* Add height to html engine
 * Add ctrl-c to clear text in input
 
 ### Back End

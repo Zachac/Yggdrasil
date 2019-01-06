@@ -18,6 +18,8 @@ public class PlayerTypeAdapter implements JsonSerializer<Player> {
 	public JsonElement serialize(Player src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
+		root.add("position", context.serialize(src.getPosition()));
+		root.add("id", new JsonPrimitive(src.getId()));
 		root.add("userName", new JsonPrimitive(src.userName));
 		
 		List<ContinuousEvent> actions = src.getActions();
@@ -25,8 +27,7 @@ public class PlayerTypeAdapter implements JsonSerializer<Player> {
 		if (!actions.isEmpty()) {
 			root.add("actions", context.serialize(actions));
 		}
-		
-		root.add("id", new JsonPrimitive(src.getId()));
+
 		
 		return root;
 	}

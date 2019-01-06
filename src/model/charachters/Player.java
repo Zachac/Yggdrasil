@@ -12,6 +12,7 @@ import model.Entity;
 import model.Time.ContinuousEvent;
 import model.updates.NetworkUpdate;
 import model.updates.UpdateProcessor;
+import model.world.Coordinate;
 import model.world.Tile;
 
 public class Player extends Entity implements Serializable {
@@ -84,14 +85,14 @@ public class Player extends Entity implements Serializable {
 		System.out.println("INFO: " + userName + " logged in.");
 		
 		this.location.contents.add(this);
-		UpdateProcessor.update(this.location);		
+		UpdateProcessor.update(this);		
 	}
 
 	public void logout() {
+		UpdateProcessor.update(this);
 		this.location.contents.remove(this);
 		loggedIn = false;
 		System.out.println("INFO " + userName + " logged out.");
-		UpdateProcessor.update(this.location);
 	}
 	
 	@Override
@@ -109,5 +110,14 @@ public class Player extends Entity implements Serializable {
 
 	public List<ContinuousEvent> getActions() {
 		return Collections.unmodifiableList(actions);
+	}
+
+	@Override
+	public Coordinate getPosition() {
+		if (!loggedIn) {
+			return null;
+		}
+		
+		return location.position;
 	}
 }

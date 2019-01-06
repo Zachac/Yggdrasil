@@ -1,22 +1,17 @@
 updateHandler = {}
 
-
-updateHandler.updateTiles = function(tiles) {
-	let lostEntities = [];
-	
-	tiles.forEach((t) => {
-		lostEntities.push(ground.tileUpdate(t));
-	})
-	
-	lostEntities.forEach((es) => {
-		es.forEach(model.cullEntity);
+updateHandler.updateEntities = function (ents) {
+	ents.forEach(function (e) {
+		if (e.biome) {
+			ground.tileUpdate(e);
+		} else {
+			entity.update(e);
+		}
 	});
-	
-	model.cullTiles();
 }
 
-updateHandler.updateLocalPlayer = function(userName) {
+updateHandler.updateLocalPlayer = function (userName) {
 	let e = player.get(userName);
-	
-	model.setLocalPlayer(e? e: userName);
+
+	model.setLocalPlayer(e ? e : userName);
 }

@@ -14,31 +14,36 @@ entity.remove = function (e) {
 	e.mesh.dispose();
 }
 
-entity.update = function (en, tile) {
+entity.update = function (en) {
 	e = entities[en.id];
 
-	if (e == null) {
-		e = entity.newEntity(en, tile);
+	if (!en.position) {
+		if (e != null) {
+			entity.remove(e);
+			return;
+		}
+	} else if (e == null) {
+		e = entity.newEntity(en);
 	}
 
-	entity.move(e, tile.position.x, tile.position.y, tile.position.z);
+	entity.move(e, en.position.x, en.position.y, en.position.z);
 
 	if (e.isPlayer) {
-		player.update(en, tile);
+		player.update(en);
 	}
 
 	return e;
 }
 
-entity.newEntity = function (e, t) {
+entity.newEntity = function (e) {
 	let result = {};
 
 	result.id = e.id;
 	result.moveAnimId = `${e.id} anim`;
 	result.mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, render.scene);
 	result.mesh.position.y = 0.5;
-	result.mesh.position.x = t.position.x;
-	result.mesh.position.z = t.position.z;
+	result.mesh.position.x = e.position.x;
+	result.mesh.position.z = e.position.z;
 	result.position = {
 		x: result.mesh.position.x,
 		y: result.mesh.position.y,
@@ -49,7 +54,7 @@ entity.newEntity = function (e, t) {
 
 	entities[result.id] = result;
 
-	if (e.type = "Player") {
+	if (e.userName) {
 		player.init(result, e);
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import model.Entity;
 import model.charachters.Player;
 import model.world.Tile;
 import server.serialization.Serializer;
@@ -13,13 +14,13 @@ public class NetworkUpdate implements Serializable {
 
 	private static final long serialVersionUID = -4875831612778534546L;
 	
-	private final Set<Tile> tiles;
+	private final Set<Entity> entities;
 	public Player localPlayer;
 	
 	private boolean shouldSend;
 	
 	public NetworkUpdate() {
-		this.tiles = new TreeSet<>();
+		this.entities = new TreeSet<>();
 		shouldSend = false;
 	}
 	
@@ -28,18 +29,23 @@ public class NetworkUpdate implements Serializable {
 		shouldSend = true;
 	}
 
-	public void addTiles(List<Tile> tiles2) {
+	public void addEntities(List<Entity> ents) {
 		shouldSend = true;
-		tiles.addAll(tiles2);
+		entities.addAll(ents);
+	}
+
+	public void addTiles(List<Tile> tiles) {
+		shouldSend = true;
+		entities.addAll(tiles);
 	}
 	
-	public void addTile(Tile t) {
+	public void addEntity(Entity e) {
 		shouldSend = true;
-		tiles.add(t);
+		entities.add(e);
 	}
 	
-	public Set<Tile> getTiles() {
-		return tiles;
+	public Set<Entity> getEntities() {
+		return entities;
 	}
 	
 	public boolean shouldSend() {
@@ -49,7 +55,7 @@ public class NetworkUpdate implements Serializable {
 	public void clear() {
 		localPlayer = null;
 		shouldSend = false;
-		tiles.clear();
+		entities.clear();
 	}
 
 	/**
@@ -61,7 +67,4 @@ public class NetworkUpdate implements Serializable {
 		this.clear();
 		return result;
 	}
-
-	
-	
 }

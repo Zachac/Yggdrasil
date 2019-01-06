@@ -39,4 +39,9 @@ public class Tile extends Entity implements Serializable {
 		in.defaultReadObject(); 
 		contents = new LinkedList<>();
 	}
+
+	@Override
+	public Coordinate getPosition() {
+		return this.position;
+	}
 }
