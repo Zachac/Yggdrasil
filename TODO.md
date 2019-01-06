@@ -1,13 +1,13 @@
 # TODO
 A list of things to do.
 
-## Basic Goals
+## January Goals
 ### Front End
-* Add height to html engine
-* Add basic movement animations for entities
-* Add models
+* Add height map to ground
 * Add click to walk to html engine
 * Add ctrl-c to clear text in input
+* Add models
+* Add materials
 
 ### Back End
 * Add semicolon operator to allow multiple commands
@@ -17,4 +17,10 @@ A list of things to do.
 * Add interrupt command to stop all actions
 
 ## Stretch Goals
-* Add system call magic system
+* Add magic casting system
+* Add class system
+* Add expreience system
+* Add interactable entities
+* Add items
+* Add inventory
+* Add mini-map
