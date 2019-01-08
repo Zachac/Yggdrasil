@@ -36,7 +36,12 @@ class ClientCommandReader implements Runnable {
 		
 		while (!exit && c.in.hasNext()) {
 			try {
-				CommandParser.parse(c.in.next().trim().toLowerCase().split("\\s+"), c.player).run();
+				String[] commands = c.in.next().toLowerCase().split(";");
+				
+				for (String s : commands) {
+					CommandParser.parse(s.trim().split("\\s+"), c.player).run();					
+				}
+				
 				c.mPublisher.publishAll();
 			} catch (ExitException e) {
 				exit = true;

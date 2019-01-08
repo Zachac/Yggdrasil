@@ -6,14 +6,11 @@ A list of things to do.
 * Add height map to ground
 * Add click to walk to html engine
 * Add ctrl-c to clear text in input
-* Add models
-* Add materials
 
 ### Back End
-* Add semicolon operator to allow multiple commands
 * Add direction facing to charachter
 * Add face command
-* Add height propert
+* Add height property to tile
 * Add interrupt command to stop all actions
 
 ## Stretch Goals
@@ -24,3 +21,5 @@ A list of things to do.
 * Add items
 * Add inventory
 * Add mini-map
+* Add models
+* Add materials
