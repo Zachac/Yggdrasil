@@ -137,6 +137,7 @@ public class GoCommand extends Command {
 					List<Tile> tiles = new LinkedList<>();
 					TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
 
+					player.setFacing(d);
 					UpdateProcessor.send(oldTile.position, player, 1);
 					UpdateProcessor.sendTiles(player, tiles);
 				} else {

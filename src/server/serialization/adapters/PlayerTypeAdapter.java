@@ -21,6 +21,7 @@ public class PlayerTypeAdapter implements JsonSerializer<Player> {
 		root.add("position", context.serialize(src.getPosition()));
 		root.add("id", new JsonPrimitive(src.getId()));
 		root.add("userName", new JsonPrimitive(src.userName));
+		root.add("facing", new JsonPrimitive(src.getFacing().name()));
 		
 		List<ContinuousEvent> actions = src.getActions();
 		

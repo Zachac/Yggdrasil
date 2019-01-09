@@ -14,6 +14,7 @@ import model.updates.NetworkUpdate;
 import model.updates.UpdateProcessor;
 import model.world.Coordinate;
 import model.world.Tile;
+import model.world.Coordinate.Direction;
 
 public class Player extends Entity implements Serializable {
 
@@ -24,6 +25,7 @@ public class Player extends Entity implements Serializable {
 	private long experience;
 	transient boolean loggedIn;
 	private Tile location;
+	private Direction facing;
 
 	private final List<ContinuousEvent> actions;
 	public final Queue<String> messages;
@@ -37,6 +39,7 @@ public class Player extends Entity implements Serializable {
 		this.location = location;
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
+		this.facing = Direction.N;
 		specialization = new ClassLevels();
 		experience=0;
 		actions = new LinkedList<>();
@@ -119,5 +122,14 @@ public class Player extends Entity implements Serializable {
 		}
 		
 		return location.position;
+	}
+
+	public Direction getFacing() {
+		return facing;
+	}
+
+	public void setFacing(Direction facing) {
+		Objects.requireNonNull(facing);
+		this.facing = facing;
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import parser.commands.BuildCommand;
 import parser.commands.EchoCommand;
 import parser.commands.ExitCommand;
+import parser.commands.FaceCommand;
 import parser.commands.GoCommand;
 import parser.commands.HelpCommand;
 import parser.commands.LCommand;
@@ -51,6 +52,7 @@ public class Commands {
 		addCommand(new WhereAmICommand());
 		addCommand(new SysUpdateCommand());
 		addCommand(new SysTPCommand());
+		addCommand(new FaceCommand());
 		
 		return commands;
 	}
