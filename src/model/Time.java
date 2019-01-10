@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import model.charachters.Player;
+
 public class Time implements Serializable {
 
 	private static final long serialVersionUID = -508161503959612624L;
@@ -73,6 +75,19 @@ public class Time implements Serializable {
 		 * should return false and should not contain side effects. 
 		 */
 		public void cancel();
+		
+		/**
+		 * Set's the player who's action is this continuous event.
+		 * When this event ends, naturally, the player's action is set to null.
+		 * @param p the player to set.
+		 */
+		public void setPlayer(Player p);
+		
+		/**
+		 * Get the user friendly name of this action.
+		 * @return 
+		 */
+		public String getPrettyName();
 		
 	}
 	

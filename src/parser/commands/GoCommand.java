@@ -93,7 +93,7 @@ public class GoCommand extends Command {
 			this.directions = directions;
 			this.finished = false;
 			
-			player.addAction(this);
+			player.setAction(this);
 		}
 		
 		@Override
@@ -109,7 +109,8 @@ public class GoCommand extends Command {
 			if (i < directions.length) {
 				move(i);
 			} else {
-				finished = true;	
+				finished = true;
+				player.setAction(null);
 				player.messages.add("You finished walking at " + player.getLocation().position);
 			}
 			
@@ -185,6 +186,16 @@ public class GoCommand extends Command {
 		@Override
 		public void cancel() {
 			this.finished = true;
+		}
+
+		@Override
+		public void setPlayer(Player p) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getPrettyName() {
+			return "Walking";
 		}
 	}
 }

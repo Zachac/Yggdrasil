@@ -1,10 +1,7 @@
 package model.charachters;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 
@@ -13,8 +10,8 @@ import model.Time.ContinuousEvent;
 import model.updates.NetworkUpdate;
 import model.updates.UpdateProcessor;
 import model.world.Coordinate;
-import model.world.Tile;
 import model.world.Coordinate.Direction;
+import model.world.Tile;
 
 public class Player extends Entity implements Serializable {
 
@@ -26,8 +23,8 @@ public class Player extends Entity implements Serializable {
 	transient boolean loggedIn;
 	private Tile location;
 	private Direction facing;
+	private transient ContinuousEvent action;
 
-	private final List<ContinuousEvent> actions;
 	public final Queue<String> messages;
 	
 	public final NetworkUpdate updates;
@@ -42,7 +39,7 @@ public class Player extends Entity implements Serializable {
 		this.facing = Direction.N;
 		specialization = new ClassLevels();
 		experience=0;
-		actions = new LinkedList<>();
+		action = null;
 		messages = new LinkedList<>();
 		loggedIn = false;
 	}
@@ -51,21 +48,15 @@ public class Player extends Entity implements Serializable {
 		return experience;
 	}
 	
-	public void addAction(ContinuousEvent e) {
-		Objects.requireNonNull(e);
+	public void setAction(ContinuousEvent e) {
 		
-		Iterator<ContinuousEvent> iter = actions.iterator();
-		
-		while (iter.hasNext()) {
-			ContinuousEvent e2 = iter.next();
-			
-			if (e.getClass().isAssignableFrom(e2.getClass())) {
-				e2.cancel();
-				iter.remove();
-			}
+		if (action != null) {
+			action.cancel();
 		}
 		
-		actions.add(e);	
+		
+		this.action = e;
+		UpdateProcessor.update(this);
 	}
 	
 	public Tile getLocation() {
@@ -111,8 +102,8 @@ public class Player extends Entity implements Serializable {
 		}
 	}
 
-	public List<ContinuousEvent> getActions() {
-		return Collections.unmodifiableList(actions);
+	public ContinuousEvent getAction() {
+		return this.action;
 	}
 
 	@Override

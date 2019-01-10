@@ -1,7 +1,6 @@
 package server.serialization.adapters;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,10 +22,10 @@ public class PlayerTypeAdapter implements JsonSerializer<Player> {
 		root.add("userName", new JsonPrimitive(src.userName));
 		root.add("facing", new JsonPrimitive(src.getFacing().name()));
 		
-		List<ContinuousEvent> actions = src.getActions();
+		ContinuousEvent action = src.getAction();
 		
-		if (!actions.isEmpty()) {
-			root.add("actions", context.serialize(actions));
+		if (action != null) {
+			root.add("action", new JsonPrimitive(action.getPrettyName()));
 		}
 
 		

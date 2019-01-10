@@ -69,7 +69,7 @@ entity.move = function (e, x, y, z) {
 	if (xdiff < -entity.maxStep || xdiff > entity.maxStep ||
 		zdiff < -entity.maxStep || zdiff > entity.maxStep) {
 		entity.teleportMove(e, x, e.mesh.position.y, z);
-	} else {
+	} else if (e.position.x != x || e.position.z != z) {
 		entity.animateMove(e, x, e.mesh.position.y, z);
 	}
 
