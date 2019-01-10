@@ -11,7 +11,8 @@ A list of things to do.
 
 ### Back End
 * Add height property to tile
-* Add interrupt command to stop all actions
+* Add queue of actions for player
+* ~~Add interrupt command to stop all actions~~
 * ~~Add direction facing to charachter~~
 * ~~Add face command~~
 * ~~Add semicolon to seperate commands~~
