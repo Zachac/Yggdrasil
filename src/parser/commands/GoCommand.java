@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 import model.Time;
-import model.Time.ContinuousEvent;
 import model.charachters.Player;
 import model.updates.UpdateProcessor;
 import model.world.Coordinate;
 import model.world.Tile;
 import model.world.TileTraverser;
 import model.world.TileTraverser.SearchField;
-import model.world.World;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode;
 import parser.CommandData;
@@ -47,9 +45,7 @@ public class GoCommand extends Command {
 			directions[i++] = new Direction(steps, direction);
 		}
 		
-		ContinuousEvent event = new MoveEvent(d.source, directions);
-		World.get().time.addContinuousEvent(event);
-
+		d.source.setAction(new MoveEvent(d.source, directions));
 		d.source.messages.add("You start walking.");
 	}
 	
@@ -92,8 +88,6 @@ public class GoCommand extends Command {
 			this.player = p;
 			this.directions = directions;
 			this.finished = false;
-			
-			player.setAction(this);
 		}
 		
 		@Override
