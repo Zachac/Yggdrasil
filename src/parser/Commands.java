@@ -10,6 +10,7 @@ import parser.commands.ExitCommand;
 import parser.commands.FaceCommand;
 import parser.commands.GoCommand;
 import parser.commands.HelpCommand;
+import parser.commands.InterruptCommand;
 import parser.commands.LCommand;
 import parser.commands.LookCommand;
 import parser.commands.NoCommandCommand;
@@ -53,6 +54,7 @@ public class Commands {
 		addCommand(new SysUpdateCommand());
 		addCommand(new SysTPCommand());
 		addCommand(new FaceCommand());
+		addCommand(new InterruptCommand());
 		
 		return commands;
 	}
