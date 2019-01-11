@@ -16,7 +16,6 @@ input.addInputListeners = function () {
     input.in.addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
             websocket.send(input.in.value);
-            output.displayElement(input.in.value.fontcolor("marroon"));
             input.messages.push(input.in.value);
             input.in.value = "";
             input.messageCursor = input.messages.length;

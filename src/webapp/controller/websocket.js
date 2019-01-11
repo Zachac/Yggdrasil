@@ -10,6 +10,7 @@ websocket.init = function () {
 websocket.send = function (value) {
 	if (websocket.ws.readyState != websocket.ws.CLOSED && websocket.ws.readyState != websocket.ws.CLOSING) {
 		websocket.ws.send(value);
+		output.displayElement(value.fontcolor("marroon"));
 	}
 }
 

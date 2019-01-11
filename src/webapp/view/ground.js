@@ -46,6 +46,7 @@ ground.newTile = function (id) {
 	} else {
 		result = BABYLON.MeshBuilder.CreatePlane("tile", { size: 1 }, render.scene);
 		result.setParent(ground.parent);
+		result.isGround = true;
 	}
 
 	result.rotation.x = Math.PI / 2;

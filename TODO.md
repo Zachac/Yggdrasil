@@ -4,8 +4,8 @@ A list of things to do.
 ## January Goals
 ### Front End
 * Add height map to ground
-* Add click to walk to html engine
 * Add ctrl-c to clear text in input
+* ~~Add click to walk to html engine~~
 * ~~Add basic movement animations for entities~~
 * ~~Remove animation when new position is outside of move range~~
 
