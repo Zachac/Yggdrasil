@@ -113,7 +113,7 @@ public class GoCommand extends Command {
 
 		protected void move(int i) {
 			directions[i].steps--;
-			Tile nextTile = player.getLocation().links[directions[i].d.ordinal()];
+			Tile nextTile = player.getLocation().getTile(directions[i].d);
 			Tile oldTile = player.getLocation();
 			
 			if (nextTile != null) {

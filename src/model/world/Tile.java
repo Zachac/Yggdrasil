@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.Entity;
+import model.world.Coordinate3D.Direction;
 
 public class Tile extends Entity implements Serializable {
 
@@ -16,8 +17,6 @@ public class Tile extends Entity implements Serializable {
 	public final Biome type;
 	public final boolean isWall;
 	public final Coordinate4D position;
-	
-	public final Tile[] links;
 	
 	public transient List<Entity> contents;
 	
@@ -31,8 +30,6 @@ public class Tile extends Entity implements Serializable {
 		this.isWall = isWall;
 		this.position = coordinate;
 		contents = new LinkedList<>();
-		
-		links = new Tile[Coordinate3D.Direction.COUNT];
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -43,5 +40,9 @@ public class Tile extends Entity implements Serializable {
 	@Override
 	public Coordinate3D getPosition() {
 		return this.position;
+	}
+
+	public Tile getTile(Direction d) {
+		return World.get().getTile(position.get(d));
 	}
 }

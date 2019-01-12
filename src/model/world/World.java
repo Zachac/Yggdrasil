@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import model.Entity;
 import model.Time;
 import model.charachters.Player;
-import model.world.Coordinate3D.Direction;
 import model.world.Tile.Biome;
 
 public class World implements Serializable {
@@ -47,22 +46,7 @@ public class World implements Serializable {
 		
 		tiles.put(c, t);
 		
-		linkTile(t);
-		
 		return t;
-	}
-	
-	private void linkTile(Tile t) {
-		for (Direction d : Direction.values()) {
-			if (d != Direction.D && d != Direction.U) {
-				Tile o = tiles.get(t.position.get(d));
-				
-				if (o != null) {
-					t.links[d.ordinal()] = o;
-					o.links[d.opposite().ordinal()] = t;					
-				}
-			}
-		}
 	}
 	
 	public Tile getTile(Coordinate3D c) {

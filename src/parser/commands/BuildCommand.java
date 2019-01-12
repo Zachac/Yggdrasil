@@ -90,20 +90,13 @@ public class BuildCommand extends Command {
 			return new BuildReturnValue(cursor, false);
 		}
 
-		while (cursor.links[d.ordinal()] == null && length > 0) {
-			
-			Tile swap = World.get().addTile(cursor.position.get(d), type);
-			UpdateProcessor.update(swap);
-			
-			if (d == Direction.D || d == Direction.U) {
-				cursor.links[d.ordinal()] = swap;
-				swap.links[d.opposite().ordinal()] = cursor;
+		try {
+			while (length > 0) {
+				cursor = World.get().addTile(cursor.position.get(d), type);
+				UpdateProcessor.update(cursor);
+				length--;
 			}
-			
-			length--;
-			
-			cursor = swap;
-		}
+		} catch (IllegalArgumentException e) {}
 		
 		return new BuildReturnValue(cursor, length <= 0);
 	}
