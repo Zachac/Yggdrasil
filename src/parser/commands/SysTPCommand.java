@@ -2,7 +2,7 @@ package parser.commands;
 
 import model.charachters.Player;
 import model.updates.UpdateProcessor;
-import model.world.Coordinate;
+import model.world.Coordinate3D;
 import model.world.Tile;
 import model.world.World;
 import parser.Command;
@@ -40,7 +40,7 @@ public class SysTPCommand extends Command {
 			}
 		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { }
 		
-		Coordinate c = new Coordinate(x,y,z);
+		Coordinate3D c = new Coordinate3D(x,y,z);
 		Tile t = World.get().getTile(c);
 		
 		if (t == null) {

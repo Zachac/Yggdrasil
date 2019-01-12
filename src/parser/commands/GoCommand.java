@@ -8,7 +8,7 @@ import java.util.Objects;
 import model.Time;
 import model.charachters.Player;
 import model.updates.UpdateProcessor;
-import model.world.Coordinate;
+import model.world.Coordinate3D;
 import model.world.Tile;
 import model.world.TileTraverser;
 import model.world.TileTraverser.SearchField;
@@ -53,11 +53,11 @@ public class GoCommand extends Command {
 		
 		private static final long serialVersionUID = 4107742626198770702L;
 		
-		public final Coordinate.Direction d;
+		public final Coordinate3D.Direction d;
 		public int steps;
 		
 		public Direction(int steps, char direction) {
-			this.d = Coordinate.Direction.valueOf(direction);
+			this.d = Coordinate3D.Direction.valueOf(direction);
 			this.steps = steps;
 		}
 		
@@ -122,10 +122,10 @@ public class GoCommand extends Command {
 			}
 		}
 
-		protected void sendUpdates(Coordinate.Direction d, Tile oldTile, Tile nextTile) {
+		protected void sendUpdates(Coordinate3D.Direction d, Tile oldTile, Tile nextTile) {
 			if (nextTile != null) {
 
-				if (d != Coordinate.Direction.D && d != Coordinate.Direction.U) {
+				if (d != Coordinate3D.Direction.D && d != Coordinate3D.Direction.U) {
 					// then send only the new blocks in range
 
 					SearchField s = getNewlyExposedSearchField(d, nextTile);
@@ -143,7 +143,7 @@ public class GoCommand extends Command {
 			}
 		}
 
-		protected SearchField getNewlyExposedSearchField(Coordinate.Direction d, Tile nextTile) {
+		protected SearchField getNewlyExposedSearchField(Coordinate3D.Direction d, Tile nextTile) {
 			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.getY();
 			if (xdiff == 0) {
 				minx = nextTile.position.getX() + LookCommand.DEFAULT_LOOK * d.direction.getX();

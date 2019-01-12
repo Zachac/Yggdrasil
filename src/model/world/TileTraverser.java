@@ -6,7 +6,7 @@ public class TileTraverser {
 		void run(Tile t);
 	}
 
-	public static void traverse(Coordinate coordinate, Integer range, Handler h) {
+	public static void traverse(Coordinate3D coordinate, Integer range, Handler h) {
 		traverse(World.get().getTile(coordinate), range, h);
 	}
 	
@@ -27,7 +27,7 @@ public class TileTraverser {
 	public static void traverseAll(Handler h, SearchField s) {
 		for (int i = s.minx; i <= s.maxx; i++) {
 			for (int j = s.miny; j <= s.maxy; j++) {
-				Tile t = World.get().getTile(new Coordinate(i, j, s.z));
+				Tile t = World.get().getTile(new Coordinate3D(i, j, s.z));
 				
 				if (t != null) {
 					h.run(t);

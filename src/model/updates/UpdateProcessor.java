@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.Entity;
 import model.charachters.Player;
-import model.world.Coordinate;
+import model.world.Coordinate3D;
 import model.world.Tile;
 import model.world.TileTraverser;
 import model.world.TileTraverser.Handler;
@@ -54,7 +54,7 @@ public class UpdateProcessor {
 	 * @param position the position to send the update.
 	 * @param e the entity that was updated.
 	 */
-	public static void send(Coordinate position, Entity e) {
+	public static void send(Coordinate3D position, Entity e) {
 		TileTraverser.traverse(position, LookCommand.DEFAULT_LOOK, new UpdateAdder(e));
 	}
 	
@@ -66,7 +66,7 @@ public class UpdateProcessor {
 	 * @param e the entity that was updated.
 	 * @param distanceModifier the modifier to the default distance.
 	 */
-	public static void send(Coordinate position, Entity e, int distanceModifier) {
+	public static void send(Coordinate3D position, Entity e, int distanceModifier) {
 		TileTraverser.traverse(position, LookCommand.DEFAULT_LOOK + distanceModifier, new UpdateAdder(e));
 	}
 	

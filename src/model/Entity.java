@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-import model.world.Coordinate;
+import model.world.Coordinate3D;
 import model.world.World;
 
 public abstract class Entity implements Comparable<Entity>, Serializable {
@@ -32,5 +32,5 @@ public abstract class Entity implements Comparable<Entity>, Serializable {
 		return (int) (this.id - arg0.id);
 	}
 	
-	public abstract Coordinate getPosition();
+	public abstract Coordinate3D getPosition();
 }

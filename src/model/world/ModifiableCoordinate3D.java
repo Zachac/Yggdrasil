@@ -3,11 +3,11 @@ package model.world;
 /** 
  * A modifiable coordinate.
  */
-public class ModifiableCoordinate extends Coordinate {
+public class ModifiableCoordinate3D extends Coordinate3D {
 
 	private static final long serialVersionUID = -6749495634057277169L;
 
-	public ModifiableCoordinate(int x, int y, int z) {
+	public ModifiableCoordinate3D(int x, int y, int z) {
 		super(x, y, z);
 	}
 

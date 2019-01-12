@@ -8,12 +8,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import model.world.Coordinate;
+import model.world.Coordinate3D;
 
-public class CoordinateTypeAdapter implements JsonSerializer<Coordinate> {
+public class Coordinate3DTypeAdapter implements JsonSerializer<Coordinate3D> {
 
 	@Override
-	public JsonElement serialize(Coordinate src, Type typeOfSrc, JsonSerializationContext context) {
+	public JsonElement serialize(Coordinate3D src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
 		root.add("x", new JsonPrimitive(src.getX()));

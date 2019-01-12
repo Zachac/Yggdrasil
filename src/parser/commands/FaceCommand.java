@@ -1,7 +1,7 @@
 package parser.commands;
 
 import model.updates.UpdateProcessor;
-import model.world.Coordinate.Direction;
+import model.world.Coordinate3D.Direction;
 import parser.Command;
 import parser.Command.CommandPattern.PatternNode.Flag;
 import parser.CommandData;

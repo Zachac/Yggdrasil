@@ -2,30 +2,30 @@ package model.world;
 
 import java.io.Serializable;
 
-public class Coordinate implements Serializable, Comparable<Coordinate> {
+public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 
 	private static final long serialVersionUID = -7679965990604777695L;
 
 	protected int x, y, z;
 
-	public Coordinate(int x, int y, int z) {
+	public Coordinate3D(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	public Coordinate(int x, int y) {
+	public Coordinate3D(int x, int y) {
 		this(x, y, 0);
 	}
 
-	public Coordinate get(Direction next) {
-		return new Coordinate(
+	public Coordinate3D get(Direction next) {
+		return new Coordinate3D(
 				this.x + next.direction.x,
 				this.y + next.direction.y,
 				this.z + next.direction.z);
 	}
 	
-	public int getDistance(Coordinate other) {
+	public int getDistance(Coordinate3D other) {
 		int max = this.x - other.x;
 		if (max < 0) max = -max;
 		
@@ -74,7 +74,7 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Coordinate other = (Coordinate) obj;
+		Coordinate3D other = (Coordinate3D) obj;
 		if (x != other.x)
 			return false;
 		if (y != other.y)
@@ -85,7 +85,7 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
 	}
 
 	@Override
-	public int compareTo(Coordinate o) {
+	public int compareTo(Coordinate3D o) {
 		int result = this.x - o.x;
 
 		if (result == 0) {
@@ -100,18 +100,18 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
 	}
 	
 	public enum Direction {
-		N(new Coordinate(1,0,0)),
-		E(new Coordinate(0,1,0)),
-		S(new Coordinate(-1,0,0)),
-		W(new Coordinate(0,-1,0)),
-		U(new Coordinate(0,0,1)),
-		D(new Coordinate(0,0,-1));
+		N(new Coordinate3D(1,0,0)),
+		E(new Coordinate3D(0,1,0)),
+		S(new Coordinate3D(-1,0,0)),
+		W(new Coordinate3D(0,-1,0)),
+		U(new Coordinate3D(0,0,1)),
+		D(new Coordinate3D(0,0,-1));
 		
-		public static final int COUNT = Coordinate.Direction.values().length;
+		public static final int COUNT = Coordinate3D.Direction.values().length;
 		
-		public final Coordinate direction;
+		public final Coordinate3D direction;
 		
-		private Direction(Coordinate d) {
+		private Direction(Coordinate3D d) {
 			this.direction = d;
 		}
 		

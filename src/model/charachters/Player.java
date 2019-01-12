@@ -9,8 +9,8 @@ import model.Entity;
 import model.Time.ContinuousEvent;
 import model.updates.NetworkUpdate;
 import model.updates.UpdateProcessor;
-import model.world.Coordinate;
-import model.world.Coordinate.Direction;
+import model.world.Coordinate3D;
+import model.world.Coordinate3D.Direction;
 import model.world.Tile;
 import model.world.World;
 
@@ -131,7 +131,7 @@ public class Player extends Entity implements Serializable {
 	}
 
 	@Override
-	public Coordinate getPosition() {
+	public Coordinate3D getPosition() {
 		if (!loggedIn) {
 			return null;
 		}

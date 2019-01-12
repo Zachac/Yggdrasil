@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import model.Entity;
 import model.Time;
 import model.charachters.Player;
-import model.world.Coordinate.Direction;
+import model.world.Coordinate3D.Direction;
 import model.world.Tile.Biome;
 
 public class World implements Serializable {
@@ -21,7 +21,7 @@ public class World implements Serializable {
 
 	private final TreeMap<Long,Entity> entities;
 	private final Map<String,Player> players;
-	private final Map<Coordinate,Tile> tiles; 
+	private final Map<Coordinate3D,Tile> tiles; 
 	private Tile root;
 	
 	private String loadFilename;
@@ -30,12 +30,12 @@ public class World implements Serializable {
 		maxId = 0;
 		players = new TreeMap<String,Player>();
 		entities = new TreeMap<Long, Entity>();
-		tiles = new TreeMap<Coordinate,Tile>();
-		root = addTile(new Coordinate(0, 0), Biome.GRASS);
+		tiles = new TreeMap<Coordinate3D,Tile>();
+		root = addTile(new Coordinate4D(0, 0, 0, 0), Biome.GRASS);
 		time = new Time();
 	}
 
-	public Tile addTile(Coordinate c, Biome type) {
+	public Tile addTile(Coordinate4D c, Biome type) {
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(type);
 		
@@ -65,7 +65,7 @@ public class World implements Serializable {
 		}
 	}
 	
-	public Tile getTile(Coordinate c) {
+	public Tile getTile(Coordinate3D c) {
 		return tiles.get(c);
 	}
 	

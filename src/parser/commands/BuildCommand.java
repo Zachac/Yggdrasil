@@ -3,7 +3,7 @@ package parser.commands;
 import java.util.Iterator;
 
 import model.updates.UpdateProcessor;
-import model.world.Coordinate.Direction;
+import model.world.Coordinate3D.Direction;
 import model.world.Tile;
 import model.world.Tile.Biome;
 import model.world.World;
