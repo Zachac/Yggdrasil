@@ -10,7 +10,7 @@ A list of things to do.
 * ~~Remove animation when new position is outside of move range~~
 
 ### Back End
-* Add height property to tile
+* ~~Add height property to tile~~
 * ~~Add queue of actions for player~~
 * ~~Add interrupt command to stop all actions~~
 * ~~Add direction facing to charachter~~
