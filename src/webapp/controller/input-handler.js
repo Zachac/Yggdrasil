@@ -19,18 +19,14 @@ input.addInputListeners = function () {
             input.messages.push(input.in.value);
             input.in.value = "";
             input.messageCursor = input.messages.length;
-        }
-
-        if (event.key === "ArrowUp") {
+        } else if (event.key === "ArrowUp") {
             let newCursor = input.messageCursor - 1;
 
             if (newCursor >= 0) {
                 input.messageCursor = newCursor;
                 input.in.value = input.messages[input.messageCursor];
             }
-        }
-
-        if (event.key === "ArrowDown") {
+        } else if (event.key === "ArrowDown") {
             let newCursor = input.messageCursor + 1;
 
             if (newCursor < input.messages.length) {
@@ -40,6 +36,9 @@ input.addInputListeners = function () {
                 input.messageCursor = newCursor;
                 input.in.value = "";
             }
+        } else if (event.ctrlKey && event.key === "c" && input.in.selectionEnd == input.in.selectionStart) {
+            websocket.send("interrupt");
+            input.in.value = "";
         }
     });
 }
