@@ -144,22 +144,22 @@ public class GoCommand extends Command {
 		}
 
 		protected SearchField getNewlyExposedSearchField(Coordinate.Direction d, Tile nextTile) {
-			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.y;
+			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.getY();
 			if (xdiff == 0) {
-				minx = nextTile.position.x + LookCommand.DEFAULT_LOOK * d.direction.x;
+				minx = nextTile.position.getX() + LookCommand.DEFAULT_LOOK * d.direction.getX();
 				maxx = minx;
 			} else {
-				minx = nextTile.position.x - xdiff; 
-				maxx = nextTile.position.x + xdiff;
+				minx = nextTile.position.getX() - xdiff; 
+				maxx = nextTile.position.getX() + xdiff;
 			}
 			
-			int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * d.direction.x;
+			int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * d.direction.getX();
 			if (ydiff == 0) {
-				miny = nextTile.position.y + LookCommand.DEFAULT_LOOK * d.direction.y;
+				miny = nextTile.position.getY() + LookCommand.DEFAULT_LOOK * d.direction.getY();
 				maxy = miny;
 			} else {
-				miny = nextTile.position.y - xdiff; 
-				maxy = nextTile.position.y + xdiff;
+				miny = nextTile.position.getY() - xdiff; 
+				maxy = nextTile.position.getY() + xdiff;
 			}
 
 			if (ydiff < 0) {
@@ -173,7 +173,7 @@ public class GoCommand extends Command {
 				minx = maxx;
 				maxx = swap;
 			}
-			SearchField s = new SearchField(minx, miny, maxx, maxy, nextTile.position.z);
+			SearchField s = new SearchField(minx, miny, maxx, maxy, nextTile.position.getZ());
 			return s;
 		}
 

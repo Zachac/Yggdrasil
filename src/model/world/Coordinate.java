@@ -2,11 +2,11 @@ package model.world;
 
 import java.io.Serializable;
 
-public final class Coordinate implements Serializable, Comparable<Coordinate> {
+public class Coordinate implements Serializable, Comparable<Coordinate> {
 
 	private static final long serialVersionUID = -7679965990604777695L;
 
-	public final int x, y, z;
+	protected int x, y, z;
 
 	public Coordinate(int x, int y, int z) {
 		this.x = x;
@@ -138,5 +138,17 @@ public final class Coordinate implements Serializable, Comparable<Coordinate> {
 			default: return null;
 			}
 		}
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getZ() {
+		return z;
 	}
 }

@@ -16,9 +16,9 @@ public class CoordinateTypeAdapter implements JsonSerializer<Coordinate> {
 	public JsonElement serialize(Coordinate src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
-		root.add("x", new JsonPrimitive(src.x));
-		root.add("y", new JsonPrimitive(src.y));
-		root.add("z", new JsonPrimitive(src.z));
+		root.add("x", new JsonPrimitive(src.getX()));
+		root.add("y", new JsonPrimitive(src.getY()));
+		root.add("z", new JsonPrimitive(src.getZ()));
 		
 		return root;
 	}

@@ -14,11 +14,11 @@ public class TileTraverser {
 
 		traverseAll(
 				h, new SearchField(
-				root.position.x - range,
-				root.position.y - range,
-				root.position.x + range,
-				root.position.y + range,
-				root.position.z));
+				root.position.getX() - range,
+				root.position.getY() - range,
+				root.position.getX() + range,
+				root.position.getY() + range,
+				root.position.getZ()));
 		
 	}
 	

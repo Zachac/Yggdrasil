@@ -17,7 +17,7 @@ public class Tile extends Entity implements Serializable {
 	public final boolean isWall;
 	public final Coordinate position;
 	
-	public Tile[] links;
+	public final Tile[] links;
 	
 	public transient List<Entity> contents;
 	
