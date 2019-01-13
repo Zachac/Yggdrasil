@@ -11,6 +11,8 @@ A list of things to do.
 * ~~Remove animation when new position is outside of move range~~
 
 ### Back End
+* move tiles to chunks & make searching for them more efficient
+* terrain generation
 * ~~Add height property to tile~~
 * ~~Add queue of actions for player~~
 * ~~Add interrupt command to stop all actions~~
