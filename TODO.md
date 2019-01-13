@@ -3,7 +3,7 @@ A list of things to do.
 
 ## January Goals
 ### Front End
-* detect/fix broken corners on height map
+* ~~detect/fix broken corners on height map~~
 * ~~Add height map to ground~~
 * ~~Add ctrl-c to clear text in input~~
 * ~~Add click to walk to html engine~~
@@ -15,7 +15,7 @@ A list of things to do.
 * terrain generation
 * refactor ticks/remove odd/even ticks
 * improve search efficiency within chunks
-* fix folder setup
+* ~~fix folder setup~~
 * ~~move tiles to chunks~~
 * ~~Add height property to tile~~
 * ~~Add queue of actions for player~~
