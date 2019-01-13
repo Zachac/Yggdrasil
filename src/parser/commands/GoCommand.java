@@ -131,7 +131,7 @@ public class GoCommand extends Command {
 					SearchField s = getNewlyExposedSearchField(d, nextTile);
 					List<Tile> tiles = new LinkedList<>();
 					TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
-
+					
 					player.setFacing(d);
 					UpdateProcessor.send(oldTile.position, player, 1);
 					UpdateProcessor.sendTiles(player, tiles);
@@ -143,8 +143,9 @@ public class GoCommand extends Command {
 			}
 		}
 
-		protected SearchField getNewlyExposedSearchField(Coordinate3D.Direction d, Tile nextTile) {
+		public static SearchField getNewlyExposedSearchField(Coordinate3D.Direction d, Tile nextTile) {
 			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.getY();
+			
 			if (xdiff == 0) {
 				minx = nextTile.position.getX() + LookCommand.DEFAULT_LOOK * d.direction.getX();
 				maxx = minx;
@@ -158,8 +159,8 @@ public class GoCommand extends Command {
 				miny = nextTile.position.getY() + LookCommand.DEFAULT_LOOK * d.direction.getY();
 				maxy = miny;
 			} else {
-				miny = nextTile.position.getY() - xdiff; 
-				maxy = nextTile.position.getY() + xdiff;
+				miny = nextTile.position.getY() - ydiff; 
+				maxy = nextTile.position.getY() + ydiff;
 			}
 
 			if (ydiff < 0) {
@@ -173,6 +174,7 @@ public class GoCommand extends Command {
 				minx = maxx;
 				maxx = swap;
 			}
+			
 			SearchField s = new SearchField(minx, miny, maxx, maxy, nextTile.position.getZ());
 			return s;
 		}

@@ -18,8 +18,10 @@ public abstract class Entity implements Comparable<Entity>, Serializable {
 	public Entity(Long id) {
 		if (id == null) {
 			this.id = World.get().addEntity(this);
+		} else if (World.get() == null) {
+			this.id = id;
 		} else {
-			this.id = id;			
+			throw new UnsupportedOperationException("Cannot create entitiy with set ID while world exists.");
 		}
 	}
 	

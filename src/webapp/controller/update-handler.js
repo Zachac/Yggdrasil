@@ -16,7 +16,6 @@ updateHandler.updateEntities = function (ents) {
 	actualEntities.forEach(function (e) {
 		if (e.position && e.position.w != undefined) {
 			e.position.w = ground.averageHeight(e.position.x, e.position.y, e.position.z);
-			console.log(e.position);
 		}
 
 		entity.update(e);

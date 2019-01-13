@@ -80,7 +80,8 @@ public class UpdateProcessor {
 					source.updates.addEntity(t);
 					source.updates.addEntities(t.contents);
 				});
-		
+
+
 		source.updates.setLocalPlayer(source);
 	}
 	

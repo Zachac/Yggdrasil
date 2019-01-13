@@ -1,6 +1,7 @@
 package model.world;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -8,6 +9,7 @@ import java.util.TreeMap;
 import model.Entity;
 import model.Time;
 import model.charachters.Player;
+import model.world.Chunk.ChunkCoordinate;
 import model.world.Tile.Biome;
 
 public class World implements Serializable {
@@ -20,7 +22,7 @@ public class World implements Serializable {
 
 	private final TreeMap<Long,Entity> entities;
 	private final Map<String,Player> players;
-	private final Map<Coordinate3D,Tile> tiles; 
+	private final Map<ChunkCoordinate,Chunk> chunks; 
 	private Tile root;
 	
 	private String loadFilename;
@@ -29,28 +31,43 @@ public class World implements Serializable {
 		maxId = 0;
 		players = new TreeMap<String,Player>();
 		entities = new TreeMap<Long, Entity>();
-		tiles = new TreeMap<Coordinate3D,Tile>();
-		root = addTile(new Coordinate4D(0, 0, 0, 0), Biome.GRASS);
+		chunks = new HashMap<>();
+		root = addTile(new Coordinate4D(0, 0, 0, 0), Biome.GRASS, nextId());
 		time = new Time();
 	}
 
+
 	public Tile addTile(Coordinate4D c, Biome type) {
+		return addTile(c, type, null);
+	}
+	
+	private Tile addTile(Coordinate4D c, Biome type, Long id) {
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(type);
 		
-		if (tiles.containsKey(c)) {
-			throw new IllegalArgumentException("Something already exists there!");
+		ChunkCoordinate cc = new ChunkCoordinate(c.getX(), c.getY());
+		
+		Chunk ch = chunks.get(cc);
+		
+		if (ch == null) {
+			ch = new Chunk(cc);
+			chunks.put(cc, ch);
 		}
-		
-		Tile t = new Tile(nextId(), c, false, type);
-		
-		tiles.put(c, t);
-		
-		return t;
+
+		return ch.addTile(c, type, id);
 	}
 	
 	public Tile getTile(Coordinate3D c) {
-		return tiles.get(c);
+		Objects.requireNonNull(c);
+		ChunkCoordinate cc = new ChunkCoordinate(c.getX(), c.getY());
+
+		Chunk ch = chunks.get(cc);
+		
+		if (ch == null) {
+			return null;
+		}
+
+		return ch.getTile(c.getX(), c.getY(), c.getZ());
 	}
 	
 	public static void setRoot(Tile root) {
@@ -83,7 +100,7 @@ public class World implements Serializable {
 			throw new IllegalArgumentException();
 		}
 		
-		Long id = this.maxId++;
+		Long id = nextId();
 		this.entities.put(id, e);
 		return id;
 	}

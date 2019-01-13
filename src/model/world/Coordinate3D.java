@@ -72,7 +72,7 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (obj.getClass().isAssignableFrom(getClass()))
 			return false;
 		Coordinate3D other = (Coordinate3D) obj;
 		if (x != other.x)

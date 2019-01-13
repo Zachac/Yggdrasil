@@ -42,6 +42,7 @@ public class Client implements Runnable {
 			startSubThreads();
 			this.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (player == null) {
 				e.printStackTrace();
 				System.out.println("INFO: Player failed to login.");

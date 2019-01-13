@@ -21,8 +21,8 @@ public class TileTypeAdapater implements JsonSerializer<Tile>  {
 		root.add("biome", new JsonPrimitive(src.type.toString()));
 		root.add("corners", context.serialize(src.getCorners()));
 		
-		if (src.isWall) {
-			root.add("isWall", new JsonPrimitive(src.isWall));			
+		if (src.isWall()) {
+			root.add("isWall", new JsonPrimitive(src.isWall()));
 		}
 		
 		return root;
