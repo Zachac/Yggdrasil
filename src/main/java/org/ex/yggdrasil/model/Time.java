@@ -3,6 +3,7 @@ package org.ex.yggdrasil.model;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.ex.yggdrasil.model.charachters.Player;
@@ -14,7 +15,7 @@ public class Time implements Serializable {
 	public static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
 	public static final int TICK_LENGTH = 500;
 	
-	private final LinkedList<ContinuousEvent> oddTickers;
+	private final LinkedList<ContinuousEvent> tickers;
 	private final LinkedList<ContinuousEvent> evenTickers;
 	
 	private long tickTime;
@@ -22,7 +23,7 @@ public class Time implements Serializable {
 	private transient Thread t;
 	
 	public Time() {
-		oddTickers = new LinkedList<>();
+		tickers = new LinkedList<>();
 		evenTickers = new LinkedList<>();
 		tickTime = 0;
 	}
@@ -46,20 +47,8 @@ public class Time implements Serializable {
 	}
 	
 	public void addContinuousEvent(ContinuousEvent e) {
-
-		if (e instanceof ContinuousEventOdd) {
-			oddTickers.add(e);
-		}
-		
-		if (e instanceof ContinuousEventEven) {
-			evenTickers.add(e);
-		}
-		
-		if (!(e instanceof ContinuousEventOdd) && !(e instanceof ContinuousEventEven)) {
-			evenTickers.add(e);
-			oddTickers.add(e);
-		}
-		
+		Objects.requireNonNull(e);
+		tickers.add(e);
 	}
 
 	public static interface ContinuousEvent extends Serializable { 
@@ -91,25 +80,6 @@ public class Time implements Serializable {
 		
 	}
 	
-	public static interface ContinuousEventOdd extends ContinuousEvent {
-		/**
-		 * Execute a single part of the continuous event only on the odd tick of the server.
-		 * Must be added to Time.addContinuuousEvent. 
-		 * @return if this continuous event has finished.
-		 */
-		public boolean tick();
-	}
-	
-	public static interface ContinuousEventEven extends ContinuousEvent {
-
-		/**
-		 * Execute a single part of the continuous event only on the even tick of the server.
-		 * Must be added to Time.addContinuousEvent. 
-		 * @return if this continuous event has finished.
-		 */
-		public boolean tick();
-	}
-	
 	private class ContinuousEventExecutor implements Runnable {
 
 		@Override
@@ -121,7 +91,7 @@ public class Time implements Serializable {
 				if ((tickTime & 1) == 0) {
 					execute(evenTickers);
 				} else {
-					execute(oddTickers);
+					execute(tickers);
 				}
 				
 				try {

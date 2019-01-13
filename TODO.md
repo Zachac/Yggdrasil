@@ -13,8 +13,9 @@ A list of things to do.
 ### Back End
 * make searching tiles more efficient
 * terrain generation
-* refactor ticks/remove odd/even ticks
 * improve search efficiency within chunks
+* catch exceptions while parsing commands 
+* ~~refactor ticks/remove odd/even ticks~~
 * ~~fix folder setup~~
 * ~~move tiles to chunks~~
 * ~~Add height property to tile~~
