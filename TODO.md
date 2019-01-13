@@ -11,7 +11,6 @@ A list of things to do.
 * ~~Remove animation when new position is outside of move range~~
 
 ### Back End
-* make searching tiles more efficient
 * terrain generation
 * improve search efficiency within chunks
 * ~~catch exceptions while parsing commands~~
