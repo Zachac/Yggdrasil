@@ -4,23 +4,66 @@ ground.tiles = {};
 ground.unusedTiles = [];
 ground.tileLookup = {};
 
+ground.init = function () {
+	ground.createVertexData();
+}
+
+ground.createVertexData = function () {
+	//Set arrays for positions and indices
+	let positions = [
+		0.5, -0.5, 0,
+		0.5, 0.5, 0,
+		-0.5, 0.5, 0,
+		-0.5, -0.5, 0,];
+
+	let indices = [
+		0, 1, 2,
+		0, 2, 3
+	];
+
+	let normals = [];
+
+	ground.vertexData = new BABYLON.VertexData();
+	BABYLON.VertexData.ComputeNormals(positions, indices, normals);
+
+	//Assign positions, indices and normals to vertexData
+	ground.vertexData.positions = positions;
+	ground.vertexData.indices = indices;
+	ground.vertexData.normals = normals;
+}
+
+ground.updateVertexData = function (corners) {
+	ground.vertexData.positions[2] = - corners[0];
+	ground.vertexData.positions[5] = - corners[1];
+	ground.vertexData.positions[8] = - corners[2];
+	ground.vertexData.positions[11] = - corners[3];
+}
+
 ground.tileUpdate = function (tile) {
 	t = ground.tiles[tile.id];
 	if (t == null) {
 		t = ground.newTile(tile.id);
 	}
 
-	ground.updatePosition(t, tile.position.x, tile.position.y, tile.position.z);
+	ground.updateCorners(t, tile.corners);
+	ground.updatePosition(t, tile.position.x, tile.position.y, tile.position.z, tile.position.w);
 	ground.updateBiome(t, tile.biome);
 }
 
-ground.updatePosition = function (tile, x, y, z) {
-	if (tile.position.x != x || tile.y2 != y || tile.position.z != z) {
+ground.updateCorners = function (t, corners) {
+	t.corners = corners;
+	ground.updateVertexData(corners)
+	ground.vertexData.applyToMesh(t);
+}
+
+ground.updatePosition = function (tile, x, y, z, w) {
+	if (tile.position.x != x || tile.y2 != y || tile.position.z != z || tile.position.y != w) {
 		let ys = ground.tileLookup[x];
 		if (!ys) {
 			ys = {};
 			ground.tileLookup[x] = ys;
 		}
+
 		let zs = ys[y];
 		if (!zs) {
 			zs = {};
@@ -30,6 +73,7 @@ ground.updatePosition = function (tile, x, y, z) {
 		zs[z] = tile;
 		tile.position.x = x;
 		tile.position.z = z;
+		tile.position.y = w;
 		tile.y2 = y; // actual Yggdrasil value
 	}
 }
@@ -44,7 +88,7 @@ ground.newTile = function (id) {
 	if (ground.unusedTiles.length > 0) {
 		result = ground.unusedTiles.pop()
 	} else {
-		result = BABYLON.MeshBuilder.CreatePlane("tile", { size: 1 }, render.scene);
+		result = new BABYLON.Mesh("tile", render.scene);
 		result.setParent(ground.parent);
 		result.isGround = true;
 	}
@@ -73,6 +117,25 @@ ground.removeTile = function (t) {
 	t.setEnabled(false);
 }
 
+ground.averageHeight = function (x, y, z) {
+	let t = ground.lookup(x, y, z);
+
+	let maxCorner = t.corners[0];
+	let minCorner = t.corners[0];
+
+	for (let i = 1; i < t.corners.length; i++) {
+		if (t.corners[i] < minCorner) {
+			minCorner = t.corners[i];
+		}
+
+		if (t.corners[i] > maxCorner) {
+			maxCorner = t.corners[i];
+		}
+	}
+
+	return t.position.y + (maxCorner + minCorner) / 2;
+}
+
 ground.lookup = function (x, y, z) {
 	let ys = ground.tileLookup[x];
 	if (ys) {
@@ -84,3 +147,5 @@ ground.lookup = function (x, y, z) {
 
 	return null;
 }
+
+main.onload.push(ground.init);

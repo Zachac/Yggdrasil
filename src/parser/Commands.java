@@ -14,6 +14,7 @@ import parser.commands.InterruptCommand;
 import parser.commands.LCommand;
 import parser.commands.LookCommand;
 import parser.commands.NoCommandCommand;
+import parser.commands.RaiseCommand;
 import parser.commands.SaveCommand;
 import parser.commands.SayCommand;
 import parser.commands.SysTPCommand;
@@ -55,6 +56,7 @@ public class Commands {
 		addCommand(new SysTPCommand());
 		addCommand(new FaceCommand());
 		addCommand(new InterruptCommand());
+		addCommand(new RaiseCommand());
 		
 		return commands;
 	}

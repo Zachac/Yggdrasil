@@ -26,7 +26,7 @@ entity.update = function (en) {
 		e = entity.newEntity(en);
 	}
 
-	entity.move(e, en.position.x, en.position.y, en.position.z);
+	entity.move(e, en.position.x, en.position.y, en.position.z, en.position.w);
 
 	if (e.isPlayer) {
 		player.update(en);
@@ -41,12 +41,12 @@ entity.newEntity = function (e) {
 	result.id = e.id;
 	result.moveAnimId = `${e.id} anim`;
 	result.mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, render.scene);
-	result.mesh.position.y = 0.5;
+	result.mesh.position.y = e.position.w + 0.5;
 	result.mesh.position.x = e.position.x;
 	result.mesh.position.z = e.position.z;
 	result.position = {
 		x: result.mesh.position.x,
-		y: result.mesh.position.y,
+		y: e.position.y,
 		z: result.mesh.position.z,
 	}
 
@@ -61,16 +61,18 @@ entity.newEntity = function (e) {
 	return result;
 }
 
-entity.move = function (e, x, y, z) {
+entity.move = function (e, x, y, z, w) {
 
 	let xdiff = e.mesh.position.x - x;
 	let zdiff = e.mesh.position.z - z;
 
+	w = w + 0.5
+
 	if (xdiff < -entity.maxStep || xdiff > entity.maxStep ||
 		zdiff < -entity.maxStep || zdiff > entity.maxStep) {
-		entity.teleportMove(e, x, e.mesh.position.y, z);
-	} else if (e.position.x != x || e.position.z != z) {
-		entity.animateMove(e, x, e.mesh.position.y, z);
+		entity.teleportMove(e, x, w, z);
+	} else if (e.position.x != x || e.position.z != z || e.position.w != e.mesh.position.y) {
+		entity.animateMove(e, x, w, z);
 	}
 
 	e.position.x = x;
@@ -78,7 +80,7 @@ entity.move = function (e, x, y, z) {
 	e.position.z = z;
 
 	if (e.isPlayer) {
-		player.update(e, x, y, z);
+		player.update(e, x, y, z, w);
 	}
 }
 

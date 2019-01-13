@@ -3,7 +3,8 @@ A list of things to do.
 
 ## January Goals
 ### Front End
-* Add height map to ground
+* detect/fix broken corners on height map
+* ~~Add height map to ground~~
 * ~~Add ctrl-c to clear text in input~~
 * ~~Add click to walk to html engine~~
 * ~~Add basic movement animations for entities~~
