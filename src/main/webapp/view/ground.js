@@ -87,6 +87,10 @@ ground.newTile = function (id) {
 
 	if (ground.unusedTiles.length > 0) {
 		result = ground.unusedTiles.pop()
+		result.position.x = null;
+		result.position.y = null;
+		result.position.z = null;
+		result.position.y2 = null;
 	} else {
 		result = new BABYLON.Mesh("tile", render.scene);
 		result.setParent(ground.parent);
