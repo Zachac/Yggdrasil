@@ -8,5 +8,6 @@ public interface ClientSocketAdapater {
 
 	public ClientCommandIterator getInput();
 	public PrintStream getOuput();
+	public void close();
 	
 }

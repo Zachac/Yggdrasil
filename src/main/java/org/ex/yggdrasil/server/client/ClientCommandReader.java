@@ -46,7 +46,6 @@ class ClientCommandReader implements Runnable {
 			} catch (ExitException e) {
 				exit = true;
 			} catch (CommandException e) {
-				c.out.println("Unkown exception reached.");
 				e.printStackTrace();
 			}
 		}

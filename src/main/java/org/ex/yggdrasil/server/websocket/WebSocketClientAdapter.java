@@ -10,10 +10,12 @@ public class WebSocketClientAdapter implements ClientSocketAdapater {
 	
 	private final PrintStream out;
 	private final WebsocketInputAdapter in;
+	private final WebSocket socket;
 	
 	public WebSocketClientAdapter(WebSocket s) {
-		in = new WebsocketInputAdapter(s);
-		out = new PrintStreamWebSocketAdapter(s);
+		this.socket = s;
+		this.in = new WebsocketInputAdapter(s);
+		this.out = new PrintStreamWebSocketAdapter(s);
 	}
 
 	@Override
@@ -24,5 +26,10 @@ public class WebSocketClientAdapter implements ClientSocketAdapater {
 	@Override
 	public PrintStream getOuput() {
 		return out;
+	}
+
+	@Override
+	public void close() {
+		this.socket.close();
 	}
 }

@@ -14,7 +14,7 @@ A list of things to do.
 * make searching tiles more efficient
 * terrain generation
 * improve search efficiency within chunks
-* catch exceptions while parsing commands 
+* ~~catch exceptions while parsing commands~~
 * ~~refactor ticks/remove odd/even ticks~~
 * ~~fix folder setup~~
 * ~~move tiles to chunks~~

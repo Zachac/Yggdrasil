@@ -17,14 +17,12 @@ public class Client implements Runnable {
 	private boolean closing;
 	private Thread publisher;
 	private Thread reader;
+	private ClientSocketAdapater socket;
 	
 	public Client(ClientSocketAdapater c) {
-		this(c.getInput(), c.getOuput());
-	}
-	
-	public Client(ClientCommandIterator in, PrintStream out) {
-		this.in = in;
-		this.out = out;
+		this.socket = c;
+		this.in = c.getInput();
+		this.out = c.getOuput();
 		this.closing = false;
 	}
 	
@@ -40,16 +38,16 @@ public class Client implements Runnable {
 			player.messages.add("Welcome to Yggdrasil Online");
 			
 			startSubThreads();
-			this.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 			if (player == null) {
-				e.printStackTrace();
 				System.out.println("INFO: Player failed to login.");
 			} else {
-				System.out.println("INFO: Player " + player + " closed connection.");				
+				System.out.println("INFO: Player " + player + " unexpected exception.");
+				e.printStackTrace();				
 			}
 		}
+		
+		this.close();
 	}
 
 	private void startSubThreads() {
@@ -74,11 +72,12 @@ public class Client implements Runnable {
 		} else {
 			return;
 		}
-		
-		try { publisher.interrupt(); } catch (Exception e) { }
-		try { reader.interrupt(); } catch (Exception e) { }
+
+		try { this.publisher.interrupt(); } catch (Exception e) { }
+		try { this.reader.interrupt(); } catch (Exception e) { }
 		try { this.in.close(); } catch (Exception e) { }
 		try { this.out.close(); } catch (Exception e) { }
+		try { this.socket.close(); } catch (Exception e) { }
 		
 		if (player != null) {
 			player.logout();
