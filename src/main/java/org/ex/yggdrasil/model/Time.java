@@ -16,7 +16,6 @@ public class Time implements Serializable {
 	public static final int TICK_LENGTH = 500;
 	
 	private final LinkedList<ContinuousEvent> tickers;
-	private final LinkedList<ContinuousEvent> evenTickers;
 	
 	private long tickTime;
 	
@@ -24,7 +23,6 @@ public class Time implements Serializable {
 	
 	public Time() {
 		tickers = new LinkedList<>();
-		evenTickers = new LinkedList<>();
 		tickTime = 0;
 	}
 	
@@ -87,12 +85,7 @@ public class Time implements Serializable {
 			boolean interrupted = false;
 			
 			while (!interrupted) {
-				
-				if ((tickTime & 1) == 0) {
-					execute(evenTickers);
-				} else {
-					execute(tickers);
-				}
+				execute(tickers);
 				
 				try {
 					TIME_UNIT.sleep(TICK_LENGTH);
