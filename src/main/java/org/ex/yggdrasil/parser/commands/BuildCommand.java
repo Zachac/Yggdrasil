@@ -96,7 +96,7 @@ public class BuildCommand extends Command {
 				UpdateProcessor.update(cursor);
 				length--;
 			}
-		} catch (IllegalArgumentException e) {}
+		} catch (UnsupportedOperationException e) {}
 		
 		return new BuildReturnValue(cursor, length <= 0);
 	}
