@@ -26,7 +26,7 @@ public class Tile extends Entity implements Serializable {
 	/* 0 3
 	 * 1 2
 	 */
-	private final byte[] corners;
+	private final float[] corners;
 
 
 	public Tile(Coordinate4D coordinate, Biome type, Chunk chunk) {
@@ -40,7 +40,7 @@ public class Tile extends Entity implements Serializable {
 		this.position = coordinate;
 		this.chunk = chunk;
 		contents = new LinkedList<>();
-		corners = new byte[] {0, 0, 0, 0};
+		corners = new float[] {0, 0, 0, 0};
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -61,9 +61,9 @@ public class Tile extends Entity implements Serializable {
 		ModifiableCoordinate3D pos = new ModifiableCoordinate3D(this.position.getX(), this.position.getY(), this.position.getZ());
 		
 		Tile[][] tiles = new Tile[3][3];
-		byte[][] diffs = new byte[3][3];
+		float[][] diffs = new float[3][3];
 		
-		int thisw = this.position.getW();
+		float thisw = this.position.getW();
 		
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
@@ -71,7 +71,7 @@ public class Tile extends Entity implements Serializable {
 				pos.setY(this.position.getY() + j);
 				tiles[i+1][j+1] = World.get().getTile(pos);
 				if (tiles[i+1][j+1] != null) {
-					diffs[i+1][j+1] = (byte) (thisw - tiles[i+1][j+1].position.getW());					
+					diffs[i+1][j+1] = thisw - tiles[i+1][j+1].position.getW();					
 				}
 			}
 		}
@@ -140,7 +140,7 @@ public class Tile extends Entity implements Serializable {
 //		return b;
 //	}
 
-	public byte[] getCorners() {
+	public float[] getCorners() {
 		return corners;
 	}
 

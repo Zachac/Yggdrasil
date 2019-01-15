@@ -15,8 +15,8 @@ A list of things to do.
 ### Back End
 * terrain generation
 * improve search efficiency within chunks
-* change w height of tiles to floats
 * dynamic chunk loading
+* ~~change w height of tiles to floats~~
 * ~~catch exceptions while parsing commands~~
 * ~~refactor ticks/remove odd/even ticks~~
 * ~~fix folder setup~~
