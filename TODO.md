@@ -3,6 +3,8 @@ A list of things to do.
 
 ## January Goals
 ### Front End
+* Add materials for biome tiles
+* Fix mishapen tiles with corners
 * ~~detect/fix broken corners on height map~~
 * ~~Add height map to ground~~
 * ~~Add ctrl-c to clear text in input~~
@@ -13,6 +15,8 @@ A list of things to do.
 ### Back End
 * terrain generation
 * improve search efficiency within chunks
+* change w height of tiles to floats
+* dynamic chunk loading
 * ~~catch exceptions while parsing commands~~
 * ~~refactor ticks/remove odd/even ticks~~
 * ~~fix folder setup~~
@@ -33,5 +37,4 @@ A list of things to do.
 * Add inventory
 * Add mini-map
 * Add models
-* Add materials
 * Add sql persistence
