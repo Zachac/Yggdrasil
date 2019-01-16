@@ -16,7 +16,7 @@ public class Tile extends Entity implements Serializable {
 
 	private static final long serialVersionUID = -7676772836100313611L;
 	
-	public final Biome type;
+	private Biome type;
 	public final Chunk chunk;
 	private boolean isWall;
 	public final Coordinate4D position;
@@ -35,7 +35,7 @@ public class Tile extends Entity implements Serializable {
 	
 	public Tile(Long id, Coordinate4D coordinate, Biome type, Chunk chunk) {
 		super(id);
-		this.type = type;
+		this.setType(type);
 		this.isWall = false;
 		this.position = coordinate;
 		this.chunk = chunk;
@@ -156,5 +156,13 @@ public class Tile extends Entity implements Serializable {
 
 	public void setWall(boolean isWall) {
 		this.isWall = isWall;
+	}
+
+	public Biome getType() {
+		return type;
+	}
+
+	public void setType(Biome type) {
+		this.type = type;
 	}
 }
