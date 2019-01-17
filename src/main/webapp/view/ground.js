@@ -6,6 +6,7 @@ ground.tileLookup = {};
 
 ground.init = function () {
 	ground.createVertexData();
+	ground.parent = new BABYLON.TransformNode("ground parent");
 }
 
 ground.createVertexData = function () {
@@ -21,6 +22,13 @@ ground.createVertexData = function () {
 		0, 2, 3
 	];
 
+	let uvs = [
+		0, 1, // top left
+		1, 1, // top right
+		0, 0, // bottom left
+		1, 0, // bottom right
+	];
+
 	let normals = [];
 
 	ground.vertexData = new BABYLON.VertexData();
@@ -30,6 +38,7 @@ ground.createVertexData = function () {
 	ground.vertexData.positions = positions;
 	ground.vertexData.indices = indices;
 	ground.vertexData.normals = normals;
+	ground.vertexData.uvs = uvs;
 }
 
 ground.updateVertexData = function (corners) {
@@ -95,6 +104,7 @@ ground.newTile = function (id) {
 		result = new BABYLON.Mesh("tile", render.scene);
 		result.setParent(ground.parent);
 		result.isGround = true;
+		result.receiveShadows = true;
 	}
 
 	result.rotation.x = Math.PI / 2;

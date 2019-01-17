@@ -21,7 +21,9 @@ render.closeScene = function () {
 render.createScene = function (canvas, engine) {
 
 	let scene = new BABYLON.Scene(engine);
-	light = new BABYLON.HemisphericLight("sun", new BABYLON.Vector3(0, 800, 0), scene);
+	render.light = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-100, -200, 0), scene);
+	render.light.specular = new BABYLON.Color3(0, 0, 0);
+	render.shadows = new BABYLON.ShadowGenerator(1024, render.light);
 	render.camera = new BABYLON.ArcFollowCamera("Camera", Math.PI / 2, Math.PI / 4, 5, null, scene);
 	render.camera.attachControl(canvas, true);
 

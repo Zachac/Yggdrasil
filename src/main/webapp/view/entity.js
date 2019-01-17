@@ -6,10 +6,12 @@ entities = {};
 
 entity.remove = function (e) {
 	delete entities[e.id];
-
 	if (e.isPlayer) {
 		player.remove(e);
 	}
+
+
+	render.shadows.removeShadowCaster(e.mesh);
 
 	e.mesh.dispose();
 }
@@ -49,6 +51,8 @@ entity.newEntity = function (e) {
 		y: e.position.y,
 		z: result.mesh.position.z,
 	}
+
+	render.shadows.addShadowCaster(result.mesh);
 
 	result.moveAnims = [];
 
