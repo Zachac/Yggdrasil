@@ -105,6 +105,7 @@ ground.newTile = function (id) {
 		result.setParent(ground.parent);
 		result.isGround = true;
 		result.receiveShadows = true;
+		render.shadows.addShadowCaster(result);
 	}
 
 	result.rotation.x = Math.PI / 2;

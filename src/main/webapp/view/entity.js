@@ -53,7 +53,7 @@ entity.newEntity = function (e) {
 	}
 
 	render.shadows.addShadowCaster(result.mesh);
-
+	result.mesh.receiveShadows = true;
 	result.moveAnims = [];
 
 	entities[result.id] = result;
