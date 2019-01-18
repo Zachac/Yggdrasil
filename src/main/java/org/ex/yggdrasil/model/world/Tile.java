@@ -119,6 +119,11 @@ public class Tile extends Entity implements Serializable {
 			tiles[0][1].getCorners()[2] = diffs[0][1];
 			UpdateProcessor.update(tiles[0][1]);
 		}
+
+		corners[0] = 0;
+		corners[1] = 0;
+		corners[2] = 0;
+		corners[3] = 0;
 	}
 	
 //	/**

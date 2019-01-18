@@ -2,11 +2,13 @@ updateHandler = {}
 
 updateHandler.updateEntities = function (ents) {
 	let actualEntities = [];
+	let updatedTiles = false;
 
 	ents.forEach(function (e) {
 
 		if (e.biome) {
 			ground.tileUpdate(e);
+			updatedTiles = true;
 		} else {
 			actualEntities.push(e);
 		}
@@ -20,6 +22,10 @@ updateHandler.updateEntities = function (ents) {
 
 		entity.update(e);
 	});
+
+	if (updatedTiles) {
+		render.refreshStaticShadows();
+	}
 }
 
 updateHandler.updateLocalPlayer = function (userName) {

@@ -105,7 +105,7 @@ ground.newTile = function (id) {
 		result.setParent(ground.parent);
 		result.isGround = true;
 		result.receiveShadows = true;
-		render.shadows.addShadowCaster(result);
+		render.staticShadows.addShadowCaster(result);
 	}
 
 	result.rotation.x = Math.PI / 2;
@@ -128,6 +128,7 @@ ground.removeTile = function (t) {
 			delete zs[t.position.z];
 		}
 	}
+	render.staticShadows.removeShadowCaster(t);
 
 	t.setEnabled(false);
 }

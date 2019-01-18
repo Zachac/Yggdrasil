@@ -22,19 +22,34 @@ render.createScene = function (canvas, engine) {
 
 	let scene = new BABYLON.Scene(engine);
 
-	render.light = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-100, -200, -100), scene);
+	render.light = new BABYLON.DirectionalLight("sun1", new BABYLON.Vector3(20, -40, 20), scene);
 	render.light.specular = new BABYLON.Color3(0, 0, 0);
+	render.light.intensity = 0.5;
+
+	render.staticShadowLight = new BABYLON.DirectionalLight("sun2", new BABYLON.Vector3(20, -40, 20), scene);
+	render.staticShadowLight.specular = new BABYLON.Color3(0, 0, 0);
+	render.staticShadowLight.intensity = 0.5;
 
 	render.shadows = new BABYLON.ShadowGenerator(1024, render.light);
-	render.shadows.bias = 0.0001;
+	render.shadows.bias = 0.000001;
 	render.shadows.contactHardeningLightSizeUVRatio = 0.4;
 	render.shadows.useContactHardeningShadow = true;
+
+	render.staticShadows = new BABYLON.ShadowGenerator(1024, render.staticShadowLight);
+	render.staticShadows.bias = 0.00001;
+	render.staticShadows.contactHardeningLightSizeUVRatio = 0.2;
+	render.staticShadows.useContactHardeningShadow = true;
+	render.staticShadows.getShadowMap().refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
 
 	render.camera = new BABYLON.ArcFollowCamera("Camera", Math.PI / 2, Math.PI / 4, 5, null, scene);
 	render.camera.attachControl(canvas, true);
 
 	return scene;
 };
+
+render.refreshStaticShadows = function () {
+	render.staticShadows.getShadowMap().refreshRate = BABYLON.RenderTargetTexture.REFRESHRATE_RENDER_ONCE;
+}
 
 render.init = function () {
 	render.canvas = document.getElementById("renderCanvas");
