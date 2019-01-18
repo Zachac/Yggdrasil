@@ -5,6 +5,8 @@ A list of things to do.
 ### Front End
 * Add materials for biome tiles
 * Fix mishapen tiles with corners
+* add diagonal direction movement on click to walk
+* improve shadows
 * ~~detect/fix broken corners on height map~~
 * ~~Add height map to ground~~
 * ~~Add ctrl-c to clear text in input~~
@@ -13,9 +15,10 @@ A list of things to do.
 * ~~Remove animation when new position is outside of move range~~
 
 ### Back End
-* terrain generation
 * improve search efficiency within chunks
 * dynamic chunk loading
+* add diagonal directions
+* ~~terrain generation~~
 * ~~change w height of tiles to floats~~
 * ~~catch exceptions while parsing commands~~
 * ~~refactor ticks/remove odd/even ticks~~
