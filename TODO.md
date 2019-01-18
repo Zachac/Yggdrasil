@@ -4,6 +4,8 @@ A list of things to do.
 ## January Goals
 ### Front End
 * Add materials for biome tiles
+* Add human playermodel
+* Add human walking animation
 * Fix mishapen tiles with corners
 * add diagonal direction movement on click to walk
 * improve shadows
@@ -17,7 +19,7 @@ A list of things to do.
 ### Back End
 * improve search efficiency within chunks
 * dynamic chunk loading
-* add diagonal directions
+* add diagonal movement
 * ~~terrain generation~~
 * ~~change w height of tiles to floats~~
 * ~~catch exceptions while parsing commands~~
