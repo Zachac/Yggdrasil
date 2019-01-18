@@ -22,7 +22,7 @@ public abstract class Server {
 		} catch (FileNotFoundException e) {
 			System.err.println("ERROR: Failed to load world: " + Strings.stringify(e));
 			System.out.println("INFO: Generating terrain...");
-			new PerlinWorldGenerator(Biome.GRASS).generate(new SearchField(-50, -50, 50, 50, 0));
+			new PerlinWorldGenerator(Biome.GRASS, 8, 25).generate(new SearchField(-50, -50, 50, 50, 0));
 		}
 		
 		

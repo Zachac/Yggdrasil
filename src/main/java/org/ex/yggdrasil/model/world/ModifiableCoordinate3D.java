@@ -11,6 +11,10 @@ public class ModifiableCoordinate3D extends Coordinate3D {
 		super(x, y, z);
 	}
 
+	public ModifiableCoordinate3D(Coordinate3D position) {
+		super(position.x, position.y, position.z);
+	}
+
 	protected void setX(int x) {
 		this.x = x;
 	}

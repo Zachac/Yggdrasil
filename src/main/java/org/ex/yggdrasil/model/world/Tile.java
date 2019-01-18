@@ -58,24 +58,9 @@ public class Tile extends Entity implements Serializable {
 	}
 	
 	public void overwriteNearbyCorners() {
-		ModifiableCoordinate3D pos = new ModifiableCoordinate3D(this.position.getX(), this.position.getY(), this.position.getZ());
+		Tile[][] tiles = getNearbyTiles();
+		float[][] diffs = getDiffs(tiles);
 		
-		Tile[][] tiles = new Tile[3][3];
-		float[][] diffs = new float[3][3];
-		
-		float thisw = this.position.getW();
-		
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				pos.setX(this.position.getX() - i);
-				pos.setY(this.position.getY() + j);
-				tiles[i+1][j+1] = World.get().getTile(pos);
-				if (tiles[i+1][j+1] != null) {
-					diffs[i+1][j+1] = thisw - tiles[i+1][j+1].position.getW();					
-				}
-			}
-		}
-
 		if (tiles[0][0] != null) {
 			tiles[0][0].getCorners()[2] = diffs[0][0];
 			UpdateProcessor.update(tiles[0][0]);
@@ -124,6 +109,33 @@ public class Tile extends Entity implements Serializable {
 		corners[1] = 0;
 		corners[2] = 0;
 		corners[3] = 0;
+	}
+
+	private float[][] getDiffs(Tile[][] tiles) {
+		float[][] diffs = new float[3][3];
+		float thisw = this.position.getW();
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (tiles[i+1][j+1] != null) {
+					diffs[i+1][j+1] = thisw - tiles[i+1][j+1].position.getW();					
+				}
+			}
+		}
+		return diffs;
+	}
+
+	public Tile[][] getNearbyTiles() {
+		Tile[][] tiles = new Tile[3][3];
+		ModifiableCoordinate3D pos = new ModifiableCoordinate3D(this.position);
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				pos.setX(this.position.getX() - i);
+				pos.setY(this.position.getY() + j);
+				tiles[i+1][j+1] = World.get().getTile(pos);
+				
+			}
+		}
+		return tiles;
 	}
 	
 //	/**
