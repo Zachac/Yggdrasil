@@ -8,7 +8,7 @@ import org.ex.yggdrasil.model.world.World;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
-	private final Biome b;
+	public final Biome b;
 	
 	public FlatWorldGenerator(Biome b) {
 		this.b = b;
@@ -22,28 +22,20 @@ public class FlatWorldGenerator implements WorldGenerator {
 				Tile t = World.get().getTile(pos);
 				
 				if (t == null) {
-					createTile(pos, b);
-				} else {
-					updateTile(t, pos.getW(), b);
+					t = World.get().addTile(pos, b);
 				}
+				
+				t.setType(b);
+				t.setHeight(pos.getW());
 			}
 		}
 	}
 
-	private void updateTile(Tile t, int w, Biome b2) {
-		// TODO Auto-generated method stub
-		t.position.setW(w);
-		t.setType(b2);
+	public Biome getBiome(int i, int j) {
+		return b;
 	}
-
-	private static void createTile(Coordinate4D pos, Biome b2) {
-		// TODO Auto-generated method stub
-		Tile t = World.get().addTile(pos, b2);
-		t.position.setW(pos.getW());
-	}
-
-	private int getW(int i, int j) {
-		// TODO Auto-generated method stub
+	
+	public int getW(int i, int j) {
 		return 0;
 	}
 }
