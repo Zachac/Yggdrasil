@@ -4,8 +4,8 @@ A list of things to do.
 ## January Goals
 ### Front End
 * Fix mishapen tiles with corners
-* add diagonal direction movement on click to walk
 * improve shadows
+* ~~add diagonal direction movement on click to walk~~
 * ~~Add materials for biome tiles~~
 * ~~Add playermodel~~
 * ~~detect/fix broken corners on height map~~
