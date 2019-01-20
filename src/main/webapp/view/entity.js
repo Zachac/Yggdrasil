@@ -42,8 +42,8 @@ entity.newEntity = function (e) {
 
 	result.id = e.id;
 	result.moveAnimId = `${e.id} anim`;
-	result.mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, render.scene);
-	result.mesh.position.y = e.position.w + 0.5;
+	result.mesh = mesh.RECEIVER;
+	result.mesh.position.y = e.position.w;
 	result.mesh.position.x = e.position.x;
 	result.mesh.position.z = e.position.z;
 	result.position = {
@@ -70,7 +70,7 @@ entity.move = function (e, x, y, z, w) {
 	let xdiff = e.mesh.position.x - x;
 	let zdiff = e.mesh.position.z - z;
 
-	w = w + 0.5
+	w = w
 
 	if (xdiff < -entity.maxStep || xdiff > entity.maxStep ||
 		zdiff < -entity.maxStep || zdiff > entity.maxStep) {
