@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.ex.yggdrasil.model.Time;
 import org.ex.yggdrasil.model.charachters.Player;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
-import org.ex.yggdrasil.model.world.Coordinate3D;
+import org.ex.yggdrasil.model.world.Direction3D;
 import org.ex.yggdrasil.model.world.Tile;
 import org.ex.yggdrasil.model.world.TileTraverser;
 import org.ex.yggdrasil.model.world.TileTraverser.SearchField;
@@ -29,35 +29,56 @@ public class GoCommand extends Command {
 	private static CommandPattern getMyPattern() {
 		CommandPattern pattern = new CommandPattern(); 
 
-		pattern.add("[0-9]+[nsewudNSEWUD]", (PatternNode.Flag.IMPORTANT.value | PatternNode.Flag.REPEATABLE.value));
+		pattern.add("[0-9]{0,9}[nsewNSEW]{1,2}", (PatternNode.Flag.IMPORTANT.value | PatternNode.Flag.REPEATABLE.value));
 		
 		return pattern;
 	}
 	
 	@Override
 	public void run(CommandData d) {
-		Direction[] directions = new Direction[d.args.size()];
+		DirectionData[] directions = new DirectionData[d.args.size()];
 		int i = 0;
 		
 		for (String s : d.args) {
-			int steps = Integer.parseInt(s.substring(0, s.length() - 1));
-			char direction = s.charAt(s.length() - 1);
-			directions[i++] = new Direction(steps, direction);
+			Direction3D d1 = Direction3D.valueOf(s.charAt(s.length() - 1));
+			Direction3D d2 = null;
+			
+			if (s.length() >= 2) {
+				d2 = Direction3D.valueOf(s.charAt(s.length() - 2));
+			}
+
+			Direction3D direction;
+			int stepsLength;
+			
+			if (d2 != null) {
+				direction = d1.combine(d2);
+				stepsLength = s.length() - 2;
+			} else {
+				direction = d1;
+				stepsLength = s.length() - 1;
+			}
+
+			int steps = 1;
+			if (stepsLength > 0) {
+				steps = Integer.parseInt(s.substring(0, stepsLength));
+			}
+			
+			directions[i++] = new DirectionData(steps, direction);
 		}
 		
 		d.source.setAction(new MoveEvent(d.source, directions));
 		d.source.messages.add("You start walking.");
 	}
 	
-	private static class Direction implements Serializable {
+	private static class DirectionData implements Serializable {
 		
 		private static final long serialVersionUID = 4107742626198770702L;
 		
-		public final Coordinate3D.Direction d;
+		public final Direction3D d;
 		public int steps;
 		
-		public Direction(int steps, char direction) {
-			this.d = Coordinate3D.Direction.valueOf(direction);
+		public DirectionData(int steps, Direction3D d) {
+			this.d = d;
 			this.steps = steps;
 		}
 		
@@ -77,11 +98,11 @@ public class GoCommand extends Command {
 		private static final long serialVersionUID = 8233289328075381532L;
 		
 		public final Player player;
-		public final Direction[] directions;
+		public final DirectionData[] directions;
 		
 		private boolean finished;
 		
-		public MoveEvent(Player p, Direction... directions) {
+		public MoveEvent(Player p, DirectionData... directions) {
 			Objects.requireNonNull(directions);
 			Objects.requireNonNull(p);
 			
@@ -122,15 +143,24 @@ public class GoCommand extends Command {
 			}
 		}
 
-		protected void sendUpdates(Coordinate3D.Direction d, Tile oldTile, Tile nextTile) {
+		protected void sendUpdates(Direction3D d, Tile oldTile, Tile nextTile) {
 			if (nextTile != null) {
 
-				if (d != Coordinate3D.Direction.D && d != Coordinate3D.Direction.U) {
+				if (d != Direction3D.D && d != Direction3D.U) {
 					// then send only the new blocks in range
 
-					SearchField s = getNewlyExposedSearchField(d, nextTile);
+					
 					List<Tile> tiles = new LinkedList<>();
-					TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
+					
+					if (d.isComposite) {
+						for (Direction3D di : d.directions) {
+							SearchField s = getNewlyExposedSearchField(di, nextTile);
+							TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
+						}
+					} else {
+						SearchField s = getNewlyExposedSearchField(d, nextTile);
+						TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);						
+					}
 					
 					player.setFacing(d);
 					UpdateProcessor.send(oldTile.position, player, 1);
@@ -143,7 +173,18 @@ public class GoCommand extends Command {
 			}
 		}
 
-		public static SearchField getNewlyExposedSearchField(Coordinate3D.Direction d, Tile nextTile) {
+		/**
+		 * Get's the search area for a non-composite direction.
+		 * @param d
+		 * @param nextTile
+		 * @return
+		 * @throws IllegalArgumentException if d is NE,NW,SE,SW
+		 */
+		public static SearchField getNewlyExposedSearchField(Direction3D d, Tile nextTile) {
+			if (d.isComposite) {
+				throw new IllegalArgumentException();
+			}
+			
 			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.getY();
 			
 			if (xdiff == 0) {

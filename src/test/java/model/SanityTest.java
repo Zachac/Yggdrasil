@@ -1,8 +1,8 @@
 package model;
 
 import org.ex.yggdrasil.model.world.Coordinate3D;
-import org.ex.yggdrasil.model.world.Coordinate3D.Direction;
 import org.ex.yggdrasil.model.world.Coordinate4D;
+import org.ex.yggdrasil.model.world.Direction3D;
 import org.ex.yggdrasil.model.world.Tile;
 import org.ex.yggdrasil.model.world.Tile.Biome;
 import org.ex.yggdrasil.model.world.TileTraverser.SearchField;
@@ -46,24 +46,24 @@ public class SanityTest {
 	@Test 
 	public void testNorthSearchField() {
 		SearchField north = new SearchField(LookCommand.DEFAULT_LOOK, -LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, 0);
-		Assert.assertEquals(north, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction.N, w.getRoot()));
+		Assert.assertEquals(north, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction3D.N, w.getRoot()));
 	}
 
 	@Test 
 	public void testSouthSearchField() {
 		SearchField south = new SearchField(-LookCommand.DEFAULT_LOOK, -LookCommand.DEFAULT_LOOK, -LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, 0);
-		Assert.assertEquals(south, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction.S, w.getRoot()));
+		Assert.assertEquals(south, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction3D.S, w.getRoot()));
 	}
 
 	@Test 
 	public void testEastSearchField() {
 		SearchField east = new SearchField(-LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, 0);
-		Assert.assertEquals(east, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction.E, w.getRoot()));
+		Assert.assertEquals(east, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction3D.E, w.getRoot()));
 	}
 
 	@Test 
 	public void testWestSearchField() {
 		SearchField west = new SearchField(-LookCommand.DEFAULT_LOOK, -LookCommand.DEFAULT_LOOK, LookCommand.DEFAULT_LOOK, -LookCommand.DEFAULT_LOOK, 0);
-		Assert.assertEquals(west, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction.W, w.getRoot()));
+		Assert.assertEquals(west, GoCommand.MoveEvent.getNewlyExposedSearchField(Direction3D.W, w.getRoot()));
 	}
 }

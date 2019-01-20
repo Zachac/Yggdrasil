@@ -20,7 +20,7 @@ public class Coordinate4D extends Coordinate3D {
 	}
 	
 
-	public Coordinate4D get(Direction next) {
+	public Coordinate4D get(Direction3D next) {
 		return new Coordinate4D(
 				this.x + next.direction.x,
 				this.y + next.direction.y,

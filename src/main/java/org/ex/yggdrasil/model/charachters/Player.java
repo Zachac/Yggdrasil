@@ -10,9 +10,9 @@ import org.ex.yggdrasil.model.Time.ContinuousEvent;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.Coordinate3D;
+import org.ex.yggdrasil.model.world.Direction3D;
 import org.ex.yggdrasil.model.world.Tile;
 import org.ex.yggdrasil.model.world.World;
-import org.ex.yggdrasil.model.world.Coordinate3D.Direction;
 
 public class Player extends Entity implements Serializable {
 
@@ -23,7 +23,7 @@ public class Player extends Entity implements Serializable {
 	private long experience;
 	transient boolean loggedIn;
 	private Tile location;
-	private Direction facing;
+	private Direction3D facing;
 	private transient ContinuousEvent action;
 
 	public final Queue<String> messages;
@@ -38,7 +38,7 @@ public class Player extends Entity implements Serializable {
 		this.location = location;
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
-		this.facing = Direction.N;
+		this.facing = Direction3D.N;
 		specialization = new ClassLevels();
 		experience = 0;
 		action = null;
@@ -139,11 +139,11 @@ public class Player extends Entity implements Serializable {
 		return location.position;
 	}
 
-	public Direction getFacing() {
+	public Direction3D getFacing() {
 		return facing;
 	}
 
-	public void setFacing(Direction facing) {
+	public void setFacing(Direction3D facing) {
 		Objects.requireNonNull(facing);
 		this.facing = facing;
 	}

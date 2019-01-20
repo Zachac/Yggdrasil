@@ -8,7 +8,6 @@ import java.util.List;
 import org.ex.yggdrasil.model.Entity;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.Chunk;
-import org.ex.yggdrasil.model.world.Coordinate3D.Direction;
 
 public class Tile extends Entity implements Serializable {
 
@@ -53,7 +52,7 @@ public class Tile extends Entity implements Serializable {
 		return this.position;
 	}
 
-	public Tile getTile(Direction d) {
+	public Tile getTile(Direction3D d) {
 		return World.get().getTile(position.get(d));
 	}
 	

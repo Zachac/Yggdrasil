@@ -3,9 +3,9 @@ package org.ex.yggdrasil.parser.commands;
 import java.util.Iterator;
 
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
+import org.ex.yggdrasil.model.world.Direction3D;
 import org.ex.yggdrasil.model.world.Tile;
 import org.ex.yggdrasil.model.world.World;
-import org.ex.yggdrasil.model.world.Coordinate3D.Direction;
 import org.ex.yggdrasil.model.world.Tile.Biome;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.CommandData;
@@ -78,11 +78,11 @@ public class BuildCommand extends Command {
 	}
 
 	public static BuildReturnValue place(Biome type, Tile cursor, String path) {
-		Direction d;
+		Direction3D d;
 		int length;
 
 		try {
-			d = Direction.valueOf(path.charAt(path.length() - 1));
+			d = Direction3D.valueOf(path.charAt(path.length() - 1));
 			length = Integer.parseInt(path.substring(0, path.length() - 1));
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -18,7 +18,7 @@ A list of things to do.
 ### Back End
 * improve search efficiency within chunks
 * dynamic chunk loading
-* add diagonal movement
+* ~~add diagonal movement~~
 * ~~terrain generation~~
 * ~~change w height of tiles to floats~~
 * ~~catch exceptions while parsing commands~~

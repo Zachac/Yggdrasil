@@ -18,7 +18,7 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 		this(x, y, 0);
 	}
 
-	public Coordinate3D get(Direction next) {
+	public Coordinate3D get(Direction3D next) {
 		return new Coordinate3D(
 				this.x + next.direction.x,
 				this.y + next.direction.y,
@@ -99,47 +99,6 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 		return result;
 	}
 	
-	public enum Direction {
-		N(new Coordinate3D(1,0,0)),
-		E(new Coordinate3D(0,1,0)),
-		S(new Coordinate3D(-1,0,0)),
-		W(new Coordinate3D(0,-1,0)),
-		U(new Coordinate3D(0,0,1)),
-		D(new Coordinate3D(0,0,-1));
-		
-		public static final int COUNT = Coordinate3D.Direction.values().length;
-		
-		public final Coordinate3D direction;
-		
-		private Direction(Coordinate3D d) {
-			this.direction = d;
-		}
-		
-		public Direction opposite() {
-			switch (this) {
-			case N: return S;
-			case E: return W;
-			case S: return N;
-			case W: return E;
-			case D: return U;
-			case U: return D;
-			default: return null;
-			}
-		}
-
-		public static Direction valueOf(char direction) {
-			switch (direction) {
-			case 'N': case 'n': return N;
-			case 'S': case 's': return S;
-			case 'E': case 'e': return E;
-			case 'W': case 'w': return W;
-			case 'U': case 'u': return U;
-			case 'D': case 'd': return D;
-			default: return null;
-			}
-		}
-	}
-
 	public int getX() {
 		return x;
 	}
