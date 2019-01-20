@@ -3,12 +3,11 @@ A list of things to do.
 
 ## January Goals
 ### Front End
-* Add materials for biome tiles
-* Add human playermodel
-* Add human walking animation
 * Fix mishapen tiles with corners
 * add diagonal direction movement on click to walk
 * improve shadows
+* ~~Add materials for biome tiles~~
+* ~~Add playermodel~~
 * ~~detect/fix broken corners on height map~~
 * ~~Add height map to ground~~
 * ~~Add ctrl-c to clear text in input~~
