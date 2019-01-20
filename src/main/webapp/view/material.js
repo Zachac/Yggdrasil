@@ -2,9 +2,9 @@ material = {}
 
 material.init = function () {
     material.GRASS = material.getTexture("grass", "materials/grass.png");
-    material.SAND = material.getColor("sand", 1, 1, 0);
-    material.STONE = material.getColor("stone", 0.3, 0.3, 0.3);
-    material.WATER = material.getColor("water", 0, 0, 1);
+    material.SAND = material.getTexture("sand", "materials/sand.png");
+    material.STONE = material.getTexture("stone", "materials/stone.png");
+    material.WATER = material.getTexture("water", "materials/water.png");
     material.NONE = null;
 }
 
@@ -16,7 +16,7 @@ material.getColor = function (name, r, g, b) {
 
 material.getTexture = function (name, path) {
     let myMaterial = new BABYLON.StandardMaterial(name, render.scene);
-    let myTexture = new BABYLON.Texture("materials/grass.png", render.scene);
+    let myTexture = new BABYLON.Texture(path, render.scene);
     myMaterial.diffuseTexture = myTexture;
     return myMaterial;
 }
