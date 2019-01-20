@@ -4,7 +4,9 @@ A list of things to do.
 ## January Goals
 ### Front End
 * Fix mishapen tiles with corners
-* improve shadows
+* Fix lights/shadows
+* Fix broken click detextion on east rising slopes
+* Add rotation to entities
 * ~~add diagonal direction movement on click to walk~~
 * ~~Add materials for biome tiles~~
 * ~~Add playermodel~~
@@ -16,8 +18,8 @@ A list of things to do.
 * ~~Remove animation when new position is outside of move range~~
 
 ### Back End
-* improve search efficiency within chunks
-* dynamic chunk loading
+* Optimize search efficiency within chunks
+* Implement dynamic chunk loading
 * ~~add diagonal movement~~
 * ~~terrain generation~~
 * ~~change w height of tiles to floats~~
