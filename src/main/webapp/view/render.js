@@ -54,6 +54,7 @@ render.refreshStaticShadows = function () {
 render.init = function () {
 	render.canvas = document.getElementById("renderCanvas");
 	render.engine = new BABYLON.Engine(render.canvas, true);
+	render.engine.enableOfflineSupport = false;
 	render.scene = render.createScene(render.canvas, render.engine);
 
 	render.engine.runRenderLoop(function () {

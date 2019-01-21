@@ -10,7 +10,6 @@ entity.remove = function (e) {
 		player.remove(e);
 	}
 
-
 	render.shadows.removeShadowCaster(e.mesh);
 
 	e.mesh.dispose();
@@ -42,7 +41,7 @@ entity.newEntity = function (e) {
 
 	result.id = e.id;
 	result.moveAnimId = `${e.id} anim`;
-	result.mesh = mesh.RECEIVER;
+	result.mesh = mesh.RECEIVER.createInstance();
 	result.mesh.position.y = e.position.w;
 	result.mesh.position.x = e.position.x;
 	result.mesh.position.z = e.position.z;
