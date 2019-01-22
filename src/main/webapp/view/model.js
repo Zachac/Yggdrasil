@@ -9,9 +9,11 @@ model.setLocalPlayer = function (p) {
 		model.localPlayer = p.userName;
 		model.position = p.position;
 		render.camera.target = p.mesh;
+		render.lightPosition.parent = p.mesh;
 	} else {
 		model.position = null;
 		render.camera.target = null;
+		render.lightPosition.parent = null;
 	}
 }
 

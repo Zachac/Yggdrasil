@@ -30,6 +30,10 @@ render.createScene = function (canvas, engine) {
 	render.staticShadowLight.specular = new BABYLON.Color3(0, 0, 0);
 	render.staticShadowLight.intensity = 0.5;
 
+	render.lightPosition = new BABYLON.TransformNode();
+	render.light.position = new BABYLON.Vector3(-20, 20, 20);
+	render.light.parent = render.lightPosition;
+
 	render.shadows = new BABYLON.ShadowGenerator(1024, render.light);
 	render.shadows.bias = 0.000001;
 	render.shadows.contactHardeningLightSizeUVRatio = 0.4;
