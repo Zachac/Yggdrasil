@@ -35,9 +35,7 @@ render.createScene = function (canvas, engine) {
 	render.light.parent = render.lightPosition;
 
 	render.shadows = new BABYLON.ShadowGenerator(1024, render.light);
-	render.shadows.bias = 0.000001;
-	render.shadows.contactHardeningLightSizeUVRatio = 0.4;
-	render.shadows.useContactHardeningShadow = true;
+	render.shadows.useBlurExponentialShadowMap = true
 
 	render.staticShadows = new BABYLON.ShadowGenerator(1024, render.staticShadowLight);
 	render.staticShadows.bias = 0.00001;
