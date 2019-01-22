@@ -20,6 +20,7 @@ A list of things to do.
 ### Back End
 * Optimize search efficiency within chunks
 * Implement dynamic chunk loading
+* Store tile information more compactly
 * ~~add diagonal movement~~
 * ~~terrain generation~~
 * ~~change w height of tiles to floats~~
@@ -35,6 +36,7 @@ A list of things to do.
 * ~~Add semicolon to seperate commands~~
 
 ## Future Goals
+* Send tile data in chunks
 * Add magic casting system
 * Add class system
 * Add expreience system
