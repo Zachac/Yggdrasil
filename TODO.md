@@ -7,6 +7,10 @@ A list of things to do.
 * Fix lights/shadows
 * Fix broken click detextion on east rising slopes
 * Add rotation to entities
+* Move to dynamic terain
+  * Use submeshes to define texture
+  * Implement submesh culling instead of tile culling
+  * Use custom vertex function w/ _updateTerrain();
 * ~~add diagonal direction movement on click to walk~~
 * ~~Add materials for biome tiles~~
 * ~~Add playermodel~~
