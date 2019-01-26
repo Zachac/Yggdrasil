@@ -1,41 +1,34 @@
-dynamicGround = {}
+dynamicGround = {
+    terrainSub: 29
+}
 
 dynamicGround.init = function () {
-    let terrainSub = 29;
-    let params = {
-        terrainSub: terrainSub
-    }
+    dynamicGround.createTerrain();
+}
 
-    dynamicGround.terrainOffsetX = (terrainSub / 2) - 0.5;
-    dynamicGround.terrainOffsetZ = (terrainSub / 2) + 0.5;
-    dynamicGround.vertexOffset = Math.ceil(terrainSub / 2);
-
-
-    dynamicGround.terrain = new BABYLON.DynamicTerrain("t", params, render.scene);
-
-    dynamicGround.terrain.subToleranceX = terrainSub;
-    dynamicGround.terrain.subToleranceZ = terrainSub;
-
-    dynamicGround.terrain.useCustomVertexFunction = true;
-    dynamicGround.terrain.updateVertex = function (vertex, i, j) {
-        // vertex.position.y = Math.sin((model.position.x + i) / 5) * Math.sin((model.position.z + j) / 5);
-
-        let tile = ground.lookup(
-            model.position.x + i - dynamicGround.vertexOffset,
-            model.position.y,
-            model.position.z + j - dynamicGround.vertexOffset
-        );
-
-        if (tile) {
-            vertex.position.y = tile.position.y + tile.corners[0];
-        } else {
-            console.log(i, j);
-        }
-    };
-
-    render.staticShadows.addShadowCaster(dynamicGround.terrain.mesh);
+dynamicGround.createTerrain = function () {
+    dynamicGround.terrainOffsetX = (dynamicGround.terrainSub / 2) - 0.5;
+    dynamicGround.terrainOffsetZ = (dynamicGround.terrainSub / 2) + 0.5;
+    dynamicGround.vertexOffset = Math.ceil(dynamicGround.terrainSub / 2);
+    dynamicGround.terrain = new BABYLON.DynamicTerrain("terrain", { terrainSub: dynamicGround.terrainSub }, render.scene);
+    dynamicGround.terrain.subToleranceX = dynamicGround.terrainSub;
+    dynamicGround.terrain.subToleranceZ = dynamicGround.terrainSub;
     dynamicGround.terrain.mesh.receiveShadows = true
-    // dynamicGround.terrain.mesh.parent = render.lightPosition;
+    dynamicGround.terrain.useCustomVertexFunction = true;
+    dynamicGround.terrain.updateVertex = dynamicGround.vertexUpdate;
+    render.staticShadows.addShadowCaster(dynamicGround.terrain.mesh);
+}
+
+dynamicGround.vertexUpdate = function (vertex, i, j) {
+    let x = model.position.x + i - dynamicGround.vertexOffset;
+    let z = model.position.z + j - dynamicGround.vertexOffset;
+    let tile = ground.lookup(x, model.position.y, z);
+
+    if (tile) {
+        vertex.position.y = tile.position.y + tile.corners[0];
+    } else {
+        console.log("missing tile", x, z);
+    }
 }
 
 dynamicGround.update = function () {

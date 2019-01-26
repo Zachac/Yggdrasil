@@ -1,5 +1,25 @@
 updateHandler = {}
 
+updateHandler.handleUpdate = function (updt) {
+	let result;
+
+	if (updt.entities) {
+		result = updateHandler.updateEntities(updt.entities);
+	}
+
+	if (updt.localPlayer) {
+		updateHandler.updateLocalPlayer(updt.localPlayer);
+	}
+
+	// TODO refactor tile update logic
+	if (result) {
+		dynamicGround.update();
+	}
+
+	model.cullEntities();
+	model.cullTiles();
+}
+
 updateHandler.updateEntities = function (ents) {
 	let actualEntities = [];
 	let updatedTiles = false;
@@ -23,10 +43,7 @@ updateHandler.updateEntities = function (ents) {
 		entity.update(e);
 	});
 
-	if (updatedTiles) {
-		// render.refreshStaticShadows();
-		dynamicGround.update();
-	}
+	return updatedTiles;
 }
 
 updateHandler.updateLocalPlayer = function (userName) {

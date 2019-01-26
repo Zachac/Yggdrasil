@@ -1,22 +1,10 @@
 net = {}
 
 net.handleUpdate = function (string) {
-	updt = JSON.parse(string);
-
+	updt = JSON.parse(string)
 	net.translateCoordinates(updt);
-
 	console.log(updt);
-
-	if (updt.entities) {
-		updateHandler.updateEntities(updt.entities);
-	}
-
-	if (updt.localPlayer) {
-		updateHandler.updateLocalPlayer(updt.localPlayer);
-	}
-
-	model.cullEntities();
-	model.cullTiles();
+	updateHandler.handleUpdate(updt);
 }
 
 net.translateCoordinates = function (d) {
