@@ -16,6 +16,7 @@ dynamicGround.createTerrain = function () {
     dynamicGround.terrain.mesh.receiveShadows = true
     dynamicGround.terrain.useCustomVertexFunction = true;
     dynamicGround.terrain.updateVertex = dynamicGround.vertexUpdate;
+    dynamicGround.terrain.mesh.material = material.multimat;
     render.staticShadows.addShadowCaster(dynamicGround.terrain.mesh);
 }
 
