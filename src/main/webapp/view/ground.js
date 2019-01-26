@@ -111,7 +111,7 @@ ground.newTile = function (id) {
 	result.rotation.x = Math.PI / 2;
 	result.id = id;
 	ground.tiles[id] = result;
-	result.setEnabled(true);
+	result.setEnabled(false);
 
 	return result;
 }

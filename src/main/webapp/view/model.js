@@ -1,5 +1,6 @@
 model = {
 	localPlayer: null,
+	position: { x: 0, y: 0, z: 0 }
 }
 
 model.setLocalPlayer = function (p) {

@@ -24,7 +24,8 @@ updateHandler.updateEntities = function (ents) {
 	});
 
 	if (updatedTiles) {
-		render.refreshStaticShadows();
+		// render.refreshStaticShadows();
+		dynamicGround.update();
 	}
 }
 
