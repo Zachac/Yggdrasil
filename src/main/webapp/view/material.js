@@ -7,10 +7,8 @@ material.init = function () {
 
 material.loadMaterials = function () {
     material.mats = [
-        "grass", "sand", "stone", "water"
+        "none", "grass", "sand", "stone", "water"
     ];
-
-    material.NONE = null;
 
     for (let i = 0; i < material.mats.length; i++) {
         let capitalName = material.mats[i].toUpperCase();
