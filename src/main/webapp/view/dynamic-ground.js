@@ -1,9 +1,13 @@
 dynamicGround = {
-    terrainSub: 29
+    terrainSub: 29,
+    terrainRetain: 2
 }
 
 dynamicGround.init = function () {
     dynamicGround.createTerrain();
+    dynamicGround._map = new CoordinateMap(
+        dynamicGround.terrainSub + dynamicGround.terrainRetain * 2);
+    dynamicGround._y = 0;
 }
 
 dynamicGround.createTerrain = function () {
@@ -45,5 +49,42 @@ dynamicGround.afterUpdate = function () {
 }
 
 dynamicGround.beforeUpdate = function () { }
+
+dynamicGround.tileUpdate = function (tile) {
+    if (tile.position.y != dynamicGround._y) {
+        dynamicGround._map.clear();
+        dynamicGround._y = tile.position.y;
+    }
+
+    dynamicGround._map.put(tile.position.x, tile.position.z, {
+        corners: tile.corners,
+        w: tile.position.w
+    });
+}
+
+dynamicGround.lookup = function (x, y, z) {
+    if (y != dynamicGround._y) {
+        throw "y level not supported"
+    }
+
+    return dynamicGround._map.get(x, z);
+}
+
+dynamicGround.averageHeight = function (x, y, z) {
+    let t = dynamicGround.lookup(x, y, z);
+
+    let maxCorner = t.corners[0];
+    let minCorner = t.corners[0];
+
+    for (let i = 1; i < t.corners.length; i++) {
+        if (t.corners[i] < minCorner) {
+            minCorner = t.corners[i];
+        } else if (t.corners[i] > maxCorner) {
+            maxCorner = t.corners[i];
+        }
+    }
+
+    return w + (maxCorner + minCorner) / 2;
+}
 
 main.onload.push(dynamicGround.init);
