@@ -48,8 +48,8 @@ CoordinateMap.prototype = {
         }
 
         return this._map
-        [x >= 0 ? x % this._size : -x % this._size]
-        [z >= 0 ? z % this._size : -z % this._size] = value;
+        [x >= 0 ? x % this._size : x % this._size + this._size]
+        [z >= 0 ? z % this._size : z % this._size + this._size] = value;
     },
 
     get: function (x, z) {
@@ -59,8 +59,8 @@ CoordinateMap.prototype = {
         }
 
         return this._map
-        [x >= 0 ? x % this._size : -x % this._size]
-        [z >= 0 ? z % this._size : -z % this._size];
+        [x >= 0 ? x % this._size : x % this._size + this._size]
+        [z >= 0 ? z % this._size : z % this._size + this._size];
     },
 
     remove: function (x, z) {
@@ -70,8 +70,8 @@ CoordinateMap.prototype = {
         }
 
         return delete this._map
-        [x >= 0 ? x % this._size : -x % this._size]
-        [z >= 0 ? z % this._size : -z % this._size];
+        [x >= 0 ? x % this._size : x % this._size + this._size]
+        [z >= 0 ? z % this._size : z % this._size + this._size];
     },
 
     clear: function () {
@@ -86,7 +86,7 @@ CoordinateMap.prototype = {
 
     _removex: function (minx, maxx) {
         for (let x = minx; x <= maxx; x++) {
-            let ax = x >= 0 ? x % this._size : -x % this._size;
+            let ax = x >= 0 ? x % this._size : x % this._size + this._size;
             for (let z = 0; z < this._size; z++) {
                 delete this._map
                 [ax][z];
@@ -96,7 +96,7 @@ CoordinateMap.prototype = {
 
     _removez: function (minz, maxz) {
         for (let z = minz; z <= maxz; z++) {
-            let az = z >= 0 ? z % this._size : -z % this._size;
+            let az = z >= 0 ? z % this._size : z % this._size + this._size;
             for (let x = 0; x < this._size; x++) {
                 delete this._map
                 [x][az];
