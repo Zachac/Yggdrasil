@@ -5,14 +5,17 @@ clickHandler.init = function () {
     clickHandler.canvas.onclick = clickHandler.onClick;
 }
 
-clickHandler.onClick = function (evt) {
+clickHandler.onClick = function () {
     let res = render.scene.pick(render.scene.pointerX, render.scene.pointerY);
 
     if (res.hit) {
         let mesh = res.pickedMesh;
 
-        if (mesh.isGround) {
-            let result = clickHandler.getMoveString(model.position, mesh.position);
+        if (mesh === ground.terrain.mesh) {
+            res.pickedPoint.x = Math.round(res.pickedPoint.x);
+            res.pickedPoint.z = Math.round(res.pickedPoint.z);
+
+            let result = clickHandler.getMoveString(model.position, res.pickedPoint);
             if (result) {
                 websocket.send(result);
             }
