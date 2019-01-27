@@ -11,7 +11,7 @@ clickHandler.onClick = function () {
     if (res.hit) {
         let mesh = res.pickedMesh;
 
-        if (mesh === dynamicGround.terrain.mesh) {
+        if (mesh === ground.terrain.mesh) {
             res.pickedPoint.x = Math.round(res.pickedPoint.x);
             res.pickedPoint.z = Math.round(res.pickedPoint.z);
 

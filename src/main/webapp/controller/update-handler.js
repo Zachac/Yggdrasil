@@ -13,7 +13,7 @@ updateHandler.handleUpdate = function (updt) {
 
 	// TODO refactor tile update logic
 	if (result) {
-		dynamicGround.update();
+		ground.update();
 	}
 
 	model.cullEntities();

@@ -19,15 +19,7 @@ model.setLocalPlayer = function (p) {
 }
 
 model.cullTiles = function () {
-	if (model.position) {
-		Object.keys(ground.tiles).forEach(function (key) {
-			let t = ground.tiles[key];
-
-			if (model.shouldCull(t.position.x, t.y2, t.position.z)) {
-				ground.removeTile(t);
-			}
-		});
-	}
+	// done automatically by the rolling coordinate-map
 }
 
 model.cullEntities = function () {

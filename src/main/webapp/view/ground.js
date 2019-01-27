@@ -1,136 +1,73 @@
-
-ground = {};
-ground.tiles = {};
-ground.unusedTiles = [];
-ground.tileLookup = {};
+ground = {
+	terrainSub: 29,
+	terrainRetain: 2
+}
 
 ground.init = function () {
-	ground.createVertexData();
-	ground.parent = new BABYLON.TransformNode("ground parent");
+	ground.createTerrain();
+	ground._map = new CoordinateMap(
+		ground.terrainSub + ground.terrainRetain * 2);
+	ground._y = 0;
 }
 
-ground.createVertexData = function () {
-	//Set arrays for positions and indices
-	let positions = [
-		0.5, -0.5, 0,
-		0.5, 0.5, 0,
-		-0.5, 0.5, 0,
-		-0.5, -0.5, 0,];
-
-	let indices = [
-		0, 1, 2,
-		0, 2, 3
-	];
-
-	let uvs = [
-		0, 1, // top left
-		1, 1, // top right
-		0, 0, // bottom left
-		1, 0, // bottom right
-	];
-
-	let normals = [];
-
-	ground.vertexData = new BABYLON.VertexData();
-	BABYLON.VertexData.ComputeNormals(positions, indices, normals);
-
-	//Assign positions, indices and normals to vertexData
-	ground.vertexData.positions = positions;
-	ground.vertexData.indices = indices;
-	ground.vertexData.normals = normals;
-	ground.vertexData.uvs = uvs;
+ground.createTerrain = function () {
+	ground.terrainOffsetX = (ground.terrainSub / 2) - 0.5;
+	ground.terrainOffsetZ = (ground.terrainSub / 2) + 0.5;
+	ground.vertexOffset = Math.ceil(ground.terrainSub / 2);
+	ground.terrain = new BABYLON.DynamicTerrain("terrain", { terrainSub: ground.terrainSub }, render.scene);
+	ground.terrain.subToleranceX = ground.terrainSub;
+	ground.terrain.subToleranceZ = ground.terrainSub;
+	ground.terrain.mesh.receiveShadows = true
+	ground.terrain.useCustomVertexFunction = true;
+	ground.terrain.updateVertex = ground.vertexUpdate;
+	ground.terrain.mesh.material = material.multimat;
+	render.staticShadows.addShadowCaster(ground.terrain.mesh);
 }
 
-ground.updateVertexData = function (corners) {
-	ground.vertexData.positions[2] = - corners[0];
-	ground.vertexData.positions[5] = - corners[1];
-	ground.vertexData.positions[8] = - corners[2];
-	ground.vertexData.positions[11] = - corners[3];
+ground.vertexUpdate = function (vertex, i, j) {
+	let x = model.position.x + i - ground.vertexOffset;
+	let z = model.position.z + j - ground.vertexOffset;
+	let tile = ground.lookup(x, model.position.y, z);
+
+	if (tile) {
+		vertex.position.y = tile.w + tile.corners[0];
+	} else {
+		console.log("missing tile", x, z);
+	}
 }
+
+ground.update = function () {
+	ground.beforeUpdate();
+	ground.terrain.update(true);
+	ground.afterUpdate();
+}
+
+ground.afterUpdate = function () {
+	ground.terrain.mesh.position.x = model.position.x - ground.terrainOffsetX;
+	ground.terrain.mesh.position.z = model.position.z - ground.terrainOffsetZ;
+	render.refreshStaticShadows();
+}
+
+ground.beforeUpdate = function () { }
 
 ground.tileUpdate = function (tile) {
-	t = ground.tiles[tile.id];
-	if (t == null) {
-		t = ground.newTile(tile.id);
+	if (tile.position.y != ground._y) {
+		ground._map.clear();
+		ground._y = tile.position.y;
 	}
 
-	ground.updateCorners(t, tile.corners);
-	ground.updatePosition(t, tile.position.x, tile.position.y, tile.position.z, tile.position.w);
-	ground.updateBiome(t, tile.biome);
+	ground._map.put(tile.position.x, tile.position.z, {
+		corners: tile.corners,
+		w: tile.position.w
+	});
 }
 
-ground.updateCorners = function (t, corners) {
-	t.corners = corners;
-	ground.updateVertexData(corners)
-	ground.vertexData.applyToMesh(t);
-}
-
-ground.updatePosition = function (tile, x, y, z, w) {
-	if (tile.position.x != x || tile.y2 != y || tile.position.z != z || tile.position.y != w) {
-		let ys = ground.tileLookup[x];
-		if (!ys) {
-			ys = {};
-			ground.tileLookup[x] = ys;
-		}
-
-		let zs = ys[y];
-		if (!zs) {
-			zs = {};
-			ys[y] = zs;
-		}
-
-		zs[z] = tile;
-		tile.position.x = x;
-		tile.position.z = z;
-		tile.position.y = w;
-		tile.y2 = y; // actual Yggdrasil value
-	}
-}
-
-ground.updateBiome = function (tile, type) {
-	tile.material = material[type];
-}
-
-ground.newTile = function (id) {
-	let result = null;
-
-	if (ground.unusedTiles.length > 0) {
-		result = ground.unusedTiles.pop()
-		result.position.x = null;
-		result.position.y = null;
-		result.position.z = null;
-		result.position.y2 = null;
-	} else {
-		result = new BABYLON.Mesh("tile", render.scene);
-		result.setParent(ground.parent);
-		result.isGround = true;
-		result.receiveShadows = true;
-		render.staticShadows.addShadowCaster(result);
+ground.lookup = function (x, y, z) {
+	if (y != ground._y) {
+		throw "y level not supported"
 	}
 
-	result.rotation.x = Math.PI / 2;
-	result.id = id;
-	ground.tiles[id] = result;
-	result.setEnabled(false);
-
-	return result;
-}
-
-ground.removeTile = function (t) {
-	delete ground.tiles[t.id];
-	ground.unusedTiles.push(t);
-
-	let ys = ground.tileLookup[t.position.x];
-
-	if (ys) {
-		let zs = ys[t.position.y];
-		if (zs) {
-			delete zs[t.position.z];
-		}
-	}
-	render.staticShadows.removeShadowCaster(t);
-
-	t.setEnabled(false);
+	return ground._map.get(x, z);
 }
 
 ground.averageHeight = function (x, y, z) {
@@ -142,26 +79,12 @@ ground.averageHeight = function (x, y, z) {
 	for (let i = 1; i < t.corners.length; i++) {
 		if (t.corners[i] < minCorner) {
 			minCorner = t.corners[i];
-		}
-
-		if (t.corners[i] > maxCorner) {
+		} else if (t.corners[i] > maxCorner) {
 			maxCorner = t.corners[i];
 		}
 	}
 
-	return t.position.y + (maxCorner + minCorner) / 2;
-}
-
-ground.lookup = function (x, y, z) {
-	let ys = ground.tileLookup[x];
-	if (ys) {
-		let zs = ys[y];
-		if (zs) {
-			return zs[z];
-		}
-	}
-
-	return null;
+	return t.w + (maxCorner + minCorner) / 2;
 }
 
 main.onload.push(ground.init);
