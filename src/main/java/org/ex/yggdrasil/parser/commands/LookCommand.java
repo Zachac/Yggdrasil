@@ -1,13 +1,12 @@
 package org.ex.yggdrasil.parser.commands;
 
-import java.util.Iterator;
-
 import org.ex.yggdrasil.model.Entity;
-import org.ex.yggdrasil.model.world.Tile;
-import org.ex.yggdrasil.model.world.TileTraverser;
+import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.world.Chunk;
 import org.ex.yggdrasil.parser.Command;
-import org.ex.yggdrasil.parser.CommandData;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
+import org.ex.yggdrasil.parser.CommandData;
+import org.glassfish.grizzly.http.server.util.Enumerator;
 
 public class LookCommand extends Command {
 
@@ -27,7 +26,6 @@ public class LookCommand extends Command {
 	private static CommandPattern getMyPattern() {
 		CommandPattern pattern = new CommandPattern(); 
 
-		pattern.add("[0-9]+", (PatternNode.Flag.IMPORTANT.value | PatternNode.Flag.OPTIONAL.value));
 		pattern.add("closely", (PatternNode.Flag.IMPORTANT.value | PatternNode.Flag.OPTIONAL.value));
 		
 		return pattern;
@@ -35,65 +33,50 @@ public class LookCommand extends Command {
 	
 	@Override
 	public void run(CommandData d) {
-		boolean detailed = d.args.contains("closely"); 
-		int range = DEFAULT_LOOK;
-		
-		if (!d.args.isEmpty()) {
-			try {
-				range = Integer.parseInt(d.args.get(0));  
-			} catch (NumberFormatException e) { }
-		}
-		
-		if (range > MAX_LOOK) {
-			range = MAX_LOOK;
-		}
-		
-		d.source.messages.add(look(d.source.getLocation(), range, detailed));
+		boolean verbose = d.args.contains("closely");
+		d.source.messages.add(look(d.source.getChunk(), verbose));
 	}
 	
-	public String look(Tile root, int range, boolean detailed) {
+	public String look(Chunk location, boolean verbose) {
 		
-		StringBuilder result = new StringBuilder();
+		StringBuilder description = new StringBuilder();
+		description.append(ENTITY_LIST_PREFACE);
+		
+		boolean hasElements = false;
 
-		result.append(ENTITY_LIST_PREFACE);
-		
-		TileTraverser.Handler h = new TileTraverser.Handler() {
-			@Override
-			public void run(Tile t) {
-				look(result, t, detailed);
-			}
-		};
-		
-		TileTraverser.traverse(root, range, h);
-		
-		if (result.length() == ENTITY_LIST_PREFACE.length()) {
-			result.setLength(0);
-			result.append(NOTHING_INDICATOR);
+		Enumerator<Player> p = location.getPlayers();
+		hasElements = p.hasMoreElements();
+		while(p.hasMoreElements()) {
+			append(description, p.nextElement(), verbose);
 		}
 		
-		return result.toString();
+		Enumerator<Entity> e = location.getEntities();
+		hasElements = hasElements || e.hasMoreElements();
+		while(e.hasMoreElements()) {
+			append(description, e.nextElement(), verbose);
+		}
+		
+		String result;
+		
+		if (hasElements) {
+			result = description.toString(); 
+		} else {
+			result = NOTHING_INDICATOR;
+		}
+		
+		return result;
 	}
 	
-	public void look(StringBuilder result, Tile root, boolean detailed) {
+	public static void append(StringBuilder result, Entity e, boolean verbose) {
 		
-		Iterator<Entity> iter = root.contents.iterator();
-		Entity e = null;
+		result.append('\t');
+		result.append(e.toString());
 		
-		if (iter.hasNext()) {
-			e = iter.next();
-			result.append('\t');
-			result.append(e.toString());
+		if (verbose) {
 			result.append('#');
-			result.append(e.id);
-			result.append('\n');
+			result.append(e.id);			
 		}
 		
-		while (iter.hasNext()) {
-			e = iter.next();
-			result.append(e.toString());
-			result.append('#');
-			result.append(e.id);
-			result.append('\n');
-		}
+		result.append('\n');
 	}
 }

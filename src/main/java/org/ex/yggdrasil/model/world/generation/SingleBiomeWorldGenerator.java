@@ -1,6 +1,6 @@
 package org.ex.yggdrasil.model.world.generation;
 
-import org.ex.yggdrasil.model.world.Tile.Biome;
+import org.ex.yggdrasil.model.world.Biome;
 
 public class SingleBiomeWorldGenerator extends AbstractWorldGenerator {
 
@@ -11,7 +11,7 @@ public class SingleBiomeWorldGenerator extends AbstractWorldGenerator {
 	}
 
 	@Override
-	public Biome getBiome(int i, int j, int z) {
+	public Biome getBiome(int i, int j) {
 		return b;
 	}
 }

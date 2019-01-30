@@ -1,125 +1,135 @@
 package org.ex.yggdrasil.model.world;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
-import org.ex.yggdrasil.model.world.Tile.Biome;
+import org.ex.yggdrasil.model.Entity;
+import org.ex.yggdrasil.model.Identifiable;
+import org.ex.yggdrasil.model.charachters.Player;
+import org.glassfish.grizzly.http.server.util.Enumerator;
 
-public class Chunk implements Serializable {
+public class Chunk extends Identifiable implements Serializable {
 
 	private static final long serialVersionUID = -6610624708583536538L;
 
-	public static final int OFFSET_MASK = 0x0F;
+	private static final int X_SIZE = 16;
+	private static final int Y_SIZE = 16;
+
+	private final Biome[][] tiles;
+	private final Entity[][] entities;
 	
-	private ChunkLayer[] layers;
-	private int layerOffset;
-	public final ChunkCoordinate position;
+	private final Set<Player> players;
+	private final Set<Entity> contents;
 	
-	public Chunk(ChunkCoordinate cc) {
-		this.layers = new ChunkLayer[0];
-		this.position = cc;
-		this.layerOffset = 0;
+	public Chunk() {
+		this(null);
 	}
 
-	public Tile addTile(Coordinate3D c, Biome type, Long id) {
-		int offsetX = c.getX() - this.position.x;
-		int offsetY = c.getY() - this.position.y;
-		
-		int layerOffset = c.getZ() + this.layerOffset;
-		
-		if (layerOffset >= this.layers.length) {
-			setLayerCount(layerOffset+1, 0);
-		} else if (layerOffset < 0) {
-			setLayerCount(this.layers.length + -layerOffset, -layerOffset);
-			this.layerOffset -= layerOffset;
-			layerOffset = 0;
-		}
-		
-		ChunkLayer layer = layers[layerOffset];
-		
-		if (layer == null) {
-			layer = layers[layerOffset] = new ChunkLayer();
-		}
-		
-		if (layer.tiles[offsetX][offsetY] != null) {
-			throw new UnsupportedOperationException("Cannot replace existing tile.");
-		}
-		
-		return layer.tiles[offsetX][offsetY] = new Tile(id, c, type, this);
+	public Chunk(Long id) {
+		super(id);
+		this.tiles = new Biome[X_SIZE][Y_SIZE];
+		this.entities = new Entity[X_SIZE][Y_SIZE];
+		this.players = Collections.synchronizedSet(new HashSet<Player>());
+		this.contents = Collections.synchronizedSet(new HashSet<Entity>());
+	}
+
+	public void setTile(Biome type, int x, int y) {
+		tiles[x][y] = type;
 	}
 	
-	public Tile getTile(int x, int y, int z) {
-		int offsetX = x - this.position.x;
-		int offsetY = y - this.position.y;
-		int layerOffset = z + this.layerOffset;
-
-		if (layerOffset >= layers.length || layerOffset < 0) {
-			return null;
-		}
-
-		ChunkLayer layer = layers[layerOffset];
-
-		if (layer == null) {
-			return null;
-		}
-		
-		return layer.tiles[offsetX][offsetY];
+	public Biome getTile(int x, int y) {
+		return tiles[x][y];
 	}
 	
-	private void setLayerCount(int x, int offset) {
-		ChunkLayer[] layers = new ChunkLayer[x];
+	public synchronized void moveEntity(Entity e, int x, int y) {
+		Objects.requireNonNull(e);
 		
-		for (int i = 0; i < this.layers.length; i++) {
-			layers[i + offset] = this.layers[i];
+		if (e.getChunk() != this) {
+			throw new IllegalArgumentException();
+		} else if (entities[x][y] != null && entities[x][y] != e) {
+			throw new IllegalArgumentException("Something is already there");
 		}
 		
-		this.layers = layers;
+		entities[e.position.getX()][e.position.getY()] = null;
+		entities[x][y] = e;
 	}
 	
-	private static class ChunkLayer implements Serializable {
-
-		private static final long serialVersionUID = -8077300722851553653L;
+	public synchronized void add(Entity e, int x, int y) {
+		if (e.getChunk() != null) {
+			throw new IllegalArgumentException("Cannot add entity in existing chunk");
+		} else if (entities[e.position.getX()][e.position.getY()] != null) {
+			throw new IllegalArgumentException("Cannot overwrite existing entity");
+		}
 		
-		public Tile[][] tiles;
+		entities[x][y] = e;
 		
-		public ChunkLayer() {
-			tiles = new Tile[16][16];
+		if (e instanceof Player) {
+			players.remove(e);
+		} else {
+			contents.remove(e);
 		}
 	}
 	
-	public static class ChunkCoordinate implements Serializable {
+	public void remove(Entity e) {
+		entities[e.position.getX()][e.position.getY()] = null;
 		
-		private static final long serialVersionUID = -2386605326443224182L;
-		
-		public final int x, y;
-
-		public ChunkCoordinate(int x, int y) {
-			this.x = x & ~Chunk.OFFSET_MASK;
-			this.y = y & ~Chunk.OFFSET_MASK;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + x;
-			result = prime * result + y;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ChunkCoordinate other = (ChunkCoordinate) obj;
-			if (x != other.x)
-				return false;
-			if (y != other.y)
-				return false;
-			return true;
+		if (e instanceof Player) {
+			players.remove(e);
+		} else {
+			contents.remove(e);
 		}
 	}
+
+	public boolean legalPosition(int x, int y) {
+		return x > 0 && x < X_SIZE && y > 0 && y < Y_SIZE;
+	}
+
+	public synchronized void add(Entity e) {
+		if (e.getChunk() != null && e.getChunk() != this) {
+			throw new IllegalArgumentException("Entity is already in another chunk");
+		}
+		
+		Entity e2 = entities[e.position.getX()][e.position.getY()];
+		
+		if (e2 != null && e != e2) {
+			throw new IllegalArgumentException("That position is blocked by another entity");
+		}
+		
+		if (e instanceof Player) {
+			players.add((Player) e);
+		} else {
+			contents.add(e);
+		}
+		
+		entities[e.position.getX()][e.position.getY()] = e;
+	}
+
+	public int getXSize() {
+		return X_SIZE;
+	}
+	
+	public int getYSize() {
+		return Y_SIZE;
+	}
+
+	public Enumerator<Player> getPlayers() {
+		return new Enumerator<>(this.players);
+	}
+
+	public Enumerator<Entity> getEntities() {
+		return new Enumerator<>(this.contents);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Chunk [id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 }

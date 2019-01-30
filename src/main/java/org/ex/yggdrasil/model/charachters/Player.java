@@ -9,9 +9,8 @@ import org.ex.yggdrasil.model.Entity;
 import org.ex.yggdrasil.model.Time.ContinuousEvent;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
-import org.ex.yggdrasil.model.world.Coordinate3D;
+import org.ex.yggdrasil.model.world.Chunk;
 import org.ex.yggdrasil.model.world.Direction3D;
-import org.ex.yggdrasil.model.world.Tile;
 import org.ex.yggdrasil.model.world.World;
 
 public class Player extends Entity implements Serializable {
@@ -22,7 +21,6 @@ public class Player extends Entity implements Serializable {
 	public final String userName;
 	private long experience;
 	transient boolean loggedIn;
-	private Tile location;
 	private Direction3D facing;
 	private transient ContinuousEvent action;
 
@@ -31,11 +29,11 @@ public class Player extends Entity implements Serializable {
 
 	public final NetworkUpdate updates;
 
-	public Player(String userName, Tile location) {
+	public Player(String userName, Chunk location) {
+		super(location);
 		Objects.requireNonNull(userName);
 		Objects.requireNonNull(location);
 
-		this.location = location;
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
 		this.facing = Direction3D.N;
@@ -83,17 +81,6 @@ public class Player extends Entity implements Serializable {
 		this.actionBacklog.add(e);
 	}
 
-	public Tile getLocation() {
-		return location;
-	}
-
-	public void move(Tile nextTile) {
-		Objects.requireNonNull(nextTile);
-		this.location.contents.remove(this);
-		nextTile.contents.add(this);
-		this.location = nextTile;
-	}
-
 	public synchronized void login() throws AlreadyLoggedInException {
 		if (loggedIn) {
 			throw new AlreadyLoggedInException("Already logged in!");
@@ -102,13 +89,13 @@ public class Player extends Entity implements Serializable {
 		loggedIn = true;
 		System.out.println("INFO: " + userName + " logged in.");
 
-		this.location.contents.add(this);
+		this.getChunk().add(this);
 		UpdateProcessor.update(this);
 	}
 
 	public void logout() {
 		UpdateProcessor.update(this);
-		this.location.contents.remove(this);
+		this.getChunk().remove(this);
 		loggedIn = false;
 		System.out.println("INFO " + userName + " logged out.");
 	}
@@ -128,15 +115,6 @@ public class Player extends Entity implements Serializable {
 
 	public ContinuousEvent getAction() {
 		return this.action;
-	}
-
-	@Override
-	public Coordinate3D getPosition() {
-		if (!loggedIn) {
-			return null;
-		}
-
-		return location.position;
 	}
 
 	public Direction3D getFacing() {

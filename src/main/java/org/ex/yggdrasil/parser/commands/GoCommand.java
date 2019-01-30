@@ -1,20 +1,14 @@
 package org.ex.yggdrasil.parser.commands;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 import org.ex.yggdrasil.model.Time;
 import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.Direction3D;
-import org.ex.yggdrasil.model.world.Tile;
-import org.ex.yggdrasil.model.world.TileTraverser;
-import org.ex.yggdrasil.model.world.TileTraverser.SearchField;
 import org.ex.yggdrasil.parser.Command;
-import org.ex.yggdrasil.parser.CommandData;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
+import org.ex.yggdrasil.parser.CommandData;
 
 public class GoCommand extends Command {
 	
@@ -126,7 +120,7 @@ public class GoCommand extends Command {
 			} else {
 				finished = true;
 				player.setAction(null);
-				player.messages.add("You finished walking at " + player.getLocation().position);
+				player.messages.add("You finished walking at " + player.position);
 			}
 			
 			return finished;
@@ -134,90 +128,7 @@ public class GoCommand extends Command {
 
 		protected void move(int i) {
 			directions[i].steps--;
-			Tile nextTile = player.getLocation().getTile(directions[i].d);
-			Tile oldTile = player.getLocation();
-			
-			if (nextTile != null) {
-				player.move(nextTile);
-				sendUpdates(directions[i].d, oldTile, nextTile);				
-			}
-		}
-
-		protected void sendUpdates(Direction3D d, Tile oldTile, Tile nextTile) {
-			if (nextTile != null) {
-
-				if (d != Direction3D.D && d != Direction3D.U) {
-					// then send only the new blocks in range
-
-					
-					List<Tile> tiles = new LinkedList<>();
-					
-					if (d.isComposite) {
-						for (Direction3D di : d.directions) {
-							SearchField s = getNewlyExposedSearchField(di, nextTile);
-							TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);
-						}
-					} else {
-						SearchField s = getNewlyExposedSearchField(d, nextTile);
-						TileTraverser.traverseAll((t) -> {tiles.add(t);}, s);						
-					}
-					
-					player.setFacing(d);
-					UpdateProcessor.send(oldTile.position, player, 1);
-					UpdateProcessor.sendTiles(player, tiles);
-				} else {
-					UpdateProcessor.send(oldTile.position, player);
-					UpdateProcessor.send(nextTile.position, player);
-					UpdateProcessor.completeUpdate(player);
-				}
-			}
-		}
-
-		/**
-		 * Get's the search area for a non-composite direction.
-		 * @param d
-		 * @param nextTile
-		 * @return
-		 * @throws IllegalArgumentException if d is NE,NW,SE,SW
-		 */
-		public static SearchField getNewlyExposedSearchField(Direction3D d, Tile nextTile) {
-			if (d.isComposite) {
-				throw new IllegalArgumentException();
-			}
-			
-			int minx, maxx, xdiff = LookCommand.DEFAULT_LOOK * d.direction.getY();
-			
-			if (xdiff == 0) {
-				minx = nextTile.position.getX() + LookCommand.DEFAULT_LOOK * d.direction.getX();
-				maxx = minx;
-			} else {
-				minx = nextTile.position.getX() - xdiff; 
-				maxx = nextTile.position.getX() + xdiff;
-			}
-			
-			int miny, maxy, ydiff = LookCommand.DEFAULT_LOOK * d.direction.getX();
-			if (ydiff == 0) {
-				miny = nextTile.position.getY() + LookCommand.DEFAULT_LOOK * d.direction.getY();
-				maxy = miny;
-			} else {
-				miny = nextTile.position.getY() - ydiff; 
-				maxy = nextTile.position.getY() + ydiff;
-			}
-
-			if (ydiff < 0) {
-				int swap = miny;
-				miny = maxy;
-				maxy = swap;
-			}
-			
-			if (xdiff < 0) {
-				int swap = minx;
-				minx = maxx;
-				maxx = swap;
-			}
-			
-			SearchField s = new SearchField(minx, miny, maxx, maxy, nextTile.position.getZ());
-			return s;
+			player.move(player.position.getX() + directions[i].d.direction.getX(), player.position.getY() + directions[i].d.direction.getY());
 		}
 
 		@Override

@@ -15,6 +15,6 @@ public class WhereAmICommand extends Command {
 	
 	@Override
 	public void run(CommandData d) throws ExitException {
-		d.source.messages.add("You are at " + d.source.getLocation().position);
+		d.source.messages.add("You are at " + d.source.getChunk());
 	}
 }

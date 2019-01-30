@@ -7,20 +7,25 @@ import java.util.TreeSet;
 
 import org.ex.yggdrasil.model.Entity;
 import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.world.Tile;
+import org.ex.yggdrasil.model.world.Biome;
+import org.ex.yggdrasil.model.world.Chunk;
 import org.ex.yggdrasil.server.serialization.Serializer;
 
 public class NetworkUpdate implements Serializable {
 
 	private static final long serialVersionUID = -4875831612778534546L;
-	
+
 	private final Set<Entity> entities;
-	public Player localPlayer;
+	private final Set<BiomeUpdate> biomeUpdates;
+	private Player localPlayer;
 	
 	private boolean shouldSend;
+
+	private Chunk chunk;
 	
 	public NetworkUpdate() {
 		this.entities = new TreeSet<>();
+		this.biomeUpdates = new TreeSet<>();
 		shouldSend = false;
 	}
 	
@@ -29,16 +34,24 @@ public class NetworkUpdate implements Serializable {
 		shouldSend = true;
 	}
 
+	public Player getLocalPlayer() {
+		return this.localPlayer;
+	}
+	
+	public void setChunk(Chunk c) {
+		shouldSend = true;
+		this.chunk = c;
+	}
+	
+	public Chunk getChunk() {
+		return chunk;
+	}
+
 	public void addEntities(List<Entity> ents) {
 		shouldSend = true;
 		entities.addAll(ents);
 	}
 
-	public void addTiles(List<Tile> tiles) {
-		shouldSend = true;
-		entities.addAll(tiles);
-	}
-	
 	public void addEntity(Entity e) {
 		shouldSend = true;
 		entities.add(e);
@@ -48,14 +61,25 @@ public class NetworkUpdate implements Serializable {
 		return entities;
 	}
 	
+	public void addBiomeUpdate(Biome b, int x, int y) {
+		shouldSend = true;
+		biomeUpdates.add(new BiomeUpdate(b, x, y));
+	}
+	
+	public Set<BiomeUpdate> getBiomeUpdates() {
+		return biomeUpdates;
+	}
+	
 	public boolean shouldSend() {
 		return shouldSend;
 	}
 	
 	public void clear() {
 		localPlayer = null;
+		chunk = null;
 		shouldSend = false;
 		entities.clear();
+		biomeUpdates.clear();
 	}
 
 	/**

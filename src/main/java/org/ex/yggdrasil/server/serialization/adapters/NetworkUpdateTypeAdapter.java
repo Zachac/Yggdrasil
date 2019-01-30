@@ -16,12 +16,20 @@ public class NetworkUpdateTypeAdapter implements JsonSerializer<NetworkUpdate> {
 	public JsonElement serialize(org.ex.yggdrasil.model.updates.NetworkUpdate src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
-		if (src.localPlayer != null) {
-			root.add("localPlayer", new JsonPrimitive(src.localPlayer.userName));
+		if (src.getLocalPlayer() != null) {
+			root.add("localPlayer", new JsonPrimitive(src.getLocalPlayer().userName));
 		}
 		
 		if (!src.getEntities().isEmpty()) {
 			root.add("entities", context.serialize(src.getEntities()));
+		}
+
+		if (!src.getBiomeUpdates().isEmpty()) {
+			root.add("biomes", context.serialize(src.getBiomeUpdates()));
+		}
+		
+		if (src.getChunk() != null) {
+			root.add("chunk", context.serialize(src.getChunk()));
 		}
 		
 		return root;

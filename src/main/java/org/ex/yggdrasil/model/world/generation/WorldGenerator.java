@@ -1,9 +1,9 @@
 package org.ex.yggdrasil.model.world.generation;
 
-import org.ex.yggdrasil.model.world.TileTraverser.SearchField;
+import org.ex.yggdrasil.model.world.Chunk;
 
 public interface WorldGenerator {
 	
-	public void generate(SearchField s);
+	void generate(Chunk c);
 	
 }

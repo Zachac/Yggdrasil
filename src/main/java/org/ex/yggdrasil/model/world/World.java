@@ -4,13 +4,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 
-import org.ex.yggdrasil.model.Entity;
+import org.ex.yggdrasil.model.Identifiable;
 import org.ex.yggdrasil.model.Time;
 import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.world.Chunk.ChunkCoordinate;
-import org.ex.yggdrasil.model.world.Tile.Biome;
 
 public class World implements Serializable {
 
@@ -20,57 +17,21 @@ public class World implements Serializable {
 	
 	public final Time time;
 
-	private final TreeMap<Long,Entity> entities;
+	private final HashMap<Long,Identifiable> identifiables;
 	private final Map<String,Player> players;
-	private final Map<ChunkCoordinate,Chunk> chunks; 
-	private Tile root;
+	private Chunk root;
 	
 	private String loadFilename;
 	
 	private World() {
 		maxId = 0;
-		players = new TreeMap<String,Player>();
-		entities = new TreeMap<Long, Entity>();
-		chunks = new HashMap<>();
-		root = addTile(new Coordinate3D(0, 0, 0), Biome.GRASS, nextId());
+		players = new HashMap<>();
+		identifiables = new HashMap<>();
+		root = new Chunk(nextId());
 		time = new Time();
 	}
-
-
-	public Tile addTile(Coordinate3D c, Biome type) {
-		return addTile(c, type, null);
-	}
 	
-	private Tile addTile(Coordinate3D c, Biome type, Long id) {
-		Objects.requireNonNull(c);
-		Objects.requireNonNull(type);
-		
-		ChunkCoordinate cc = new ChunkCoordinate(c.getX(), c.getY());
-		
-		Chunk ch = chunks.get(cc);
-		
-		if (ch == null) {
-			ch = new Chunk(cc);
-			chunks.put(cc, ch);
-		}
-
-		return ch.addTile(c, type, id);
-	}
-	
-	public Tile getTile(Coordinate3D c) {
-		Objects.requireNonNull(c);
-		ChunkCoordinate cc = new ChunkCoordinate(c.getX(), c.getY());
-
-		Chunk ch = chunks.get(cc);
-		
-		if (ch == null) {
-			return null;
-		}
-
-		return ch.getTile(c.getX(), c.getY(), c.getZ());
-	}
-	
-	public static void setRoot(Tile root) {
+	public static void setRoot(Chunk root) {
 		Objects.requireNonNull(root);
 		self.root = root;
 	}
@@ -83,7 +44,7 @@ public class World implements Serializable {
 		self = world;
 	}
 	
-	public Tile getRoot() {
+	public Chunk getRoot() {
 		return root;
 	}
 
@@ -93,16 +54,6 @@ public class World implements Serializable {
 	
 	public static Player addPlayer(Player p) {
 		return self.players.put(p.userName.toLowerCase(), p);
-	}
-	
-	public long addEntity(Entity e) {
-		if (e.getId() != 0) {
-			throw new IllegalArgumentException();
-		}
-		
-		Long id = nextId();
-		this.entities.put(id, e);
-		return id;
 	}
 	
 	private synchronized long nextId() {
@@ -115,5 +66,16 @@ public class World implements Serializable {
 	
 	public void setFilename(String filename) {
 		this.loadFilename = filename;
+	}
+
+
+	public long addIdentifiable(Identifiable i) {
+		if (i.id != 0) {
+			throw new IllegalArgumentException();
+		}
+		
+		Long id = nextId();
+		this.identifiables.put(id, i);
+		return id;
 	}
 }

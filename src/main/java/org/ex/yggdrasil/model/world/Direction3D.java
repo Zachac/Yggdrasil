@@ -7,6 +7,7 @@ public enum Direction3D {
 	W(new Coordinate3D(0,-1,0)),
 	U(new Coordinate3D(0,0,1)),
 	D(new Coordinate3D(0,0,-1)),
+	C(new Coordinate3D(0,0,0)),
 	
 	NE(N, E),
 	SE(S, E),
@@ -61,6 +62,7 @@ public enum Direction3D {
 		case SE: return NW;
 		case D: return U;
 		case U: return D;
+		case C: return C;
 		default: return null;
 		}
 	}
@@ -73,6 +75,7 @@ public enum Direction3D {
 		case 'W': case 'w': return W;
 		case 'U': case 'u': return U;
 		case 'D': case 'd': return D;
+		case 'C': case 'c': return C;
 		default: return null;
 		}
 	}

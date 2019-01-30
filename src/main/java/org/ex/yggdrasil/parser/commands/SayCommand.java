@@ -1,12 +1,13 @@
 package org.ex.yggdrasil.parser.commands;
 
-import org.ex.yggdrasil.model.Entity;
+import java.util.List;
+
 import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.world.Tile;
-import org.ex.yggdrasil.model.world.TileTraverser;
+import org.ex.yggdrasil.model.world.Chunk;
 import org.ex.yggdrasil.parser.Command;
-import org.ex.yggdrasil.parser.CommandData;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
+import org.ex.yggdrasil.parser.CommandData;
+import org.glassfish.grizzly.http.server.util.Enumerator;
 
 public class SayCommand extends Command {
 
@@ -30,41 +31,29 @@ public class SayCommand extends Command {
 	
 	@Override
 	public void run(CommandData d) {
-		StringBuilder result = new StringBuilder();
+		String message = getMessage(d.source, d.args);
+		sendMessage(d.source.getChunk(), message);
+	}
 
-		addPreface(result, d);
-		addMessage(result, d);
-		sendMessage(result.toString(), d.source.getLocation());
-	}
-	
-	public void sendMessage(String message, Tile location, int range) {
-		TileTraverser.traverse(location, range, (Tile t) -> {
-			t.contents.forEach((Entity e) -> {
-				if (e instanceof Player) {
-					((Player) e).messages.add(message);
-				}
-			});
-		});
-	}
-	
-	public void sendMessage(String s, Tile location) {
-		sendMessage(s, location, getRange());
-	}
-	
-	protected void addPreface(StringBuilder result, CommandData d) {
-		result.append(d.source);
-		result.append(':');
-	}
-	
-	protected void addMessage(StringBuilder result, CommandData d) {
-		for (String s : d.args) {
-			result.append(' ');
-			result.append(s);
+	public static void sendMessage(Chunk chunk, String message) {
+		Enumerator<Player> players = chunk.getPlayers();
+		
+		while (players.hasMoreElements()) {
+			players.nextElement().messages.add(message);
 		}
 	}
 
-	protected int getRange() {
-		return SAY_RANGE;
+	public static String getMessage(Player p, List<String> messages) {
+		StringBuilder result = new StringBuilder();
+		
+		result.append(p);
+		result.append(':');
+		
+		for (String s : messages) {
+			result.append(' ');
+			result.append(s);
+		}
+		
+		return result.toString();
 	}
-	
 }
