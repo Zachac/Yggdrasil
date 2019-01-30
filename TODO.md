@@ -2,10 +2,9 @@
 A list of things to do.
 
 ## Front End
-* Create minmap of Chunk the player is in
+* Create map of Chunk the player is in
 
 ## Back End
-* Expand look command to give detailed info about the chunk the player is in
 * Create a node map of chunks 
 
 ## Complete
