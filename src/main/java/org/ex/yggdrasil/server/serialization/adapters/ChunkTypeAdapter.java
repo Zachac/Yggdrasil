@@ -7,6 +7,7 @@ import org.ex.yggdrasil.model.world.chunks.Chunk;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
@@ -23,6 +24,9 @@ public class ChunkTypeAdapter implements JsonSerializer<Chunk>  {
 				tiles[x][y] = src.getTile(x, y);
 			}
 		}
+
+		root.add("id", new JsonPrimitive(src.getId()));
+		root.add("tiles", context.serialize(tiles));
 		
 		return root;
 	}

@@ -26,7 +26,6 @@ websocket.startSocket = function () {
 
 		websocket.ws.onclose = function () {
 			output.println("Connection is closed.");
-			render.closeScene();
 		};
 
 	} else {

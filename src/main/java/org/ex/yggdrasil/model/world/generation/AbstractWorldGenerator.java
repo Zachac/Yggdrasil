@@ -13,8 +13,8 @@ public abstract class AbstractWorldGenerator implements WorldGenerator {
 	
 	@Override
 	public void generate(Chunk c) {
-		for (int i = 0; i <= c.getXSize(); i++) {
-			for (int j = 0; j <= c.getYSize(); j++) {
+		for (int i = 0; i < c.getXSize(); i++) {
+			for (int j = 0; j < c.getYSize(); j++) {
 				c.setTile(getBiome(i, j), i, j);
 			}
 		}
