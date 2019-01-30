@@ -2,9 +2,9 @@ package org.ex.yggdrasil.server;
 
 import java.io.FileNotFoundException;
 
-import org.ex.yggdrasil.model.Persistence;
-import org.ex.yggdrasil.model.world.Biome;
+import org.ex.yggdrasil.model.world.Persistence;
 import org.ex.yggdrasil.model.world.World;
+import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.generation.SingleBiomeWorldGenerator;
 import org.ex.yggdrasil.util.Strings;
 

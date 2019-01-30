@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.ex.yggdrasil.model.Entity;
-import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.world.Biome;
-import org.ex.yggdrasil.model.world.Chunk;
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.world.chunks.Biome;
+import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.server.serialization.Serializer;
 
 public class NetworkUpdate implements Serializable {

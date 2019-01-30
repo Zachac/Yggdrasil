@@ -1,7 +1,7 @@
 package org.ex.yggdrasil.model.updates;
 
-import org.ex.yggdrasil.model.Entity;
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.players.Player;
 import org.glassfish.grizzly.http.server.util.Enumerator;
 
 public class UpdateProcessor {

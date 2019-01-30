@@ -1,7 +1,7 @@
 package org.ex.yggdrasil.model.world.generation;
 
-import org.ex.yggdrasil.model.world.Biome;
-import org.ex.yggdrasil.model.world.Chunk;
+import org.ex.yggdrasil.model.world.chunks.Biome;
+import org.ex.yggdrasil.model.world.chunks.Chunk;
 
 public abstract class AbstractWorldGenerator implements WorldGenerator {
 

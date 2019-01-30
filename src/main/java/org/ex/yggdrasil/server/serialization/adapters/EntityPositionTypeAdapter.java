@@ -2,7 +2,7 @@ package org.ex.yggdrasil.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
-import org.ex.yggdrasil.model.Entity.EntityPosition;
+import org.ex.yggdrasil.model.entities.Entity.EntityPosition;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

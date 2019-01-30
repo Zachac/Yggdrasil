@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.players.Player;
 
 public class Time implements Serializable {
 

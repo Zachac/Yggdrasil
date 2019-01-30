@@ -1,9 +1,10 @@
-package org.ex.yggdrasil.model;
+package org.ex.yggdrasil.model.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.ex.yggdrasil.model.world.Chunk;
+import org.ex.yggdrasil.model.Identifiable;
+import org.ex.yggdrasil.model.world.chunks.Chunk;
 
 /**
  * An entity that exists in the world... Has a position, chunk location, etc...

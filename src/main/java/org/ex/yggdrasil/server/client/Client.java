@@ -3,7 +3,7 @@ package org.ex.yggdrasil.server.client;
 import java.io.PrintStream;
 import java.util.concurrent.CountDownLatch;
 
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.server.client.input.ClientCommandIterator;
 
 public class Client implements Runnable {

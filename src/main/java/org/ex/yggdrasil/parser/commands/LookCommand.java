@@ -1,8 +1,8 @@
 package org.ex.yggdrasil.parser.commands;
 
-import org.ex.yggdrasil.model.Entity;
-import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.world.Chunk;
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.CommandData;

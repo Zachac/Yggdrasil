@@ -1,6 +1,6 @@
 package org.ex.yggdrasil.model.world.generation;
 
-import org.ex.yggdrasil.model.world.Biome;
+import org.ex.yggdrasil.model.world.chunks.Biome;
 
 public class SingleBiomeWorldGenerator extends AbstractWorldGenerator {
 

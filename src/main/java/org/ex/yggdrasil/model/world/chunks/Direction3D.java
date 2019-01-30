@@ -1,4 +1,4 @@
-package org.ex.yggdrasil.model.world;
+package org.ex.yggdrasil.model.world.chunks;
 
 public enum Direction3D {
 	N(new Coordinate3D(1,0,0)),

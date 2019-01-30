@@ -2,7 +2,7 @@ package org.ex.yggdrasil.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
-import org.ex.yggdrasil.model.world.Coordinate3D;
+import org.ex.yggdrasil.model.world.chunks.Coordinate3D;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

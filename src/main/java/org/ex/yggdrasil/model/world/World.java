@@ -7,7 +7,8 @@ import java.util.Objects;
 
 import org.ex.yggdrasil.model.Identifiable;
 import org.ex.yggdrasil.model.Time;
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.world.chunks.Chunk;
 
 public class World implements Serializable {
 

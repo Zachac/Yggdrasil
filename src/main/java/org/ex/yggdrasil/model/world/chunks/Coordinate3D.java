@@ -1,4 +1,4 @@
-package org.ex.yggdrasil.model.world;
+package org.ex.yggdrasil.model.world.chunks;
 
 import java.io.Serializable;
 

@@ -1,10 +1,10 @@
 package org.ex.yggdrasil.server.serialization;
 
-import org.ex.yggdrasil.model.Entity;
 import org.ex.yggdrasil.model.Time.ContinuousEvent;
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
-import org.ex.yggdrasil.model.world.Coordinate3D;
+import org.ex.yggdrasil.model.world.chunks.Coordinate3D;
 import org.ex.yggdrasil.server.serialization.adapters.ContinuousEventTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.Coordinate3DTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.EntityPositionTypeAdapter;

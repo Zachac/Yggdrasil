@@ -1,4 +1,4 @@
-package org.ex.yggdrasil.model.charachters;
+package org.ex.yggdrasil.model.entities.players;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;

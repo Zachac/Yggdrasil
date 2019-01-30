@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.commands.UnkownCommandCommand;
 

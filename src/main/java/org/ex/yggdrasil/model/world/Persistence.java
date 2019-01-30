@@ -1,4 +1,4 @@
-package org.ex.yggdrasil.model;
+package org.ex.yggdrasil.model.world;
 
 import java.awt.FileDialog;
 import java.io.File;
@@ -9,8 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Objects;
 import java.util.Scanner;
-
-import org.ex.yggdrasil.model.world.World;
 
 public class Persistence {
 

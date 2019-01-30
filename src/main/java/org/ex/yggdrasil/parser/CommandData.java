@@ -3,8 +3,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import org.ex.yggdrasil.model.Entity;
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.parser.Command.CommandException;
 
 public class CommandData {

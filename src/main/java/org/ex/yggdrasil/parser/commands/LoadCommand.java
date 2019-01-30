@@ -2,7 +2,7 @@ package org.ex.yggdrasil.parser.commands;
 
 import java.io.File;
 
-import org.ex.yggdrasil.model.Persistence;
+import org.ex.yggdrasil.model.world.Persistence;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.CommandData;

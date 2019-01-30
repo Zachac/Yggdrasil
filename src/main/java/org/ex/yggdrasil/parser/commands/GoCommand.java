@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import org.ex.yggdrasil.model.Time;
-import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.world.Direction3D;
+import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.world.chunks.Direction3D;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.CommandData;

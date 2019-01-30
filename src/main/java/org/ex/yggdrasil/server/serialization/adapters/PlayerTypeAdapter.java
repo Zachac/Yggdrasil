@@ -3,7 +3,7 @@ package org.ex.yggdrasil.server.serialization.adapters;
 import java.lang.reflect.Type;
 
 import org.ex.yggdrasil.model.Time.ContinuousEvent;
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.players.Player;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

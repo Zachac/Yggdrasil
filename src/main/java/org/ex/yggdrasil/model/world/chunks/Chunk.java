@@ -1,4 +1,4 @@
-package org.ex.yggdrasil.model.world;
+package org.ex.yggdrasil.model.world.chunks;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.ex.yggdrasil.model.Entity;
 import org.ex.yggdrasil.model.Identifiable;
-import org.ex.yggdrasil.model.charachters.Player;
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.players.Player;
 import org.glassfish.grizzly.http.server.util.Enumerator;
 
 public class Chunk extends Identifiable implements Serializable {

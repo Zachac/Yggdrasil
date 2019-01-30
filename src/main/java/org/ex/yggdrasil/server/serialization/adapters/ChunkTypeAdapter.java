@@ -2,8 +2,8 @@ package org.ex.yggdrasil.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
-import org.ex.yggdrasil.model.world.Biome;
-import org.ex.yggdrasil.model.world.Chunk;
+import org.ex.yggdrasil.model.world.chunks.Biome;
+import org.ex.yggdrasil.model.world.chunks.Chunk;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

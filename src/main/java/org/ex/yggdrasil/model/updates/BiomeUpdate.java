@@ -3,7 +3,7 @@ package org.ex.yggdrasil.model.updates;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.ex.yggdrasil.model.world.Biome;
+import org.ex.yggdrasil.model.world.chunks.Biome;
 
 public class BiomeUpdate implements Serializable, Comparable<BiomeUpdate> {
 

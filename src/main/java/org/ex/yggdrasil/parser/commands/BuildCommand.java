@@ -1,7 +1,7 @@
 package org.ex.yggdrasil.parser.commands;
 
-import org.ex.yggdrasil.model.world.Biome;
-import org.ex.yggdrasil.model.world.Direction3D;
+import org.ex.yggdrasil.model.world.chunks.Biome;
+import org.ex.yggdrasil.model.world.chunks.Direction3D;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.CommandData;

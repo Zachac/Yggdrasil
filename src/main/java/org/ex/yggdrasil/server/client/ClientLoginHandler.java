@@ -2,8 +2,8 @@ package org.ex.yggdrasil.server.client;
 
 import java.io.PrintStream;
 
-import org.ex.yggdrasil.model.charachters.Player;
-import org.ex.yggdrasil.model.charachters.Player.AlreadyLoggedInException;
+import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.entities.players.Player.AlreadyLoggedInException;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.parser.CommandParser;
 import org.ex.yggdrasil.server.client.input.ClientCommandIterator;
