@@ -1,7 +1,6 @@
 package model;
 
 import org.ex.yggdrasil.model.world.Coordinate3D;
-import org.ex.yggdrasil.model.world.Coordinate4D;
 import org.ex.yggdrasil.model.world.Direction3D;
 import org.ex.yggdrasil.model.world.Tile;
 import org.ex.yggdrasil.model.world.Tile.Biome;
@@ -25,7 +24,7 @@ public class SanityTest {
 					if (i == 0 &&  j == 0) {
 						continue;
 					}
-					w.addTile(new Coordinate4D(i, j, 0, 0), Biome.GRASS);
+					w.addTile(new Coordinate3D(i, j, 0), Biome.GRASS);
 				}
 			}
 		}

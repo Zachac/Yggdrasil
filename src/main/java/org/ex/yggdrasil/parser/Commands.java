@@ -14,7 +14,6 @@ import org.ex.yggdrasil.parser.commands.InterruptCommand;
 import org.ex.yggdrasil.parser.commands.LCommand;
 import org.ex.yggdrasil.parser.commands.LookCommand;
 import org.ex.yggdrasil.parser.commands.NoCommandCommand;
-import org.ex.yggdrasil.parser.commands.RaiseCommand;
 import org.ex.yggdrasil.parser.commands.SaveCommand;
 import org.ex.yggdrasil.parser.commands.SayCommand;
 import org.ex.yggdrasil.parser.commands.SysTPCommand;
@@ -56,7 +55,6 @@ public class Commands {
 		addCommand(new SysTPCommand());
 		addCommand(new FaceCommand());
 		addCommand(new InterruptCommand());
-		addCommand(new RaiseCommand());
 		
 		return commands;
 	}

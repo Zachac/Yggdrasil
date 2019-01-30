@@ -20,7 +20,7 @@ public class Chunk implements Serializable {
 		this.layerOffset = 0;
 	}
 
-	public Tile addTile(Coordinate4D c, Biome type, Long id) {
+	public Tile addTile(Coordinate3D c, Biome type, Long id) {
 		int offsetX = c.getX() - this.position.x;
 		int offsetY = c.getY() - this.position.y;
 		

@@ -32,16 +32,16 @@ public class World implements Serializable {
 		players = new TreeMap<String,Player>();
 		entities = new TreeMap<Long, Entity>();
 		chunks = new HashMap<>();
-		root = addTile(new Coordinate4D(0, 0, 0, 0), Biome.GRASS, nextId());
+		root = addTile(new Coordinate3D(0, 0, 0), Biome.GRASS, nextId());
 		time = new Time();
 	}
 
 
-	public Tile addTile(Coordinate4D c, Biome type) {
+	public Tile addTile(Coordinate3D c, Biome type) {
 		return addTile(c, type, null);
 	}
 	
-	private Tile addTile(Coordinate4D c, Biome type, Long id) {
+	private Tile addTile(Coordinate3D c, Biome type, Long id) {
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(type);
 		
