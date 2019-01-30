@@ -6,7 +6,7 @@ import org.ex.yggdrasil.model.Persistence;
 import org.ex.yggdrasil.model.world.Tile.Biome;
 import org.ex.yggdrasil.model.world.TileTraverser.SearchField;
 import org.ex.yggdrasil.model.world.World;
-import org.ex.yggdrasil.model.world.generation.PerlinWorldGenerator;
+import org.ex.yggdrasil.model.world.generation.SingleBiomeWorldGenerator;
 import org.ex.yggdrasil.util.Strings;
 
 public abstract class Server {
@@ -22,7 +22,7 @@ public abstract class Server {
 		} catch (FileNotFoundException e) {
 			System.err.println("ERROR: Failed to load world: " + Strings.stringify(e));
 			System.out.println("INFO: Generating terrain...");
-			new PerlinWorldGenerator(Biome.GRASS, 8, 25).generate(new SearchField(-50, -50, 50, 50, 0));
+			new SingleBiomeWorldGenerator(Biome.GRASS).generate(new SearchField(-50, -50, 50, 50, 0));
 		}
 		
 		World.get().time.start();
