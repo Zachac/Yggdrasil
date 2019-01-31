@@ -9,6 +9,7 @@ import java.util.Set;
 import org.ex.yggdrasil.model.Identifiable;
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.glassfish.grizzly.http.server.util.Enumerator;
 
 public class Chunk extends Identifiable implements Serializable {
@@ -38,6 +39,7 @@ public class Chunk extends Identifiable implements Serializable {
 
 	public void setTile(Biome type, int x, int y) {
 		tiles[x][y] = type;
+		UpdateProcessor.update(this, type, x, y);
 	}
 	
 	public Biome getTile(int x, int y) {
@@ -84,7 +86,7 @@ public class Chunk extends Identifiable implements Serializable {
 	}
 
 	public boolean legalPosition(int x, int y) {
-		return x > 0 && x < X_SIZE && y > 0 && y < Y_SIZE;
+		return x >= 0 && x < X_SIZE && y >= 0 && y < Y_SIZE;
 	}
 
 	public synchronized void add(Entity e) {

@@ -60,10 +60,14 @@ public class NetworkUpdate implements Serializable {
 	public Set<Entity> getEntities() {
 		return entities;
 	}
-	
+
 	public void addBiomeUpdate(Biome b, int x, int y) {
+		addBiomeUpdate(new BiomeUpdate(b, x, y));
+	}
+	
+	public void addBiomeUpdate(BiomeUpdate b) {
 		shouldSend = true;
-		biomeUpdates.add(new BiomeUpdate(b, x, y));
+		biomeUpdates.add(b);
 	}
 	
 	public Set<BiomeUpdate> getBiomeUpdates() {

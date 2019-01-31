@@ -128,7 +128,13 @@ public class GoCommand extends Command {
 
 		protected void move(int i) {
 			directions[i].steps--;
-			player.move(player.position.getX() + directions[i].d.direction.getX(), player.position.getY() + directions[i].d.direction.getY());
+			
+			int x = player.position.getX() + directions[i].d.direction.getX();
+			int y = player.position.getY() + directions[i].d.direction.getY();
+			
+			if (player.getChunk().legalPosition(x, y)) {
+				player.move(x, y);
+			}
 		}
 
 		@Override
