@@ -15,7 +15,8 @@ public class TickThread extends Thread {
 		this.r = r;
 	}
 	
-	public void start() {
+	@Override
+	public void run() {
 		try {
 			while (true) {
 				r.run();
