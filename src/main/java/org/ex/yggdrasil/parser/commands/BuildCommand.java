@@ -46,7 +46,11 @@ public class BuildCommand extends Command {
 
 		Biome type = Biome.valueOf(d.args.get(0).toUpperCase());
 
-		Direction3D direction = Direction3D.valueOf(d.args.get(1).charAt(0));
+		Direction3D direction = null;
+		
+		if (d.args.size() > 1) {
+			direction = Direction3D.valueOf(d.args.get(1).charAt(0));			
+		}
 
 		if (direction == null) {
 			direction = Direction3D.C;
