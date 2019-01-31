@@ -5,13 +5,13 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
-import org.ex.yggdrasil.model.Time.ContinuousEvent;
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.model.world.chunks.Direction3D;
+import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 
 public class Player extends Entity implements Serializable {
 

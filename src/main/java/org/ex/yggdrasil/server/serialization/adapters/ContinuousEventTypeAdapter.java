@@ -2,7 +2,7 @@ package org.ex.yggdrasil.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
-import org.ex.yggdrasil.model.Time.ContinuousEvent;
+import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

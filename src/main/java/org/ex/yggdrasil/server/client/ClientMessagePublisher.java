@@ -3,7 +3,7 @@ package org.ex.yggdrasil.server.client;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 
-import org.ex.yggdrasil.model.Time;
+import org.ex.yggdrasil.model.world.time.Time;
 import org.ex.yggdrasil.server.exceptions.ClosedConnectionException;
 
 class ClientMessagePublisher implements Runnable {

@@ -3,9 +3,9 @@ package org.ex.yggdrasil.parser.commands;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.ex.yggdrasil.model.Time;
 import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.world.chunks.Direction3D;
+import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.CommandData;
@@ -87,7 +87,7 @@ public class GoCommand extends Command {
 		}
 	}
 	
-	public static class MoveEvent implements Time.ContinuousEvent {
+	public static class MoveEvent implements ContinuousEvent {
 
 		private static final long serialVersionUID = 8233289328075381532L;
 		

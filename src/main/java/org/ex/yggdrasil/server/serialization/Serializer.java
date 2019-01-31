@@ -1,12 +1,12 @@
 package org.ex.yggdrasil.server.serialization;
 
-import org.ex.yggdrasil.model.Time.ContinuousEvent;
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.model.world.chunks.Coordinate3D;
+import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 import org.ex.yggdrasil.server.serialization.adapters.BiomeTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.ChunkTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.ContinuousEventTypeAdapter;

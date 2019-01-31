@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.ex.yggdrasil.model.Identifiable;
-import org.ex.yggdrasil.model.Time;
 import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
+import org.ex.yggdrasil.model.world.time.Time;
 
 public class World implements Serializable {
 
