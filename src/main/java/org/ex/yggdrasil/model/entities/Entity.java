@@ -67,7 +67,9 @@ public abstract class Entity extends Identifiable implements Serializable {
 	 * 
 	 * @author Zachac
 	 */
-	public class EntityPosition {
+	public class EntityPosition implements Serializable {
+
+		private static final long serialVersionUID = 5373178537392016408L;
 
 		public int getX() {
 			return x;
