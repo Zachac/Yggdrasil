@@ -62,13 +62,15 @@ public class Time implements Serializable {
 		 * should return false and should not contain side effects. 
 		 */
 		public void cancel();
-		
+
 		/**
 		 * Set's the player who's action is this continuous event.
 		 * When this event ends, naturally, the player's action is set to null.
 		 * @param p the player to set.
 		 */
 		public void setPlayer(Player p);
+		
+		public Player getPlayer();
 		
 		/**
 		 * Get the user friendly name of this action.
@@ -102,12 +104,27 @@ public class Time implements Serializable {
 			Iterator<ContinuousEvent> iter = l.iterator();
 			
 			while (iter.hasNext()) {
-				boolean hasFinished = iter.next().tick();
-				
+				boolean hasFinished = safelyExecute(iter.next());
 				if (hasFinished) {
 					iter.remove();
 				}
 			}
+		}
+
+		public boolean safelyExecute(ContinuousEvent event) {
+			boolean hasFinished;
+			try {
+				hasFinished = event.tick();					
+			} catch (Exception e) {
+				e.printStackTrace();
+				Player p = event.getPlayer();
+				if (p != null) {
+					p.messages.add("Exception occured while attempting to execute action.");
+					p.setAction(null);
+				}
+				hasFinished = true;
+			}
+			return hasFinished;
 		}
 	}
 }

@@ -145,5 +145,10 @@ public class GoCommand extends Command {
 		public String getPrettyName() {
 			return "Walking";
 		}
+
+		@Override
+		public Player getPlayer() {
+			return this.player;
+		}
 	}
 }
