@@ -1,8 +1,12 @@
-
-main = {
-	onload: []
-}
-
+/**
+ * A script to initialize the Yggdrasil web client.
+ */
 window.onload = function () {
-	main.onload.forEach(f => f());
+	let display = document.getElementById("display");
+	let input = document.getElementById("input");
+
+	output = new OutputHandler(display);
+	netHandler = new NetHandler(output);
+	websocket = new YggdrasilWebSocket(output, netHandler);
+	inputHandler = new InputHandler(input, websocket);
 }

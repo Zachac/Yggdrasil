@@ -1,36 +1,41 @@
-websocket = {
-	messages: [],
-	messagesSwap: [],
-};
+/**
+ * The Yggdrasil Websocket. 
+ * output - The OutputHandler to display to.
+ * netHandler - The NetHandler to transform system updates.
+ */
+var YggdrasilWebSocket = function (output, netHandler) {
+	this._output = output;
+	this._netHandler = netHandler;
 
-websocket.init = function () {
-	websocket.startSocket();
-}
-
-websocket.send = function (value) {
-	if (websocket.ws.readyState != websocket.ws.CLOSED && websocket.ws.readyState != websocket.ws.CLOSING) {
-		websocket.ws.send(value);
-		output.displayElement(value.fontcolor("marroon"));
-	}
-}
-
-websocket.startSocket = function () {
 	if ("WebSocket" in window) {
-		websocket.ws = new WebSocket("ws://" + window.location.host + "/connect");
+		this._ws = new WebSocket("ws://" + window.location.host + "/connect");
 
-		websocket.ws.onopen = function () { };
-
-		websocket.ws.onmessage = function (evt) {
-			output.println(evt.data);
-		};
-
-		websocket.ws.onclose = function () {
-			output.println("Connection is closed.");
-		};
-
+		let me = this;
+		this._ws.onopen = function () { me._onopen() };
+		this._ws.onmessage = function (evt) { me._onmessage(evt) }
+		this._ws.onclose = function () { me._onclose() };
 	} else {
-		output.println("WARNING: WebSocket is not supported by your Browser!");
+		this._output.println("ERROR: WebSocket is not supported by your Browser!");
 	}
 }
 
-main.onload.push(websocket.init);
+YggdrasilWebSocket.prototype = {
+	send: function (value) {
+		if (this._ws.readyState != this._ws.CLOSED && this._ws.readyState != this._ws.CLOSING) {
+			this._ws.send(value);
+			this._output.displayElement(value.fontcolor("marroon"));
+		}
+	},
+
+	_onmessage: function (evt) {
+		this._netHandler.handleUpdate(evt.data);
+	},
+
+	_onopen: function () {
+
+	},
+
+	_onclose: function () {
+		this._output.println("Connection is closed.");
+	}
+}

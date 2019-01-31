@@ -1,46 +1,45 @@
-input = {
-    messages: [],
-    messageCursor: 0
-};
+/**
+ * InputHandler to handle player input through the chatbox.
+ * input - The input text field.
+ * websocket - The YggdrasilWebSocket instance to send input to.
+ */
+var InputHandler = function (input, websocket) {
+    this._messages = [];
+    this._messageCursor = 0;
+    this._websocket = websocket;
+    this._in = input;
 
-input.init = function () {
-    input.loadInput();
-    input.addInputListeners();
+    let me = this;
+    this._in.addEventListener("keyup", function (event) { me._inputEventHandler(event) });
 }
 
-input.loadInput = function () {
-    input.in = document.getElementById("input");
-}
-
-input.addInputListeners = function () {
-    input.in.addEventListener("keyup", function (event) {
+InputHandler.prototype = {
+    _inputEventHandler: function (event) {
         if (event.key === "Enter") {
-            websocket.send(input.in.value);
-            input.messages.push(input.in.value);
-            input.in.value = "";
-            input.messageCursor = input.messages.length;
+            this._websocket.send(this._in.value);
+            this._messages.push(this._in.value);
+            this._in.value = "";
+            this._messageCursor = this._messages.length;
         } else if (event.key === "ArrowUp") {
-            let newCursor = input.messageCursor - 1;
+            let newCursor = this._messageCursor - 1;
 
             if (newCursor >= 0) {
-                input.messageCursor = newCursor;
-                input.in.value = input.messages[input.messageCursor];
+                this._messageCursor = newCursor;
+                this._in.value = this._messages[this._messageCursor];
             }
         } else if (event.key === "ArrowDown") {
-            let newCursor = input.messageCursor + 1;
+            let newCursor = this._messageCursor + 1;
 
-            if (newCursor < input.messages.length) {
-                input.messageCursor = newCursor;
-                input.in.value = input.messages[input.messageCursor];
-            } else if (newCursor == input.messages.length) {
-                input.messageCursor = newCursor;
-                input.in.value = "";
+            if (newCursor < this._messages.length) {
+                this._messageCursor = newCursor;
+                this._in.value = this._messages[this._messageCursor];
+            } else if (newCursor == this._messages.length) {
+                this._messageCursor = newCursor;
+                this._in.value = "";
             }
-        } else if (event.ctrlKey && event.key === "c" && input.in.selectionEnd == input.in.selectionStart) {
-            websocket.send("interrupt");
-            input.in.value = "";
+        } else if (event.ctrlKey && event.key === "c" && this._in.selectionEnd == this._in.selectionStart) {
+            this._websocket.send("interrupt");
+            this._in.value = "";
         }
-    });
+    }
 }
-
-main.onload.push(input.init);
