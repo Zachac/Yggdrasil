@@ -41,11 +41,9 @@ public abstract class Entity extends Identifiable implements Serializable {
 	}
 
 	public synchronized void move(int x, int y) {
-		if (!chunk.legalPosition(x, y)) {
-			throw new IllegalArgumentException("Cannot move to illegal position in chunk!");
-		}
-		
 		this.chunk.moveEntity(this, x, y);
+		this.x = x;
+		this.y = y;
 	}
 	
 	public synchronized void move(Chunk c, int x, int y) {

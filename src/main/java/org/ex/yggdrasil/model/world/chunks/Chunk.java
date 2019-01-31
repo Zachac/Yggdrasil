@@ -3,7 +3,6 @@ package org.ex.yggdrasil.model.world.chunks;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import org.ex.yggdrasil.model.Identifiable;
@@ -47,8 +46,6 @@ public class Chunk extends Identifiable implements Serializable {
 	}
 	
 	public synchronized void moveEntity(Entity e, int x, int y) {
-		Objects.requireNonNull(e);
-		
 		if (e.getChunk() != this) {
 			throw new IllegalArgumentException();
 		} else if (entities[x][y] != null && entities[x][y] != e) {
