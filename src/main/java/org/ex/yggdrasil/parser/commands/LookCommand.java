@@ -1,7 +1,6 @@
 package org.ex.yggdrasil.parser.commands;
 
 import org.ex.yggdrasil.model.entities.Entity;
-import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
@@ -43,12 +42,6 @@ public class LookCommand extends Command {
 		description.append(ENTITY_LIST_PREFACE);
 		
 		boolean hasElements = false;
-
-		Enumerator<Player> p = location.getPlayers();
-		hasElements = p.hasMoreElements();
-		while(p.hasMoreElements()) {
-			append(description, p.nextElement(), verbose);
-		}
 		
 		Enumerator<Entity> e = location.getEntities();
 		hasElements = hasElements || e.hasMoreElements();
