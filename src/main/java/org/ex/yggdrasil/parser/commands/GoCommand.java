@@ -131,9 +131,8 @@ public class GoCommand extends Command {
 			
 			int x = player.position.getX() + directions[i].d.direction.getX();
 			int y = player.position.getY() + directions[i].d.direction.getY();
-			
-			if (player.getChunk().legalPosition(x, y)) {
-				System.out.println(x + ", " + y);
+
+			if (player.canMove(x, y)) {
 				player.move(x, y);
 			}
 		}

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import org.ex.yggdrasil.model.Identifiable;
+import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 
 /**
@@ -41,23 +42,35 @@ public abstract class Entity extends Identifiable implements Serializable {
 	}
 
 	public synchronized void move(int x, int y) {
-		this.chunk.moveEntity(this, x, y);
+		if (!this.canMove(x, y)) {
+			throw new IllegalArgumentException("Cannot move there!");
+		}
+		
 		this.x = x;
 		this.y = y;
+		UpdateProcessor.update(this);
 	}
 	
-	public synchronized void move(Chunk c, int x, int y) {
+	public synchronized void jumpto(Chunk c, int x, int y) {
 		if (c == this.chunk) {
 			throw new IllegalArgumentException("Cannot move to chunk already in!");
-		} else if (!c.legalPosition(x, y)) {
+		} else if (this.canMove(c, x, y)) {
 			throw new IllegalArgumentException("Cannot move to illegal position in chunk!");
 		}
 
-		this.chunk = null;
-		c.add(this, x, y);
 		this.chunk.remove(this);
-		this.x = x;
-		this.y = y;
+		this.chunk = c;
+		c.add(this);
+		this.move(x, y);
+		UpdateProcessor.update(this);
+	}
+	
+	public boolean canMove(int x, int y) {
+		return canMove(this.chunk, x, y);
+	}
+	
+	public boolean canMove(Chunk c, int x, int y) {
+		return c.isLegalPosition(x, y) && !c.isWall(x, y);
 	}
 	
 	/**

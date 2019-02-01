@@ -15,23 +15,37 @@ public class Chunk extends Identifiable implements Serializable {
 
 	private static final long serialVersionUID = -6610624708583536538L;
 
-	private static final int X_SIZE = 16;
-	private static final int Y_SIZE = 16;
+	private static final int DEFAULT_X_SIZE = 16;
+	private static final int DEFAULT_Y_SIZE = 16;
 
 	private final Biome[][] tiles;
-	private final Entity[][] entities;
+	private final boolean[][] walls;
 	
 	private final Set<Player> players;
 	private final Set<Entity> contents;
+
+	private final int xSize;
+	private final int ySize;
 	
 	public Chunk() {
 		this(null);
 	}
 
 	public Chunk(Long id) {
+		this(id, DEFAULT_X_SIZE, DEFAULT_Y_SIZE);
+	}
+	
+	private Chunk(Long id, int x, int y) {
 		super(id);
-		this.tiles = new Biome[X_SIZE][Y_SIZE];
-		this.entities = new Entity[X_SIZE][Y_SIZE];
+		
+		if (x < 0 || y < 0) {
+			throw new IllegalArgumentException("Cannot create chunk with negative size.");
+		}
+		
+		this.xSize = x;
+		this.ySize = y;
+		this.tiles = new Biome[xSize][ySize];
+		this.walls = new boolean[xSize][ySize];
 		this.players = Collections.synchronizedSet(new HashSet<Player>());
 		this.contents = Collections.synchronizedSet(new HashSet<Entity>());
 	}
@@ -41,49 +55,20 @@ public class Chunk extends Identifiable implements Serializable {
 		UpdateProcessor.update(this, type, x, y);
 	}
 	
+	public void setWall(boolean isWall, int x, int y) {
+		this.walls[x][y] = isWall;
+	}
+	
+	public boolean isWall(int x, int y) {
+		return this.walls[x][y];
+	}
+	
 	public Biome getTile(int x, int y) {
 		return tiles[x][y];
 	}
-	
-	public synchronized void moveEntity(Entity e, int x, int y) {
-		if (e.getChunk() != this) {
-			throw new IllegalArgumentException();
-		} else if (entities[x][y] != null && entities[x][y] != e) {
-			throw new IllegalArgumentException("Something is already there");
-		}
-		
-		entities[e.position.getX()][e.position.getY()] = null;
-		entities[x][y] = e;
-	}
-	
-	public synchronized void add(Entity e, int x, int y) {
-		if (e.getChunk() != null) {
-			throw new IllegalArgumentException("Cannot add entity in existing chunk");
-		} else if (entities[e.position.getX()][e.position.getY()] != null) {
-			throw new IllegalArgumentException("Cannot overwrite existing entity");
-		}
-		
-		entities[x][y] = e;
-		
-		if (e instanceof Player) {
-			players.remove(e);
-		} else {
-			contents.remove(e);
-		}
-	}
-	
-	public void remove(Entity e) {
-		entities[e.position.getX()][e.position.getY()] = null;
-		
-		if (e instanceof Player) {
-			players.remove(e);
-		} else {
-			contents.remove(e);
-		}
-	}
 
-	public boolean legalPosition(int x, int y) {
-		return x >= 0 && x < X_SIZE && y >= 0 && y < Y_SIZE;
+	public boolean isLegalPosition(int x, int y) {
+		return x >= 0 && x < xSize && y >= 0 && y < ySize;
 	}
 
 	public synchronized void add(Entity e) {
@@ -91,27 +76,27 @@ public class Chunk extends Identifiable implements Serializable {
 			throw new IllegalArgumentException("Entity is already in another chunk");
 		}
 		
-		Entity e2 = entities[e.position.getX()][e.position.getY()];
-		
-		if (e2 != null && e != e2) {
-			throw new IllegalArgumentException("That position is blocked by another entity");
-		}
-		
 		if (e instanceof Player) {
 			players.add((Player) e);
 		} else {
 			contents.add(e);
 		}
-		
-		entities[e.position.getX()][e.position.getY()] = e;
 	}
 
+	public void remove(Entity e) {
+		contents.remove(e);
+		
+		if (e instanceof Player) {
+			players.remove(e);
+		}
+	}
+	
 	public int getXSize() {
-		return X_SIZE;
+		return xSize;
 	}
 	
 	public int getYSize() {
-		return Y_SIZE;
+		return ySize;
 	}
 
 	public Enumerator<Player> getPlayers() {

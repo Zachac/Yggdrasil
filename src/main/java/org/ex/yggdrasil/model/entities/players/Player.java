@@ -91,12 +91,14 @@ public class Player extends Entity implements Serializable {
 
 		this.getChunk().add(this);
 		UpdateProcessor.update(this);
+		UpdateProcessor.completeUpdate(this);
 	}
 
 	public void logout() {
-		UpdateProcessor.update(this);
-		this.getChunk().remove(this);
 		loggedIn = false;
+		this.getChunk().remove(this);
+		UpdateProcessor.update(this);
+		UpdateProcessor.completeUpdate(this);
 		System.out.println("INFO " + userName + " logged out.");
 	}
 
@@ -124,5 +126,11 @@ public class Player extends Entity implements Serializable {
 	public void setFacing(Direction3D facing) {
 		Objects.requireNonNull(facing);
 		this.facing = facing;
+	}
+	
+	@Override
+	public void jumpto(Chunk c, int x, int y) {
+		super.jumpto(c, x, y);
+		UpdateProcessor.completeUpdate(this);
 	}
 }

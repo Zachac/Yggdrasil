@@ -59,7 +59,7 @@ public class BuildCommand extends Command {
 		int x = d.source.position.getX() + direction.direction.getX();
 		int y = d.source.position.getY() + direction.direction.getY();
 		
-		if (d.source.getChunk().legalPosition(x, y)) {
+		if (d.source.getChunk().isLegalPosition(x, y)) {
 			d.source.getChunk().setTile(type, x, y);
 		} else {
 			d.source.messages.add("Edge of chunk reached at " + x + ", " + y);
