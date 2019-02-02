@@ -38,16 +38,42 @@ UpdateHandler.prototype = {
             e.el.setAttribute("src", Materials[entity.material]);
         }
 
+        if (entity.facing != e.facing) {
+            this._faceEntity(e, entity.facing);
+        }
+
         e.x = entity.position.x;
         e.y = entity.position.y;
 
         this._tiles[e.x][e.y].appendChild(e.el);
     },
 
+    _faceEntity: function (e, facing) {
+        e.facing = facing;
+
+        let degrees;
+
+        switch (facing) {
+            case "N": degrees = "180"; break;
+            case "S": degrees = "0"; break;
+            case "E": degrees = "270"; break;
+            case "W": degrees = "90"; break;
+            case "NE": degrees = "225"; break;
+            case "SE": degrees = "315"; break;
+            case "SW": degrees = "45"; break;
+            case "NW": degrees = "135"; break;
+            default: degress = 0;
+        }
+
+        e.el.style.transform = `rotate(${degrees}deg)`;
+
+    },
+
     _createEntity: function (material) {
         return {
             x: null,
             y: null,
+            facing: null,
             material: material,
             el: Elements.createImage(Materials[material], 1)
         };

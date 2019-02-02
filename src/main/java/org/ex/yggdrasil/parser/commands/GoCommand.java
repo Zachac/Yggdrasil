@@ -116,7 +116,8 @@ public class GoCommand extends Command {
 			while (i < directions.length && directions[i].steps <= 0) i++;
 			
 			if (i < directions.length) {
-				move(i);
+				directions[i].steps--;
+				move(directions[i].d);
 			} else {
 				finished = true;
 				player.setAction(null);
@@ -126,15 +127,16 @@ public class GoCommand extends Command {
 			return finished;
 		}
 
-		protected void move(int i) {
-			directions[i].steps--;
+		protected void move(Direction3D d) {
 			
-			int x = player.position.getX() + directions[i].d.direction.getX();
-			int y = player.position.getY() + directions[i].d.direction.getY();
+			int x = player.position.getX() + d.direction.getX();
+			int y = player.position.getY() + d.direction.getY();
 
 			if (player.canMove(x, y)) {
 				player.move(x, y);
 			}
+			
+			player.setFacing(d);
 		}
 
 		@Override

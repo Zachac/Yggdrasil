@@ -126,6 +126,7 @@ public class Player extends Entity implements Serializable {
 	public void setFacing(Direction3D facing) {
 		Objects.requireNonNull(facing);
 		this.facing = facing;
+		UpdateProcessor.update(this);
 	}
 	
 	@Override

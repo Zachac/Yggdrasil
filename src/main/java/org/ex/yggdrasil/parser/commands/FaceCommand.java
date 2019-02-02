@@ -1,10 +1,9 @@
 package org.ex.yggdrasil.parser.commands;
 
-import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.chunks.Direction3D;
 import org.ex.yggdrasil.parser.Command;
-import org.ex.yggdrasil.parser.CommandData;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode.Flag;
+import org.ex.yggdrasil.parser.CommandData;
 
 public class FaceCommand extends Command {
 
@@ -15,14 +14,29 @@ public class FaceCommand extends Command {
 	private static CommandPattern getMyPattern() {
 		CommandPattern result = new CommandPattern();
 		
-		result.add("[neswNESW]", Flag.IMPORTANT.value);
+		result.add("[nsewNSEW]{1,2}", Flag.IMPORTANT.value);
 		
 		return result;
 	}
 	
 	@Override
 	public void run(CommandData d) throws ExitException {
-		d.source.setFacing(Direction3D.valueOf(d.args.get(0).charAt(0)));
-		UpdateProcessor.update(d.source);
+		String s = d.args.get(0);
+		Direction3D d1 = Direction3D.valueOf(s.charAt(0));
+		Direction3D d2 = null;
+		
+		if (s.length() > 1) {
+			d2 = Direction3D.valueOf(s.charAt(1));
+		}
+
+		Direction3D direction;
+		
+		if (d2 != null) {
+			direction = d1.combine(d2);
+		} else {
+			direction = d1;
+		}
+		
+		d.source.setFacing(direction);
 	}
 }
