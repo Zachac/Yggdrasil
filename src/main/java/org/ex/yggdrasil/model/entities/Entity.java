@@ -20,6 +20,7 @@ public abstract class Entity extends Identifiable implements Serializable {
 
 	private Chunk chunk;
 	private int x, y;
+	private EntityMaterial material;
 	
 	public Entity(Chunk c) {
 		this(null, c);
@@ -30,6 +31,15 @@ public abstract class Entity extends Identifiable implements Serializable {
 		Objects.requireNonNull(c);
 		this.position = new EntityPosition();
 		this.chunk = c;
+		this.material = EntityMaterial.MISSING_TEXTURE;
+	}
+
+	public EntityMaterial getMaterial() {
+		return this.material;
+	}
+
+	public void setModel(EntityMaterial material) {
+		this.material = material;
 	}
 	
 	public final void setChunk(Chunk c) {

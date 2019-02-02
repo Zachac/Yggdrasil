@@ -2,17 +2,17 @@ package org.ex.yggdrasil.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
-import org.ex.yggdrasil.model.world.chunks.Biome;
+import org.ex.yggdrasil.model.Material;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class BiomeTypeAdapter implements JsonSerializer<Biome>  {
+public class MaterialTypeAdapter implements JsonSerializer<Material>  {
 
 	@Override
-	public JsonElement serialize(Biome src, Type typeOfSrc, JsonSerializationContext context) {
+	public JsonElement serialize(Material src, Type typeOfSrc, JsonSerializationContext context) {
 		return new JsonPrimitive(src.toString());
 	}
 

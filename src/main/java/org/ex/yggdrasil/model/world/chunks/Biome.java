@@ -1,3 +1,7 @@
 package org.ex.yggdrasil.model.world.chunks;
 
-public enum Biome { GRASS, SAND, STONE, WATER, NONE }
+import org.ex.yggdrasil.model.Material;
+
+public enum Biome implements Material {
+	GRASS, SAND, STONE, WATER, NONE 
+}

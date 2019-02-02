@@ -28,9 +28,14 @@ UpdateHandler.prototype = {
         let e = this._entities[entity.id];
 
         if (!e) {
-            this._entities[entity.id] = e = this._createEntity();
+            this._entities[entity.id] = e = this._createEntity(entity.material);
         } else {
             this._tiles[e.x][e.y].removeChild(e.el);
+        }
+
+        if (entity.material != e.material) {
+            e.material = entity.material;
+            e.el.setAttribute("src", Materials[entity.material]);
         }
 
         e.x = entity.position.x;
@@ -39,11 +44,12 @@ UpdateHandler.prototype = {
         this._tiles[e.x][e.y].appendChild(e.el);
     },
 
-    _createEntity: function () {
+    _createEntity: function (material) {
         return {
             x: null,
             y: null,
-            el: Elements.createImage(Materials["MISSING-TEXTURE"], 1)
+            material: material,
+            el: Elements.createImage(Materials[material], 1)
         };
     },
 
