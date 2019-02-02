@@ -38,8 +38,9 @@ public abstract class Entity extends Identifiable implements Serializable {
 		return this.material;
 	}
 
-	public void setModel(EntityMaterial material) {
+	public void setMaterial(EntityMaterial material) {
 		this.material = material;
+		UpdateProcessor.update(this);
 	}
 	
 	public final void setChunk(Chunk c) {
