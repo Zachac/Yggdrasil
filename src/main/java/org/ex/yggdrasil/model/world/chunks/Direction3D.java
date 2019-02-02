@@ -1,9 +1,9 @@
 package org.ex.yggdrasil.model.world.chunks;
 
 public enum Direction3D {
-	N(new Coordinate3D(1,0,0)),
+	N(new Coordinate3D(-1,0,0)),
 	E(new Coordinate3D(0,1,0)),
-	S(new Coordinate3D(-1,0,0)),
+	S(new Coordinate3D(1,0,0)),
 	W(new Coordinate3D(0,-1,0)),
 	U(new Coordinate3D(0,0,1)),
 	D(new Coordinate3D(0,0,-1)),
