@@ -46,8 +46,19 @@ html {
 }
 
 #canvas {
-	min-height: 60%;
 	font-size: 0;
+	height: 100%;
+	width: 50%;
+	overflow: hidden;
+	background-color: #000;
+	box-sizing: border-box;
+	border-right: 2px solid #d0cc94;
+}
+
+#visual-display {
+	height: 60%;
+	overflow: hidden;
+	border-bottom: 2px solid #d0cc94;
 }
 
 .console-bordered {
