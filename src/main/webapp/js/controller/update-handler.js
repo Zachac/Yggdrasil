@@ -16,6 +16,17 @@ UpdateHandler.prototype = {
         if (update.entities) {
             this._entitiesUpdate(update.entities);
         }
+
+        if (update.biomes) {
+            this._biomesUpdate(update.biomes);
+        }
+    },
+
+    _biomesUpdate: function (biomes) {
+        for (let i = 0; i < biomes.length; i++) {
+            let b = biomes[i];
+            this._tiles[b.x][b.y].biome.setAttribute("src", Materials[b.biome]);
+        }
     },
 
     _entitiesUpdate: function (entities) {
@@ -87,7 +98,9 @@ UpdateHandler.prototype = {
 
             for (let j = 0; j < chunk.tiles[i].length; j++) {
                 let tile = Elements.createTile();
-                tile.appendChild(Elements.createImage(Materials[chunk.tiles[i][j]], 0));
+                let biome = Elements.createImage(Materials[chunk.tiles[i][j]], 0);
+                tile.appendChild(biome);
+                tile.biome = biome;
                 this._canvas.appendChild(tile);
                 row.push(tile);
             }
