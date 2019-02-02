@@ -9,3 +9,4 @@ addMaterial("none");
 addMaterial("sand");
 addMaterial("stone");
 addMaterial("water");
+addMaterial("missing-texture");

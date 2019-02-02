@@ -1,25 +1,21 @@
 var Elements = {
-    tileSize: "20rem",
-    createImage: function (source, tile = { elements: [] }) {
+    tileSize: "1.5rem",
+    createImage: function (source, zIndex) {
         let result = document.createElement("img");
         result.setAttribute("src", source);
-        result.setAttribute("height", this.tileSize);
-        result.setAttribute("width", this.tileSize);
-        result.setAttribute("position", "absolute");
-        result.setAttribute("z-index", tile.elements.length);
-
-        tile.elements.push(result);
+        result.style.height = this.tileSize;
+        result.style.width = this.tileSize;
+        result.style.position = "absolute";
+        result.style.zIndex = zIndex;
 
         return result;
     },
 
     createTile: function () {
         let result = document.createElement("span");
-        result.setAttribute("display", "inline-block");
-        result.setAttribute("height", this.tileSize);
-        result.setAttribute("width", this.tileSize);
-
-        result.elements = [];
+        result.style.display = "inline-block";
+        result.style.height = this.tileSize;
+        result.style.width = this.tileSize;
 
         return result;
     },

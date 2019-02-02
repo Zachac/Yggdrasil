@@ -53,6 +53,8 @@ html {
 	background-color: #000;
 	box-sizing: border-box;
 	border-right: 2px solid #d0cc94;
+	white-space: nowrap;
+	position: relative;
 }
 
 #visual-display {

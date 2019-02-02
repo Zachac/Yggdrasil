@@ -23,6 +23,8 @@ NetHandler.prototype = {
 	},
 
 	handleData: function (data) {
-		this._updateHandler.handle(JSON.parse(data));
+		data = JSON.parse(data);
+		console.log(data);
+		this._updateHandler.handle(data);
 	}
 }

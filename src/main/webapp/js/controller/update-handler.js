@@ -4,6 +4,7 @@
 var UpdateHandler = function (canvas) {
     this._canvas = canvas;
     this._tiles = [];
+    this._entities = {};
 }
 
 UpdateHandler.prototype = {
@@ -11,6 +12,39 @@ UpdateHandler.prototype = {
         if (update.chunk) {
             this._chunkUpdate(update.chunk);
         }
+
+        if (update.entities) {
+            this._entitiesUpdate(update.entities);
+        }
+    },
+
+    _entitiesUpdate: function (entities) {
+        for (let i = 0; i < entities.length; i++) {
+            this._entityUpdate(entities[i]);
+        }
+    },
+
+    _entityUpdate: function (entity) {
+        let e = this._entities[entity.id];
+
+        if (!e) {
+            this._entities[entity.id] = e = this._createEntity();
+        } else {
+            this._tiles[e.x][e.y].removeChild(e.el);
+        }
+
+        e.x = entity.position.x;
+        e.y = entity.position.y;
+
+        this._tiles[e.x][e.y].appendChild(e.el);
+    },
+
+    _createEntity: function () {
+        return {
+            x: null,
+            y: null,
+            el: Elements.createImage(Materials["MISSING-TEXTURE"], 1)
+        };
     },
 
     _chunkUpdate: function (chunk) {
@@ -21,7 +55,7 @@ UpdateHandler.prototype = {
 
             for (let j = 0; j < chunk.tiles[i].length; j++) {
                 let tile = Elements.createTile();
-                tile.appendChild(Elements.createImage(Materials[chunk.tiles[i][j]]), tile);
+                tile.appendChild(Elements.createImage(Materials[chunk.tiles[i][j]], 0));
                 this._canvas.appendChild(tile);
                 row.push(tile);
             }
