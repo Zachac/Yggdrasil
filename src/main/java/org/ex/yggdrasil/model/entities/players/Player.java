@@ -1,9 +1,9 @@
 package org.ex.yggdrasil.model.entities.players;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
@@ -40,8 +40,8 @@ public class Player extends Entity implements Serializable {
 		specialization = new ClassLevels();
 		experience = 0;
 		action = null;
-		messages = new LinkedList<>();
-		actionBacklog = new LinkedList<>();
+		messages = new ConcurrentLinkedQueue<>();
+		actionBacklog = new ConcurrentLinkedQueue<>();
 		loggedIn = false;
 	}
 
