@@ -2,18 +2,19 @@
  * NetHandler handles network updates
  * output - The OutputHandler to display to.
  */
-var NetHandler = function (output) {
+var NetHandler = function (output, updateHandler) {
 	this._output = output;
+	this._updateHandler = updateHandler;
 }
 
 NetHandler.prototype = {
 	handleUpdate: function (value) {
 		value.trim().split(/\n/).forEach(element => {
-			this.handleString(element);
+			this.handleLine(element);
 		});
 	},
 
-	handleString: function (string) {
+	handleLine: function (string) {
 		if (string.startsWith("{")) {
 			this.handleData(string)
 		} else {
@@ -22,8 +23,6 @@ NetHandler.prototype = {
 	},
 
 	handleData: function (data) {
-		let value = JSON.parse(data);
-		console.log(value);
-		return value;
+		this._updateHandler.handle(JSON.parse(data));
 	}
 }

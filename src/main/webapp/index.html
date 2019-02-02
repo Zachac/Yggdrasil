@@ -6,14 +6,21 @@
 	<title>Yggdrasil</title>
 
 	<!-- Begin External Dependencies -->
-	<!-- No External Dependencies :) -->
+	<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
 
-	<!-- Begin Local JS Dependencies -->
+	<!-- Main -->
 	<script src="/index/main.js"></script>
-	<script src="/controller/net-handler.js"></script>
-	<script src="/controller/input-handler.js"></script>
-	<script src="/controller/output-handler.js"></script>
-	<script src="/controller/websocket.js"></script>
+
+	<!-- Begin Utility Dependencies -->
+	<script src="/js/utility/Elements.js"></script>
+	<script src="/js/utility/Materials.js"></script>
+
+	<!-- Begin Object Dependencies -->
+	<script src="/js/controller/update-handler.js"></script>
+	<script src="/js/controller/net-handler.js"></script>
+	<script src="/js/controller/input-handler.js"></script>
+	<script src="/js/controller/output-handler.js"></script>
+	<script src="/js/controller/websocket.js"></script>
 
 	<link rel="stylesheet" href="/index/main.css">
 </head>
@@ -21,7 +28,8 @@
 <body>
 	<div id="header">Yggdrasil</div>
 	<div id="console-bounds">
-		<div id="display"></div>
+		<div id="canvas" class="console-bordered"></div>
+		<div id="display" class="console-bordered"></div>
 		<input id="input" type="text" autofocus>
 	</div>
 </body>

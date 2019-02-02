@@ -37,23 +37,31 @@ html {
 }
 
 #display {
-	min-height: 100%;
-	max-height: 100%;
+	height: 40%;
 	display: block;
-	background-color: #fff6;
-	border: 5px groove #d0cc94;
-	border-bottom: none;
-	border-top: 5px groove #d0cc94;
-	box-sizing: border-box;
 	overflow-x: hidden;
 	overflow-y: auto;
 	padding: 5px;
 	font-family: "Consolas", monaco, monospace;
 }
 
+#canvas {
+	min-height: 60%;
+	font-size: 0;
+}
+
+.console-bordered {
+	background-color: #fff6;
+	border: 5px groove #d0cc94;
+	border-bottom: none;
+	border-top: 5px groove #d0cc94;
+	box-sizing: border-box;
+}
+
 #console-bounds {
-	height: 50%;
+	height: 75%;
 	width: 75%;
 	max-width: 750px;
 	margin: auto;
+	margin-bottom: 7em;
 }
