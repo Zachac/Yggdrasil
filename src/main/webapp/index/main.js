@@ -2,6 +2,8 @@
  * A script to initialize the Yggdrasil web client.
  */
 window.onload = function () {
+	Constants.init();
+
 	let display = document.getElementById("display");
 	let input = document.getElementById("input");
 	let canvas = document.getElementById("canvas");

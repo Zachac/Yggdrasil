@@ -21,7 +21,7 @@ public class UpdateProcessor {
 	}
 
 	public static void completeUpdate(Player source) {
-		source.updates.setLocalPlayer(source);
+		source.updates.setFollowEntity(source);
 		source.updates.setChunk(source.getChunk());
 
 		Enumerator<Player> players = source.getChunk().getPlayers();

@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.ex.yggdrasil.model.entities.Entity;
-import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.server.serialization.Serializer;
@@ -17,7 +16,7 @@ public class NetworkUpdate implements Serializable {
 
 	private final Set<Entity> entities;
 	private final Set<BiomeUpdate> biomeUpdates;
-	private Player localPlayer;
+	private Entity followEntity;
 	
 	private boolean shouldSend;
 
@@ -29,13 +28,13 @@ public class NetworkUpdate implements Serializable {
 		shouldSend = false;
 	}
 	
-	public void setLocalPlayer(Player p) {
-		this.localPlayer = p;
+	public void setFollowEntity(Entity p) {
+		this.followEntity = p;
 		shouldSend = true;
 	}
 
-	public Player getLocalPlayer() {
-		return this.localPlayer;
+	public Entity getFollowEntity() {
+		return this.followEntity;
 	}
 	
 	public void setChunk(Chunk c) {
@@ -79,7 +78,7 @@ public class NetworkUpdate implements Serializable {
 	}
 	
 	public void clear() {
-		localPlayer = null;
+		followEntity = null;
 		chunk = null;
 		shouldSend = false;
 		entities.clear();

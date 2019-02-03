@@ -14,6 +14,7 @@
 	<!-- Begin Utility Dependencies -->
 	<script src="/js/utility/Elements.js"></script>
 	<script src="/js/utility/Materials.js"></script>
+	<script src="/js/utility/Constants.js"></script>
 
 	<!-- Begin Object Dependencies -->
 	<script src="/js/controller/update-handler.js"></script>
@@ -29,7 +30,9 @@
 	<div id="header">Yggdrasil</div>
 	<div id="console-bounds">
 		<div id="visual-display" class="console-bordered">
-			<div id="canvas"></div>
+			<div id="canvas-back">
+				<div id="canvas"></div>
+			</div>
 		</div>
 		<div id="display" class="console-bordered"></div>
 		<input id="input" type="text" autofocus>

@@ -5,10 +5,15 @@ var UpdateHandler = function (canvas) {
     this._canvas = canvas;
     this._tiles = [];
     this._entities = {};
+    this._followEntity = null;
 }
 
 UpdateHandler.prototype = {
     handle: function (update) {
+        if (update.follow) {
+            this._followEntity = update.follow;
+        }
+
         if (update.chunk) {
             this._chunkUpdate(update.chunk);
         }
@@ -31,7 +36,17 @@ UpdateHandler.prototype = {
 
     _entitiesUpdate: function (entities) {
         for (let i = 0; i < entities.length; i++) {
-            this._entityUpdate(entities[i]);
+            let entity = entities[i];
+            this._entityUpdate(entity);
+
+            if (entity.id == this._followEntity) {
+                let property = `translate(calc(${Constants.CANVAS_SIZE} * 0.5 - ${
+                    entity.position.y * Elements.tileSizeN}${Elements.tileSizeU
+                    } - calc(${Elements.tileSizeN}${Elements.tileSizeU} * 0.5)), calc(${Constants.CANVAS_SIZE} * 0.5 - ${
+                    entity.position.x * Elements.tileSizeN}${Elements.tileSizeU
+                    } - calc(${Elements.tileSizeN}${Elements.tileSizeU} * 0.5)))`
+                this._canvas.style.transform = property;
+            }
         }
     },
 

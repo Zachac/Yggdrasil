@@ -1,5 +1,7 @@
 var Elements = {
-    tileSize: "1.5rem",
+    tileSizeN: 2,
+    tileSizeU: "rem",
+    tileSize: "2rem",
     createImage: function (source, zIndex) {
         let result = document.createElement("img");
         result.setAttribute("src", source);
