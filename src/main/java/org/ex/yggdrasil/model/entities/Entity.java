@@ -23,15 +23,19 @@ public abstract class Entity extends Identifiable implements Serializable {
 	private EntityMaterial material;
 	
 	public Entity(Chunk c) {
-		this(null, c);
+		this(null, c, EntityMaterial.MISSING_TEXTURE);
+	}
+
+	public Entity(Chunk c, EntityMaterial material) {
+		this(null, c, material);
 	}
 	
-	public Entity(Long id, Chunk c) {
+	public Entity(Long id, Chunk c, EntityMaterial material) {
 		super(id);
 		Objects.requireNonNull(c);
 		this.position = new EntityPosition();
 		this.chunk = c;
-		this.material = EntityMaterial.MISSING_TEXTURE;
+		this.material = material;
 	}
 
 	public EntityMaterial getMaterial() {
@@ -114,4 +118,6 @@ public abstract class Entity extends Identifiable implements Serializable {
 	public EntityPosition getPosition() {
 		return position;
 	}
+	
+	public abstract String[] getActions(); 
 }

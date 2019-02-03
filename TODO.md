@@ -2,12 +2,14 @@
 A list of things to do.
 
 ## Front End
-* Create map of Chunk the player is in
-
+* Add context menu with actions
+* 
 ## Back End
-* Create a node map of chunks 
+* Add actions to entities
+* Add interactable entities
 
 ## Complete
+* ~~Create map of Chunk the player is in~~
 * ~~Move tile data into chunks~~
 * ~~Move player position data to point to chunks~~
 * ~~Seperarate z component of chunks~~

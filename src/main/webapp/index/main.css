@@ -89,7 +89,7 @@ html {
 .tile {
 	display: inline-block;
     height: 2rem;
-    width: 2rem;
+	width: 2rem;
 }
 
 .tile-image {

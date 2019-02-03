@@ -14,7 +14,9 @@ import org.ex.yggdrasil.model.world.chunks.Direction3D;
 import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 
 public class Player extends Entity implements Serializable {
-
+	
+	public static final String[] ACTIONS = new String[0];
+	
 	private static final long serialVersionUID = -862762766117190960L;
 
 	public final ClassLevels specialization;
@@ -133,5 +135,10 @@ public class Player extends Entity implements Serializable {
 	public void jumpto(Chunk c, int x, int y) {
 		super.jumpto(c, x, y);
 		UpdateProcessor.completeUpdate(this);
+	}
+
+	@Override
+	public String[] getActions() {
+		return ACTIONS;
 	}
 }
