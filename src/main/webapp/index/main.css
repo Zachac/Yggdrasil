@@ -80,3 +80,18 @@ html {
 	margin: auto;
 	margin-bottom: 7em;
 }
+
+.no-select {
+	user-select: none;
+}
+
+.tile {
+	display: inline-block;
+    height: 2rem;
+    width: 2rem;
+}
+
+.tile-image {
+	position: absolute;
+    z-index: 1;
+}

@@ -27,6 +27,10 @@ UpdateHandler.prototype = {
         }
     },
 
+    getFollowEntity: function () {
+        return this._entities[this._followEntity];
+    },
+
     _biomesUpdate: function (biomes) {
         for (let i = 0; i < biomes.length; i++) {
             let b = biomes[i];
@@ -40,6 +44,7 @@ UpdateHandler.prototype = {
             this._entityUpdate(entity);
 
             if (entity.id == this._followEntity) {
+                // TODO
                 let property = `translate(calc(${Constants.CANVAS_SIZE} * 0.5 - ${
                     entity.position.y * Elements.tileSizeN}${Elements.tileSizeU
                     } - calc(${Elements.tileSizeN}${Elements.tileSizeU} * 0.5)), calc(${Constants.CANVAS_SIZE} * 0.5 - ${
@@ -101,7 +106,7 @@ UpdateHandler.prototype = {
             y: null,
             facing: null,
             material: material,
-            el: Elements.createImage(Materials[material], 1)
+            el: Elements.createImage(Materials[material])
         };
     },
 

@@ -2,23 +2,18 @@ var Elements = {
     tileSizeN: 2,
     tileSizeU: "rem",
     tileSize: "2rem",
-    createImage: function (source, zIndex) {
+    createImage: function (source) {
         let result = document.createElement("img");
         result.setAttribute("src", source);
-        result.style.height = this.tileSize;
-        result.style.width = this.tileSize;
-        result.style.position = "absolute";
-        result.style.zIndex = zIndex;
-
+        result.setAttribute("draggable", "false");
+        result.classList.add('tile');
+        result.classList.add('tile-image');
         return result;
     },
 
     createTile: function () {
         let result = document.createElement("span");
-        result.style.display = "inline-block";
-        result.style.height = this.tileSize;
-        result.style.width = this.tileSize;
-
+        result.classList.add('tile');
         return result;
     },
 
