@@ -49,6 +49,7 @@ html {
 	white-space: nowrap;
 	position: relative;
 	font-size: 0;
+	transition: transform 0.5s;
 }
 
 #canvas-back {
