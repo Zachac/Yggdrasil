@@ -12,8 +12,12 @@ import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.model.world.chunks.Direction3D;
 import org.ex.yggdrasil.model.world.time.ContinuousEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Player extends Entity implements Serializable {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Player.class);
 	
 	public static final String[] ACTIONS = new String[0];
 	
@@ -89,7 +93,8 @@ public class Player extends Entity implements Serializable {
 		}
 
 		loggedIn = true;
-		System.out.println("INFO: " + userName + " logged in.");
+		
+		LOG.info("{} logged in", userName);
 
 		this.getChunk().add(this);
 		UpdateProcessor.update(this);
@@ -101,7 +106,7 @@ public class Player extends Entity implements Serializable {
 		this.getChunk().remove(this);
 		UpdateProcessor.update(this);
 		UpdateProcessor.completeUpdate(this);
-		System.out.println("INFO " + userName + " logged out.");
+		LOG.info("{} logged out", userName);
 	}
 
 	@Override

@@ -6,10 +6,13 @@ import org.ex.yggdrasil.model.world.Persistence;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.generation.SingleBiomeWorldGenerator;
-import org.ex.yggdrasil.util.Strings;
+import org.ex.yggdrasil.parser.Commands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class Server {
 
+	private static final Logger LOG = LoggerFactory.getLogger(Server.class);
 	
 	public abstract void start();
 	public abstract void shutdown();
@@ -17,23 +20,29 @@ public abstract class Server {
 	public void startWorld() {
 		try {
 			Persistence.load();
-			System.out.println("INFO: World loaded.");
+			LOG.info("World loaded");
 		} catch (FileNotFoundException e) {
-			System.err.println("ERROR: Failed to load world: " + Strings.stringify(e));
-			System.out.println("INFO: Generating terrain...");
+			LOG.error("Failed to load world", e);
+			LOG.info("Generating terrain");
 			new SingleBiomeWorldGenerator(Biome.GRASS).generate(World.get().getRoot());
 		}
 		
+		loadCommands();
+		
 		World.get().time.start();
-		System.out.println("INFO: World time started at tick " + World.get().time.getTickTime());
+		LOG.info("World time started at tick {}", World.get().time.getTickTime());
+	}
+	
+	private void loadCommands() {
+		Commands.getCommands();
 	}
 	
 	public void closeWorld() {
 		try {
 			Persistence.save();
-			System.out.println("INFO: World saved successfully.");
+			LOG.info("World saved successfully");
 		} catch (FileNotFoundException e) {
-			System.err.println("ERROR: Could not save world: " + Strings.stringify(e));
+			LOG.error("Could not save world", e);
 		}
 		
 		World.get().time.end();

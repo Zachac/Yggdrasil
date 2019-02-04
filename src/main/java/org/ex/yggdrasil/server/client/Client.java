@@ -5,8 +5,12 @@ import java.util.concurrent.CountDownLatch;
 
 import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.server.client.input.ClientCommandIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Client implements Runnable {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Client.class);
 
 	public final ClientCommandIterator in;
 	public final PrintStream out;
@@ -40,9 +44,9 @@ public class Client implements Runnable {
 			startSubThreads();
 		} catch (Exception e) {
 			if (player == null) {
-				System.out.println("INFO: Player failed to login.");
+				LOG.info("Player failed to login");
 			} else {
-				System.out.println("INFO: Player " + player + " unexpected exception.");
+				LOG.info("Unexpected exception for player {}", player);
 				e.printStackTrace();				
 			}
 		}

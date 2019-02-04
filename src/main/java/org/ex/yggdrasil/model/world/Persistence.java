@@ -1,6 +1,5 @@
 package org.ex.yggdrasil.model.world;
 
-import java.awt.FileDialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,22 +7,13 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Persistence {
 
 	public static final String SYSTEM_SAVE_FILE_PROPERTY_NAME = "yggdrasil.file.save";
 	
 	public static void save() throws FileNotFoundException {
-		File f = null;
-		
-		if (f == null) {
-			f = getSaveFile();
-		}
-		
-		if (f == null) {
-			f = promptForFile();
-		}
+		File f = getSaveFile();
 		
 		if (f == null) {
 			throw new FileNotFoundException();
@@ -57,15 +47,7 @@ public class Persistence {
 	}
 
 	public static void load() throws FileNotFoundException {
-		File f = null;
-		
-		if (f == null) {
-			f = getSaveFile();
-		}
-		
-		if (f == null) {
-			f = promptForFile();
-		}
+		File f = getSaveFile();
 		
 		if (f == null) {
 			throw new FileNotFoundException();
@@ -117,72 +99,4 @@ public class Persistence {
 		
 		return result;
 	}
-	
-	public static File promptForFile() {
-		
-		File f = null;
-		
-		if (f == null) {
-			f = chooseFileGUI();
-		}
-		
-		if (f == null) {
-			f = chooseFileConsole();
-		}
-		
-		return f;
-	}
-
-	public static File chooseFileConsole() {
-		return chooseFileConsole("Please enter a file name: ");
-	}
-	
-	public static File chooseFileConsole(String prompt) {
-		
-		File f = null; 
-				
-		try (Scanner input = new Scanner(System.in)) {
-			System.out.print(prompt);
-			String s = input.nextLine();
-			if (!s.matches("\\s*")) {
-				f = new File(s);				
-			}
-		} catch (Exception e) {
-			System.out.println("Unable to load file through console.");
-			e.printStackTrace();
-		}
-		
-		return f;
-	}
-
-	public static File chooseFileGUI() {
-		return chooseFileGUI("Please choose a file.");
-	}
-	
-	public static File chooseFileGUI(String message) {
-		
-		File result = null;
-		FileDialog dialog = null;
-		
-		try {
-			dialog = new FileDialog((java.awt.Frame) null);
-			dialog.setTitle(message);
-			dialog.setVisible(true);
-			String fileName = dialog.getFile();
-			
-			if (fileName != null) {
-				result = new File(fileName); 				
-			}
-		} catch (Exception e) {
-			System.out.println("Unable to load file through GUI");
-			e.printStackTrace();
-		}
-		
-		if (dialog != null) {
-			dialog.dispose();
-		}
-		
-		return result;
-	}
-	
 }

@@ -5,8 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.ex.yggdrasil.server.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SocketServer extends Server {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SocketServer.class);
 
 	public static final String SERVER_PORT_PROPERTY_NAME = "yggdrasil.server.port";
 	public static final int SERVER_DEFAULT_PORT = 9080;
@@ -22,7 +26,7 @@ public class SocketServer extends Server {
 				s = new ServerSocket(port);
 				while(!s.isClosed()) {
 					Socket sc = s.accept();
-					System.out.println("INFO: Accepted " + s);
+					LOG.info("Accepted {}", s);
 					sc.close(); // to do...
 				}
 			} catch (IOException e) {

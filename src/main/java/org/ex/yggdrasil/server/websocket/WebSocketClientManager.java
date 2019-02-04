@@ -7,13 +7,17 @@ import org.glassfish.grizzly.websockets.ProtocolHandler;
 import org.glassfish.grizzly.websockets.WebSocket;
 import org.glassfish.grizzly.websockets.WebSocketApplication;
 import org.glassfish.grizzly.websockets.WebSocketListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebSocketClientManager extends WebSocketApplication {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(WebSocketClientManager.class);
 	
 	@Override
 	public void onConnect(WebSocket s) {
 		add(s);
-		System.out.println("INFO: Connected " + s);
+		LOG.info("Connected {}", s);
 	}	
 	
 	@Override
@@ -31,7 +35,7 @@ public class WebSocketClientManager extends WebSocketApplication {
 			c.close();			
 		}
 		
-		System.out.println("INFO: Player " + c.getPlayer() + " reason " + frame);
+		LOG.info("Player {} reason {}", c.getPlayer(), frame);
 	}
 	
 	@Override

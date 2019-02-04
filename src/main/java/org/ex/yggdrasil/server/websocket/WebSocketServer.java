@@ -2,6 +2,7 @@ package org.ex.yggdrasil.server.websocket;
 
 import java.io.IOException;
 
+import org.ex.yggdrasil.logging.StandardOutputConsoleHandler;
 import org.ex.yggdrasil.server.Server;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -11,13 +12,13 @@ import org.glassfish.grizzly.websockets.WebSocketAddOn;
 import org.glassfish.grizzly.websockets.WebSocketEngine;
 
 public class WebSocketServer extends Server {
-
+	
 	private HttpServer s;
 
 	@Override
 	public void start() {
 		shutdown();
-		
+		java.util.logging.Logger.getLogger("").addHandler(new StandardOutputConsoleHandler());
 		this.s = HttpServer.createSimpleServer("src/main/webapp/", 9090);
 		this.disableFileCaching();
 		this.registerWebSocketListener();
