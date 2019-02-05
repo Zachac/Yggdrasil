@@ -1,8 +1,8 @@
 package org.ex.yggdrasil.server.websocket;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
-import org.ex.yggdrasil.logging.StandardOutputConsoleHandler;
 import org.ex.yggdrasil.server.Server;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -10,16 +10,23 @@ import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.grizzly.websockets.WebSocketAddOn;
 import org.glassfish.grizzly.websockets.WebSocketEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebSocketServer extends Server {
+	
+	private static final int PORT = 9090;
+
+	private static final Logger LOG = LoggerFactory.getLogger(WebSocketServer.class);
 	
 	private HttpServer s;
 
 	@Override
 	public void start() {
 		shutdown();
-		java.util.logging.Logger.getLogger("").addHandler(new StandardOutputConsoleHandler());
-		this.s = HttpServer.createSimpleServer("src/main/webapp/", 9090);
+		configureGrrizzlyLogging();
+		this.s = HttpServer.createSimpleServer("src/main/webapp/", PORT);
+		LOG.info("Started server on port {}", PORT);
 		this.disableFileCaching();
 		this.registerWebSocketListener();
 		
@@ -30,6 +37,10 @@ public class WebSocketServer extends Server {
 		}
 	}
 
+	private void configureGrrizzlyLogging() {
+		java.util.logging.Logger.getLogger("org.glassfish.grizzly.http.server").setLevel(Level.WARNING);
+	}
+
 	private void registerWebSocketListener() {
 		WebSocketAddOn a = new WebSocketAddOn();		
 		for (NetworkListener l : s.getListeners()) {
@@ -37,6 +48,7 @@ public class WebSocketServer extends Server {
 		}
 		
 		WebSocketEngine.getEngine().register("", "/connect", new WebSocketClientManager());
+		LOG.info("Registerd websocket listener");
 	}
 
 	private void disableFileCaching() {
