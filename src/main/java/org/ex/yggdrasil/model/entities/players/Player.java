@@ -6,6 +6,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.EntityMaterial;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.World;
@@ -40,6 +41,8 @@ public class Player extends Entity implements Serializable {
 		Objects.requireNonNull(userName);
 		Objects.requireNonNull(location);
 
+		this.setMaterial(EntityMaterial.HUMAN);
+		
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
 		this.facing = Direction3D.N;
