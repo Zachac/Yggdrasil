@@ -1,5 +1,6 @@
 package org.ex.yggdrasil.model.world.time;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -20,8 +21,8 @@ public class Time implements Serializable {
 	public static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
 	public static final int TICK_LENGTH = 500;
 
-	private final LinkedList<ContinuousEvent> tickers;
-	private final PriorityQueue<ScheduledEvent> scheduledEvents;
+	private LinkedList<ContinuousEvent> tickers;
+	private PriorityQueue<ScheduledEvent> scheduledEvents;
 	private transient Thread[] threads;
 
 	private long tickTime;
@@ -33,8 +34,9 @@ public class Time implements Serializable {
 		tickTime = 0;
 	}
 
-	private void readObject(java.io.ObjectInputStream in) {
+	private void readObject(java.io.ObjectInputStream in) throws ClassNotFoundException, IOException {
 		threads = new Thread[ThreadType.COUNT];
+		in.defaultReadObject();
 	}
 
 	public void start() {
@@ -70,8 +72,8 @@ public class Time implements Serializable {
 		tickers.add(e);
 	}
 
-	public static void scheduleEvent(Runnable reset, long respawnTime) {
-
+	public void scheduleEvent(Runnable event, long respawnTime) {
+		scheduledEvents.add(new ScheduledEvent(respawnTime, event));
 	}
 
 	private enum ThreadType {
@@ -98,7 +100,7 @@ public class Time implements Serializable {
 		public void run() {
 			try {
 				while (true) {
-					ScheduledEventExecutor.execute(scheduledEvents);
+//					ScheduledEventExecutor.execute(scheduledEvents);
 					ContinuousEventExecutor.execute(tickers);
 					tickTime++;
 					Time.TIME_UNIT.sleep(Time.TICK_LENGTH);

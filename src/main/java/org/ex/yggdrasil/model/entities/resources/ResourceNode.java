@@ -6,8 +6,8 @@ import java.util.Random;
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.items.Item;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
+import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
-import org.ex.yggdrasil.model.world.time.Time;
 
 public abstract class ResourceNode extends Entity {
 
@@ -48,7 +48,7 @@ public abstract class ResourceNode extends Entity {
 		
 		long respawnTime = System.currentTimeMillis() + this.type.respawn_time + (int) (R.nextFloat() * this.type.respawn_variance);
 		
-		Time.scheduleEvent(this.reset, respawnTime);
+		World.get().time.scheduleEvent(this.reset, respawnTime);
 		
 		return this.type.item;
 	}
