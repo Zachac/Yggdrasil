@@ -22,7 +22,7 @@ public abstract class Server {
 			Persistence.load();
 			LOG.info("World loaded");
 		} catch (FileNotFoundException e) {
-			LOG.error("Failed to load world", e);
+			LOG.error("Failed to load world, could not read save file.");
 			LOG.info("Generating terrain");
 			new SingleBiomeWorldGenerator(Biome.GRASS).generate(World.get().getRoot());
 		}
