@@ -1,13 +1,11 @@
 package org.ex.yggdrasil.model.entities.resources;
 
-import static org.ex.yggdrasil.model.entities.EntityMaterial.MISSING_TEXTURE;
-
 import org.ex.yggdrasil.model.entities.EntityMaterial;
 import org.ex.yggdrasil.model.entities.items.Item;
 
 public enum ResourceNodeType {
 
-	TREE(Item.LOG, MISSING_TEXTURE, MISSING_TEXTURE, 15000, 15000);
+	BUSH(Item.STICK, EntityMaterial.BUSH, EntityMaterial.BUSH, 15000, 15000);
 	
 	public final EntityMaterial activeMaterial;
 	public final EntityMaterial depletedMaterial;
