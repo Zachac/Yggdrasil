@@ -3,9 +3,8 @@ A list of things to do.
 
 ## Front End
 * Add context menu with actions
-* 
+
 ## Back End
-* Test resource nodes
 * Add basic foraging classes
 * Add actions to entities
 
