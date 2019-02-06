@@ -2,10 +2,11 @@ package org.ex.yggdrasil.server;
 
 import java.io.FileNotFoundException;
 
+import org.ex.yggdrasil.model.entities.resources.ResourceNodeType;
 import org.ex.yggdrasil.model.world.Persistence;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Biome;
-import org.ex.yggdrasil.model.world.generation.SingleBiomeWorldGenerator;
+import org.ex.yggdrasil.model.world.generation.RandomResourceDistributionWorldGenerator;
 import org.ex.yggdrasil.parser.Commands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public abstract class Server {
 		} catch (FileNotFoundException e) {
 			LOG.error("Failed to load world, could not read save file.");
 			LOG.info("Generating terrain");
-			new SingleBiomeWorldGenerator(Biome.GRASS).generate(World.get().getRoot());
+			new RandomResourceDistributionWorldGenerator(Biome.GRASS, ResourceNodeType.BUSH).generate(World.get().getRoot());
 		}
 		
 		loadCommands();

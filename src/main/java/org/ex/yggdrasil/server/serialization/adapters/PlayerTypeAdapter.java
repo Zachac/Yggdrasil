@@ -15,7 +15,7 @@ public class PlayerTypeAdapter extends AbstractEntityTypeAdapter implements Json
 
 	@Override
 	public JsonElement serialize(Player src, Type typeOfSrc, JsonSerializationContext context) {
-		JsonObject root = super.serialize(src, typeOfSrc, context);
+		JsonObject root = super.serializeEntity(src, typeOfSrc, context);
 
 		root.add("userName", new JsonPrimitive(src.userName));
 		root.add("facing", new JsonPrimitive(src.getFacing().name()));

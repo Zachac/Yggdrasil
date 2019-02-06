@@ -71,7 +71,7 @@ public class Chunk extends Identifiable implements Serializable {
 		return x >= 0 && x < xSize && y >= 0 && y < ySize;
 	}
 
-	public synchronized void add(Entity e) {
+	public synchronized Entity add(Entity e) {
 		if (e.getChunk() != null && e.getChunk() != this) {
 			throw new IllegalArgumentException("Entity is already in another chunk");
 		}
@@ -81,6 +81,8 @@ public class Chunk extends Identifiable implements Serializable {
 		} else {
 			contents.add(e);
 		}
+		
+		return e;
 	}
 
 	public void remove(Entity e) {

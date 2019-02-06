@@ -9,7 +9,7 @@ import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 
-public abstract class ResourceNode extends Entity {
+public class ResourceNode extends Entity {
 
 	private static final Random R = new Random();
 
@@ -18,11 +18,10 @@ public abstract class ResourceNode extends Entity {
 	private final Runnable reset;
 	private boolean depleted;
 
-	public ResourceNode(Chunk c, ResourceNodeType type) {
-		super(c);
-		this.setMaterial(type.activeMaterial);
-		this.depleted = false;
+	public ResourceNode(ResourceNodeType type, Chunk c, int x, int y) {
+		super(c, type.activeMaterial, x, y);
 		this.type = type;
+		this.depleted = false;
 		this.reset = new Reset();
 	}
 
@@ -63,5 +62,10 @@ public abstract class ResourceNode extends Entity {
 			ResourceNode.this.setMaterial(ResourceNode.this.type.activeMaterial);
 			UpdateProcessor.update(ResourceNode.this);
 		}
+	}
+
+	@Override
+	public String[] getActions() {
+		return this.type.actions;
 	}
 }

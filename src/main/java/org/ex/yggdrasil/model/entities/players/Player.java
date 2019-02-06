@@ -11,7 +11,6 @@ import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
-import org.ex.yggdrasil.model.world.chunks.Direction3D;
 import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,6 @@ public class Player extends Entity implements Serializable {
 	public final String userName;
 	private long experience;
 	transient boolean loggedIn;
-	private Direction3D facing;
 	private transient ContinuousEvent action;
 
 	public final Queue<String> messages;
@@ -45,7 +43,6 @@ public class Player extends Entity implements Serializable {
 		
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
-		this.facing = Direction3D.N;
 		specialization = new ClassLevels();
 		experience = 0;
 		action = null;
@@ -127,16 +124,6 @@ public class Player extends Entity implements Serializable {
 
 	public ContinuousEvent getAction() {
 		return this.action;
-	}
-
-	public Direction3D getFacing() {
-		return facing;
-	}
-
-	public void setFacing(Direction3D facing) {
-		Objects.requireNonNull(facing);
-		this.facing = facing;
-		UpdateProcessor.update(this);
 	}
 	
 	@Override

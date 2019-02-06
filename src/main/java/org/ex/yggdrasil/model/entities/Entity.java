@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.ex.yggdrasil.model.Identifiable;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
+import org.ex.yggdrasil.model.world.chunks.Direction3D;
 
 /**
  * An entity that exists in the world... Has a position, chunk location, etc...
@@ -21,21 +22,25 @@ public abstract class Entity extends Identifiable implements Serializable {
 	private Chunk chunk;
 	private int x, y;
 	private EntityMaterial material;
+	private Direction3D facing;
 	
 	public Entity(Chunk c) {
-		this(null, c, EntityMaterial.MISSING_TEXTURE);
+		this(null, c, EntityMaterial.MISSING_TEXTURE, 0, 0);
 	}
 
-	public Entity(Chunk c, EntityMaterial material) {
-		this(null, c, material);
+	public Entity(Chunk c, EntityMaterial material, int x, int y) {
+		this(null, c, material, x, y);
 	}
 	
-	public Entity(Long id, Chunk c, EntityMaterial material) {
+	public Entity(Long id, Chunk c, EntityMaterial material, int x, int y) {
 		super(id);
 		Objects.requireNonNull(c);
 		this.position = new EntityPosition();
 		this.chunk = c;
 		this.material = material;
+		this.x = x;
+		this.y = y;
+		this.facing = Direction3D.N;
 	}
 
 	public EntityMaterial getMaterial() {
@@ -120,4 +125,15 @@ public abstract class Entity extends Identifiable implements Serializable {
 	}
 	
 	public abstract String[] getActions(); 
+
+
+	public Direction3D getFacing() {
+		return facing;
+	}
+
+	public void setFacing(Direction3D facing) {
+		Objects.requireNonNull(facing);
+		this.facing = facing;
+		UpdateProcessor.update(this);
+	}
 }

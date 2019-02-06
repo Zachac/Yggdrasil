@@ -10,12 +10,13 @@ import com.google.gson.JsonSerializationContext;
 
 public abstract class AbstractEntityTypeAdapter {
 
-	public JsonObject serialize(Entity src, Type typeOfSrc, JsonSerializationContext context) {
+	public JsonObject serializeEntity(Entity src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject root = new JsonObject();
 
 		root.add("position", context.serialize(src.getPosition()));
 		root.add("id", new JsonPrimitive(src.getId()));
 		root.add("material", new JsonPrimitive(src.getMaterial().toString()));
+		root.add("facing", new JsonPrimitive(src.getFacing().name()));
 		
 		return root;
 	}
