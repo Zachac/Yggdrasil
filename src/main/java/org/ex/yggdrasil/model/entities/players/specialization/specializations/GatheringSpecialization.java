@@ -1,6 +1,9 @@
 package org.ex.yggdrasil.model.entities.players.specialization.specializations;
 
 import org.ex.yggdrasil.model.entities.players.specialization.AbstractSpecialization;
+import org.ex.yggdrasil.parser.Command;
+import org.ex.yggdrasil.parser.Command.CommandException;
+import org.ex.yggdrasil.parser.CommandData;
 
 public class GatheringSpecialization extends AbstractSpecialization {
 
@@ -17,5 +20,17 @@ public class GatheringSpecialization extends AbstractSpecialization {
 	@Override
 	protected int[] getXpRequirements() {
 		return XP_REQUIREMENTS;
+	}
+	
+	public static class ForageCommand extends Command {
+
+		public ForageCommand() {
+			super("forage");
+		}
+
+		@Override
+		public void run(CommandData d) throws CommandException {
+			// TODO
+		}
 	}
 }

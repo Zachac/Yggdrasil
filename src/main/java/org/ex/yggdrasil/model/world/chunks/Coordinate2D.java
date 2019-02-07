@@ -2,38 +2,28 @@ package org.ex.yggdrasil.model.world.chunks;
 
 import java.io.Serializable;
 
-public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
+public class Coordinate2D implements Serializable, Comparable<Coordinate2D> {
 
 	private static final long serialVersionUID = -7679965990604777695L;
 
-	protected int x, y, z;
+	protected int x, y;
 
-	public Coordinate3D(int x, int y, int z) {
+	public Coordinate2D(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
 	}
 
-	public Coordinate3D(int x, int y) {
-		this(x, y, 0);
-	}
-
-	public Coordinate3D get(Direction3D next) {
-		return new Coordinate3D(
+	public Coordinate2D get(Direction2D next) {
+		return new Coordinate2D(
 				this.x + next.direction.x,
-				this.y + next.direction.y,
-				this.z + next.direction.z);
+				this.y + next.direction.y);
 	}
 	
-	public int getDistance(Coordinate3D other) {
+	public int getDistance(Coordinate2D other) {
 		int max = this.x - other.x;
 		if (max < 0) max = -max;
 		
 		int max2 = this.y - other.y;
-		if (max2 < 0) max2 = -max2;
-		if (max < max2) max = max2;
-		
-		max2 = this.z - other.z;
 		if (max2 < 0) max2 = -max2;
 		if (max < max2) max = max2;
 		
@@ -47,12 +37,7 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 		result.append(x);
 		result.append(", ");
 		result.append(y);
-
-		if (z != 0) {
-			result.append(", ");
-			result.append(z);
-		}
-
+		
 		return result.toString();
 	}
 
@@ -62,7 +47,6 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 		int result = 1;
 		result = prime * result + x;
 		result = prime * result + y;
-		result = prime * result + z;
 		return result;
 	}
 
@@ -74,26 +58,20 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 			return false;
 		if (!this.getClass().isAssignableFrom(obj.getClass()))
 			return false;
-		Coordinate3D other = (Coordinate3D) obj;
+		Coordinate2D other = (Coordinate2D) obj;
 		if (x != other.x)
 			return false;
 		if (y != other.y)
-			return false;
-		if (z != other.z)
 			return false;
 		return true;
 	}
 
 	@Override
-	public int compareTo(Coordinate3D o) {
+	public int compareTo(Coordinate2D o) {
 		int result = this.x - o.x;
 
 		if (result == 0) {
 			result = this.y - o.y;
-			
-			if (result == 0) {
-				result = this.z - o.z;
-			}
 		}
 		
 		return result;
@@ -105,9 +83,5 @@ public class Coordinate3D implements Serializable, Comparable<Coordinate3D> {
 
 	public int getY() {
 		return y;
-	}
-
-	public int getZ() {
-		return z;
 	}
 }

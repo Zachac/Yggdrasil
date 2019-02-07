@@ -1,7 +1,7 @@
 package org.ex.yggdrasil.parser.commands;
 
 import org.ex.yggdrasil.model.world.chunks.Biome;
-import org.ex.yggdrasil.model.world.chunks.Direction3D;
+import org.ex.yggdrasil.model.world.chunks.Direction2D;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.CommandData;
@@ -46,14 +46,14 @@ public class BuildCommand extends Command {
 
 		Biome type = Biome.valueOf(d.args.get(0).toUpperCase());
 
-		Direction3D direction = null;
+		Direction2D direction = null;
 		
 		if (d.args.size() > 1) {
-			direction = Direction3D.valueOf(d.args.get(1).charAt(0));			
+			direction = Direction2D.valueOf(d.args.get(1).charAt(0));			
 		}
 
 		if (direction == null) {
-			direction = Direction3D.C;
+			direction = Direction2D.C;
 		}
 
 		int x = d.source.position.getX() + direction.direction.getX();

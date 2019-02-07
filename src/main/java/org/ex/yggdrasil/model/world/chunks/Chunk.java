@@ -117,5 +117,10 @@ public class Chunk extends Identifiable implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	public void getEntities(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

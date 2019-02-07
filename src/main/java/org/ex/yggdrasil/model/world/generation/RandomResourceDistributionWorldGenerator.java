@@ -7,7 +7,7 @@ import org.ex.yggdrasil.model.entities.resources.ResourceNode;
 import org.ex.yggdrasil.model.entities.resources.ResourceNodeType;
 import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
-import org.ex.yggdrasil.model.world.chunks.Direction3D;
+import org.ex.yggdrasil.model.world.chunks.Direction2D;
 
 public class RandomResourceDistributionWorldGenerator extends SingleBiomeWorldGenerator {
 
@@ -31,7 +31,7 @@ public class RandomResourceDistributionWorldGenerator extends SingleBiomeWorldGe
 		int sizeX = c.getXSize();
 		int sizeY = c.getYSize();
 		
-		Direction3D[] directions = Direction3D.values(); 
+		Direction2D[] directions = Direction2D.values(); 
 		
 		for (int i = 0; i < toPlace; i++) {
 			int x = Math.min((int) (R.nextFloat() * sizeX), sizeX - 1);

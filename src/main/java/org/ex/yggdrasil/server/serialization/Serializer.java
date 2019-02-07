@@ -7,12 +7,12 @@ import org.ex.yggdrasil.model.entities.resources.ResourceNode;
 import org.ex.yggdrasil.model.updates.BiomeUpdate;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
-import org.ex.yggdrasil.model.world.chunks.Coordinate3D;
+import org.ex.yggdrasil.model.world.chunks.Coordinate2D;
 import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 import org.ex.yggdrasil.server.serialization.adapters.BiomeUpdateTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.ChunkTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.ContinuousEventTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.Coordinate3DTypeAdapter;
+import org.ex.yggdrasil.server.serialization.adapters.Coordinate2DTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.EntityPositionTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.EntityTypeAdapter;
 import org.ex.yggdrasil.server.serialization.adapters.MaterialTypeAdapter;
@@ -28,7 +28,7 @@ public class Serializer {
 			.excludeFieldsWithoutExposeAnnotation()
 			.registerTypeAdapter(ContinuousEvent.class, new ContinuousEventTypeAdapter())
 			.registerTypeAdapter(Player.class, new PlayerTypeAdapter())
-			.registerTypeAdapter(Coordinate3D.class, new Coordinate3DTypeAdapter())
+			.registerTypeAdapter(Coordinate2D.class, new Coordinate2DTypeAdapter())
 			.registerTypeAdapter(NetworkUpdate.class, new NetworkUpdateTypeAdapter())
 			.registerTypeAdapter(Entity.EntityPosition.class, new EntityPositionTypeAdapter())
 			.registerTypeAdapter(Chunk.class, new ChunkTypeAdapter())

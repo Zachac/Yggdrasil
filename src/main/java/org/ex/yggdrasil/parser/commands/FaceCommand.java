@@ -1,6 +1,6 @@
 package org.ex.yggdrasil.parser.commands;
 
-import org.ex.yggdrasil.model.world.chunks.Direction3D;
+import org.ex.yggdrasil.model.world.chunks.Direction2D;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode.Flag;
 import org.ex.yggdrasil.parser.CommandData;
@@ -22,14 +22,14 @@ public class FaceCommand extends Command {
 	@Override
 	public void run(CommandData d) throws ExitException {
 		String s = d.args.get(0);
-		Direction3D d1 = Direction3D.valueOf(s.charAt(0));
-		Direction3D d2 = null;
+		Direction2D d1 = Direction2D.valueOf(s.charAt(0));
+		Direction2D d2 = null;
 		
 		if (s.length() > 1) {
-			d2 = Direction3D.valueOf(s.charAt(1));
+			d2 = Direction2D.valueOf(s.charAt(1));
 		}
 
-		Direction3D direction;
+		Direction2D direction;
 		
 		if (d2 != null) {
 			direction = d1.combine(d2);

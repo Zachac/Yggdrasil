@@ -26,6 +26,10 @@ public class Command implements Comparable<Command> {
 		this.isStrict = isStrict;
 	}
 
+	public Command(String name) {
+		this(name, new CommandPattern(), false);
+	}
+
 	public String getName() {
 		return name;
 	}

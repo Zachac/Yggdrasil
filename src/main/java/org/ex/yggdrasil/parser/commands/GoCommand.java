@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import org.ex.yggdrasil.model.entities.players.Player;
-import org.ex.yggdrasil.model.world.chunks.Direction3D;
+import org.ex.yggdrasil.model.world.chunks.Direction2D;
 import org.ex.yggdrasil.model.world.time.ContinuousEvent;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
@@ -34,14 +34,14 @@ public class GoCommand extends Command {
 		int i = 0;
 		
 		for (String s : d.args) {
-			Direction3D d1 = Direction3D.valueOf(s.charAt(s.length() - 1));
-			Direction3D d2 = null;
+			Direction2D d1 = Direction2D.valueOf(s.charAt(s.length() - 1));
+			Direction2D d2 = null;
 			
 			if (s.length() >= 2) {
-				d2 = Direction3D.valueOf(s.charAt(s.length() - 2));
+				d2 = Direction2D.valueOf(s.charAt(s.length() - 2));
 			}
 
-			Direction3D direction;
+			Direction2D direction;
 			int stepsLength;
 			
 			if (d2 != null) {
@@ -68,10 +68,10 @@ public class GoCommand extends Command {
 		
 		private static final long serialVersionUID = 4107742626198770702L;
 		
-		public final Direction3D d;
+		public final Direction2D d;
 		public int steps;
 		
-		public DirectionData(int steps, Direction3D d) {
+		public DirectionData(int steps, Direction2D d) {
 			this.d = d;
 			this.steps = steps;
 		}
@@ -127,7 +127,7 @@ public class GoCommand extends Command {
 			return finished;
 		}
 
-		protected void move(Direction3D d) {
+		protected void move(Direction2D d) {
 			
 			int x = player.position.getX() + d.direction.getX();
 			int y = player.position.getY() + d.direction.getY();
