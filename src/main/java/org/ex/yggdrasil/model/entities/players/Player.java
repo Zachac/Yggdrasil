@@ -17,11 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Player extends Entity implements Serializable {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(Player.class);
-	
+
 	public static final String[] ACTIONS = new String[0];
-	
+
 	private static final long serialVersionUID = -862762766117190960L;
 
 	public final SpecializationLevels specialization;
@@ -41,7 +41,7 @@ public class Player extends Entity implements Serializable {
 		Objects.requireNonNull(location);
 
 		this.setMaterial(EntityMaterial.HUMAN);
-		
+
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
 		specialization = new SpecializationLevels();
@@ -57,13 +57,13 @@ public class Player extends Entity implements Serializable {
 	}
 
 	public void setAction(ContinuousEvent e) {
-		
+
 		if (e == null) {
 			e = actionBacklog.poll();
 		} else {
 			actionBacklog.clear();
 		}
-		
+
 		if (action != null) {
 			action.cancel();
 		}
@@ -75,11 +75,11 @@ public class Player extends Entity implements Serializable {
 		this.action = e;
 		UpdateProcessor.update(this);
 	}
-	
+
 	/**
-	 * Add's an action to be called after the current action. If
-	 * the current action is replaced by a new action, all current
-	 * actions waiting on it will not be added.
+	 * Add's an action to be called after the current action. If the current action
+	 * is replaced by a new action, all current actions waiting on it will not be
+	 * added.
 	 * 
 	 * @param e the action to add.
 	 */
@@ -94,7 +94,7 @@ public class Player extends Entity implements Serializable {
 		}
 
 		loggedIn = true;
-		
+
 		LOG.info("{} logged in", userName);
 
 		this.getChunk().add(this);
@@ -126,7 +126,7 @@ public class Player extends Entity implements Serializable {
 	public ContinuousEvent getAction() {
 		return this.action;
 	}
-	
+
 	@Override
 	public void jumpto(Chunk c, int x, int y) {
 		super.jumpto(c, x, y);
