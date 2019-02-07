@@ -1,6 +1,7 @@
 package org.ex.yggdrasil.model.world.chunks;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +11,9 @@ import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.glassfish.grizzly.http.server.util.Enumerator;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class Chunk extends Identifiable implements Serializable {
 
@@ -22,7 +26,7 @@ public class Chunk extends Identifiable implements Serializable {
 	private final boolean[][] walls;
 	
 	private final Set<Player> players;
-	private final Set<Entity> contents;
+	private final Multimap<Coordinate2D, Entity> contents;
 
 	private final int xSize;
 	private final int ySize;
@@ -47,7 +51,7 @@ public class Chunk extends Identifiable implements Serializable {
 		this.tiles = new Biome[xSize][ySize];
 		this.walls = new boolean[xSize][ySize];
 		this.players = Collections.synchronizedSet(new HashSet<Player>());
-		this.contents = Collections.synchronizedSet(new HashSet<Entity>());
+		this.contents = HashMultimap.create();
 	}
 
 	public void setTile(Biome type, int x, int y) {
@@ -70,6 +74,21 @@ public class Chunk extends Identifiable implements Serializable {
 	public boolean isLegalPosition(int x, int y) {
 		return x >= 0 && x < xSize && y >= 0 && y < ySize;
 	}
+	
+	public synchronized void move(Entity e, int x, int y) {
+		if (!isLegalPosition(x, y)) {
+			throw new IllegalArgumentException("Attempting to move entity to illegal position.");
+		} else if (e.getChunk() != this) {
+			throw new IllegalArgumentException("Cannot move entity in different chunk instance.");
+		}
+		
+		this.contents.remove(e.position, e);
+		
+		e.position.setX(x);
+		e.position.setY(y);
+		
+		this.contents.put(e.position, e);
+	}
 
 	public synchronized Entity add(Entity e) {
 		if (e.getChunk() != null && e.getChunk() != this) {
@@ -79,14 +98,14 @@ public class Chunk extends Identifiable implements Serializable {
 		if (e instanceof Player) {
 			players.add((Player) e);
 		} else {
-			contents.add(e);
+			contents.put(e.position, e);
 		}
 		
 		return e;
 	}
 
-	public void remove(Entity e) {
-		contents.remove(e);
+	public synchronized void remove(Entity e) {
+		contents.remove(e.position, e);
 		
 		if (e instanceof Player) {
 			players.remove(e);
@@ -105,8 +124,8 @@ public class Chunk extends Identifiable implements Serializable {
 		return new Enumerator<>(this.players);
 	}
 
-	public Enumerator<Entity> getEntities() {
-		return new Enumerator<>(this.contents);
+	public Collection<Entity> getEntities() {
+		return this.contents.values();
 	}
 
 	@Override

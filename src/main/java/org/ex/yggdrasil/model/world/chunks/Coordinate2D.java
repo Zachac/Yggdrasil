@@ -84,4 +84,12 @@ public class Coordinate2D implements Serializable, Comparable<Coordinate2D> {
 	public int getY() {
 		return y;
 	}
+
+	protected void setX(int x) {
+		this.x = x;
+	}
+	
+	protected void setY(int y) {
+		this.y = y;
+	}
 }

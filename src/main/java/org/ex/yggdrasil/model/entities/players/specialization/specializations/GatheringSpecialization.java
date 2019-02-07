@@ -2,7 +2,6 @@ package org.ex.yggdrasil.model.entities.players.specialization.specializations;
 
 import org.ex.yggdrasil.model.entities.players.specialization.AbstractSpecialization;
 import org.ex.yggdrasil.parser.Command;
-import org.ex.yggdrasil.parser.Command.CommandException;
 import org.ex.yggdrasil.parser.CommandData;
 
 public class GatheringSpecialization extends AbstractSpecialization {

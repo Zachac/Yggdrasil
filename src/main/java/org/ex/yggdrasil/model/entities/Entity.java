@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.ex.yggdrasil.model.Identifiable;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
+import org.ex.yggdrasil.model.world.chunks.Coordinate2D;
 import org.ex.yggdrasil.model.world.chunks.Direction2D;
 
 /**
@@ -17,10 +18,9 @@ public abstract class Entity extends Identifiable implements Serializable {
 
 	private static final long serialVersionUID = 7073890008845835852L;
 
-	public final EntityPosition position;
+	public final Coordinate2D position;
 
 	private Chunk chunk;
-	private int x, y;
 	private EntityMaterial material;
 	private Direction2D facing;
 	
@@ -35,11 +35,9 @@ public abstract class Entity extends Identifiable implements Serializable {
 	public Entity(Long id, Chunk c, EntityMaterial material, int x, int y) {
 		super(id);
 		Objects.requireNonNull(c);
-		this.position = new EntityPosition();
+		this.position = new Coordinate2D(x, y);
 		this.chunk = c;
 		this.material = material;
-		this.x = x;
-		this.y = y;
 		this.facing = Direction2D.N;
 	}
 
@@ -62,12 +60,7 @@ public abstract class Entity extends Identifiable implements Serializable {
 	}
 
 	public synchronized void move(int x, int y) {
-		if (!this.canMove(x, y)) {
-			throw new IllegalArgumentException("Cannot move there!");
-		}
-		
-		this.x = x;
-		this.y = y;
+		this.chunk.move(this, x, y);
 		UpdateProcessor.update(this);
 	}
 	
@@ -92,40 +85,12 @@ public abstract class Entity extends Identifiable implements Serializable {
 	public boolean canMove(Chunk c, int x, int y) {
 		return c.isLegalPosition(x, y) && !c.isWall(x, y);
 	}
-	
-	/**
-	 * A view into the position inside this entity. Also accessible through Entity.position
-	 * 
-	 * @author Zachac
-	 */
-	public class EntityPosition implements Serializable {
 
-		private static final long serialVersionUID = 5373178537392016408L;
-
-		public int getX() {
-			return x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append(getX());
-			builder.append(", ");
-			builder.append(getY());
-			return builder.toString();
-		}
-	}
-
-	public EntityPosition getPosition() {
+	public Coordinate2D getPosition() {
 		return position;
 	}
 	
 	public abstract String[] getActions(); 
-
 
 	public Direction2D getFacing() {
 		return facing;

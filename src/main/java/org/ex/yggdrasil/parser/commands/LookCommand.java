@@ -1,11 +1,12 @@
 package org.ex.yggdrasil.parser.commands;
 
+import java.util.Collection;
+
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.Command.CommandPattern.PatternNode;
 import org.ex.yggdrasil.parser.CommandData;
-import org.glassfish.grizzly.http.server.util.Enumerator;
 
 public class LookCommand extends Command {
 
@@ -43,10 +44,11 @@ public class LookCommand extends Command {
 		
 		boolean hasElements = false;
 		
-		Enumerator<Entity> e = location.getEntities();
-		hasElements = hasElements || e.hasMoreElements();
-		while(e.hasMoreElements()) {
-			append(description, e.nextElement(), verbose);
+		Collection<Entity> ents = location.getEntities();
+		hasElements = hasElements || !ents.isEmpty();
+		
+		for (Entity e : ents) {
+			append(description, e, verbose);			
 		}
 		
 		String result;

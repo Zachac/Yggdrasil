@@ -1,5 +1,7 @@
 package org.ex.yggdrasil.model.updates;
 
+import java.util.Collection;
+
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.players.Player;
 import org.ex.yggdrasil.model.world.chunks.Biome;
@@ -28,10 +30,11 @@ public class UpdateProcessor {
 		while (players.hasMoreElements()) {
 			source.updates.addEntity(players.nextElement());
 		}
+
+		Collection<Entity> entities = source.getChunk().getEntities();
 		
-		Enumerator<Entity> entities = source.getChunk().getEntities();
-		while (entities.hasMoreElements()) {
-			source.updates.addEntity(entities.nextElement());
+		for (Entity e : entities) {			
+			source.updates.addEntity(e);
 		}
 	}
 
