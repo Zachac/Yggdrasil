@@ -2,6 +2,7 @@ package org.ex.yggdrasil.server;
 
 import java.io.FileNotFoundException;
 
+import org.ex.yggdrasil.model.entities.players.specialization.Specializations;
 import org.ex.yggdrasil.model.entities.resources.ResourceNodeType;
 import org.ex.yggdrasil.model.world.Persistence;
 import org.ex.yggdrasil.model.world.World;
@@ -28,14 +29,21 @@ public abstract class Server {
 			new RandomResourceDistributionWorldGenerator(Biome.GRASS, ResourceNodeType.BUSH).generate(World.get().getRoot());
 		}
 		
-		loadCommands();
+		load(Specializations.class);
+		load(Commands.class);
 		
 		World.get().time.start();
 		LOG.info("World time started at tick {}", World.get().time.getTickTime());
 	}
 	
-	private void loadCommands() {
-		Commands.getCommands();
+	private void load(Class<?> c) {
+		String name = c.getCanonicalName();
+		try {
+			LOG.info("Loading {}", name);
+			Class.forName(name);
+		} catch (ClassNotFoundException e) {
+			LOG.error("Exception while loading class " + name, e);
+		}
 	}
 	
 	public void closeWorld() {

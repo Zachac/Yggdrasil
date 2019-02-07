@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.EntityMaterial;
+import org.ex.yggdrasil.model.entities.players.specialization.SpecializationLevels;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.World;
@@ -23,7 +24,7 @@ public class Player extends Entity implements Serializable {
 	
 	private static final long serialVersionUID = -862762766117190960L;
 
-	public final ClassLevels specialization;
+	public final SpecializationLevels specialization;
 	public final String userName;
 	private long experience;
 	transient boolean loggedIn;
@@ -43,7 +44,7 @@ public class Player extends Entity implements Serializable {
 		
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
-		specialization = new ClassLevels();
+		specialization = new SpecializationLevels();
 		experience = 0;
 		action = null;
 		messages = new ConcurrentLinkedQueue<>();
