@@ -1,7 +1,10 @@
 package org.ex.yggdrasil.model.entities.players.specialization;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class SpecializationLevels implements Serializable {
 
@@ -10,12 +13,14 @@ public class SpecializationLevels implements Serializable {
 	public static final int MAX_LEVELS = 100;
 
 	Map<String,AbstractSpecialization> levels;
+	Set<Entry<String, AbstractSpecialization>> levelsView;
 
 	private int totalLevels = 0;
 	
 	public SpecializationLevels() {
 		this.totalLevels=0;
 		this.levels = new HashMap<>();
+		this.levelsView = Collections.unmodifiableSet(this.levels.entrySet());
 	}
 	
 	public int getTotalLevels() {
@@ -34,11 +39,12 @@ public class SpecializationLevels implements Serializable {
 			return false;
 		}
 		
+		levels.put(result.getName(), result);
 		totalLevels += result.getCurrentLevel();
 		return true;
 	}
 	
-	public Specialization getClass(String name) {
+	public Specialization getSpecialization(String name) {
 		return levels.get(name);
 	}
 	
@@ -62,5 +68,9 @@ public class SpecializationLevels implements Serializable {
 		}
 
 		return result;
+	}
+
+	public Iterable<Entry<String, AbstractSpecialization>> getClasses() {
+		return levelsView;
 	}
 }

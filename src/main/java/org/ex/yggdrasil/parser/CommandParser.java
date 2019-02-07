@@ -40,12 +40,38 @@ public class CommandParser {
 		boolean consumeNode = true;
 		int i;
 		
-		for (i = 1; i < args.length && !(consumeNode && !pattern.hasNext()); i++) {
+		// for each argument we are given
+		// while we aren't going to attempt to consume a non-existent node...
+		// while there is another pattern to parse or we don't need to consume it
+		for (i = 1; i < args.length && (pattern.hasNext() || !consumeNode); i++) {
 			if (consumeNode) {
 				p = pattern.next();
 			}
 			
-			consumeNode = parseArg(data, args[i], p);
+			consumeNode = true;
+			// if it matches
+			if (args[i].matches(p.value)) {
+				// record the  value if it's important
+				if (p.containsFlag(PatternNode.Flag.IMPORTANT)) {
+					data.args.add(args[i]);
+				}
+				
+				// if we aren't going to repeat this node consume it
+				if (p.containsFlag(PatternNode.Flag.REPEATABLE)) {
+					consumeNode = false;
+				}
+			} else {
+				// otherwise the pattern didn't match
+				if (p.containsFlag(PatternNode.Flag.OPTIONAL)) {
+					// repeat the argument if it was optional
+					// the node will be consumed
+					i--;
+				} else {
+					// if the pattern didn't match, and it's not optional
+					// throw an exception
+					throw new ArgumentNotFoundException("Unkown argument: " + args[i]);
+				}				
+			}
 		}
 		
 		// if we ran out of patterns/args to parse in the loop
@@ -75,26 +101,6 @@ public class CommandParser {
 		}
 		
 		return false;
-	}
-
-	public static boolean parseArg(CommandData data, String arg, PatternNode p) throws ArgumentNotFoundException {
-		boolean consumeNode = true;
-		
-		if (arg.matches(p.value)) {
-			if (p.containsFlag(PatternNode.Flag.IMPORTANT)) {
-				data.args.add(arg);
-			}
-			
-			if (p.containsFlag(PatternNode.Flag.REPEATABLE)) {
-				consumeNode = false;
-			}
-		} else {
-			if (!p.containsFlag(PatternNode.Flag.OPTIONAL)) {
-				throw new ArgumentNotFoundException("Unkown argument: " + arg);
-			}
-		}
-		
-		return consumeNode;
 	}
 
 	public static Command getCommand(String[] args) {
