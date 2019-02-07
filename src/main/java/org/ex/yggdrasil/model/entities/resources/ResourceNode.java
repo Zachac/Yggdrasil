@@ -68,4 +68,9 @@ public class ResourceNode extends Entity {
 	public String[] getActions() {
 		return this.type.actions;
 	}
+
+	@Override
+	public String toString() {
+		return this.type.name();
+	}
 }
