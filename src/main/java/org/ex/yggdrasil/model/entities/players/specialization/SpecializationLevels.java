@@ -1,4 +1,5 @@
 package org.ex.yggdrasil.model.entities.players.specialization;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,14 +13,19 @@ public class SpecializationLevels implements Serializable {
 	
 	public static final int MAX_LEVELS = 100;
 
-	Map<String,AbstractSpecialization> levels;
-	Set<Entry<String, AbstractSpecialization>> levelsView;
+	private Map<String,AbstractSpecialization> levels;
+	private transient Set<Entry<String, AbstractSpecialization>> levelsView;
 
 	private int totalLevels = 0;
 	
 	public SpecializationLevels() {
 		this.totalLevels=0;
 		this.levels = new HashMap<>();
+		this.levelsView = Collections.unmodifiableSet(this.levels.entrySet());
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
 		this.levelsView = Collections.unmodifiableSet(this.levels.entrySet());
 	}
 	
