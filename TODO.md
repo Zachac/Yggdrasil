@@ -5,6 +5,11 @@ A list of things to do.
 * Add context menu with actions
 
 ## Back End
+* Move forageing to be a continuous action
+* Abstract foraging
+* Abstract gathering class
+* Add multi type resource node types
+* Add configuration for chance per resource type
 * Add actions to entities
 
 ## Complete
