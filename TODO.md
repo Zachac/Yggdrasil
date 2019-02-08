@@ -5,10 +5,10 @@ A list of things to do.
 * Add context menu with actions
 
 ## Back End
-* Add basic foraging classes
 * Add actions to entities
 
 ## Complete
+* ~~Add basic foraging class~~
 * ~~Add resource nodes~~
 * ~~Create map of Chunk the player is in~~
 * ~~Move tile data into chunks~~

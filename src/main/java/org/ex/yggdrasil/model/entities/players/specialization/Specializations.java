@@ -3,6 +3,7 @@ package org.ex.yggdrasil.model.entities.players.specialization;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ex.yggdrasil.model.entities.players.specialization.specializations.AbstractSpecialization;
 import org.ex.yggdrasil.util.YggdrasilReflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

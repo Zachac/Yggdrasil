@@ -1,6 +1,13 @@
 package org.ex.yggdrasil.model.entities.players.specialization.specializations;
 
-import org.ex.yggdrasil.model.entities.players.specialization.AbstractSpecialization;
+import java.util.Collection;
+
+import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.items.Item;
+import org.ex.yggdrasil.model.entities.players.specialization.Specialization;
+import org.ex.yggdrasil.model.entities.resources.ResourceNode;
+import org.ex.yggdrasil.model.entities.resources.ResourceNodeType;
+import org.ex.yggdrasil.model.world.chunks.Coordinate2D;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.CommandData;
 
@@ -23,13 +30,49 @@ public class GatheringSpecialization extends AbstractSpecialization {
 	
 	public static class ForageCommand extends Command {
 
+		private static final String YOU_COULDNT_FIND_ANYTHING = "You couldn't find anything.";
+		private static final String THERE_IS_NOTHING_LEFT = "There is nothing left.";
+		private static final String COULD_NOT_FIND_ANYTHING_TO_GATHER_FROM = "Could not find anything to gather from.";
+		private static final String REQUIRED_LEVEL = "You need to specialize in gathering to learn how to do that\n\tlevel required, " + NAME + " 1";
+
 		public ForageCommand() {
 			super("forage");
 		}
 
 		@Override
 		public void run(CommandData d) throws CommandException {
-			// TODO
+			Specialization s = d.source.specialization.getSpecialization(NAME);
+			
+			if (s == null) {
+				d.source.messages.add(REQUIRED_LEVEL);
+				return;
+			}
+			
+			Coordinate2D position = d.source.getPosition().get(d.source.getFacing());
+			Collection<Entity> lookingAt = d.source.getChunk().getEntities(position);
+			
+			ResourceNode result = null;
+			
+			for (Entity e : lookingAt) {
+				if (e instanceof ResourceNode && ((ResourceNode) e).isType(ResourceNodeType.BUSH)) {
+					result = (ResourceNode) e;
+					break;
+				}
+			}
+			
+			if (result == null) {
+				d.source.messages.add(COULD_NOT_FIND_ANYTHING_TO_GATHER_FROM);
+			} else if (result.isDepleted()) {
+				d.source.messages.add(THERE_IS_NOTHING_LEFT);
+			} else {
+				Item item = result.consume(s.getCurrentLevel() / 5.0f);
+				if (item == null) {
+					d.source.messages.add(YOU_COULDNT_FIND_ANYTHING);
+				} else {
+					d.source.messages.add("You find a " + item);
+					((AbstractSpecialization) s).addXp(1);
+				}
+			}
 		}
 	}
 }

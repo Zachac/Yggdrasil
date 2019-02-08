@@ -1,6 +1,8 @@
-package org.ex.yggdrasil.model.entities.players.specialization;
+package org.ex.yggdrasil.model.entities.players.specialization.specializations;
 
 import java.io.Serializable;
+
+import org.ex.yggdrasil.model.entities.players.specialization.Specialization;
 
 public abstract class AbstractSpecialization implements Specialization, Serializable, Comparable<Specialization> {
 

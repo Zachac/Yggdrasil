@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.EntityMaterial;
-import org.ex.yggdrasil.model.entities.players.specialization.SpecializationLevels;
+import org.ex.yggdrasil.model.entities.players.specialization.specializations.SpecializationLevels;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
 import org.ex.yggdrasil.model.world.World;

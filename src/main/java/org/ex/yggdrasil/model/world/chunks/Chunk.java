@@ -137,9 +137,9 @@ public class Chunk extends Identifiable implements Serializable {
 		return builder.toString();
 	}
 
-	public void getEntities(int i, int j) {
-		// TODO Auto-generated method stub
-		
+
+	public Collection<Entity> getEntities(Coordinate2D position) {
+		return Collections.unmodifiableCollection(this.contents.get(position));
 	}
 	
 }

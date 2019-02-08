@@ -5,7 +5,7 @@ import org.ex.yggdrasil.model.entities.items.Item;
 
 public enum ResourceNodeType {
 
-	BUSH(Item.STICK, EntityMaterial.BUSH, EntityMaterial.BUSH, 15000, 15000, new String[0]);
+	BUSH(Item.STICK, EntityMaterial.BUSH, EntityMaterial.BUSH_DEPLETED, 15000, 15000, new String[0]);
 	
 	public final EntityMaterial activeMaterial;
 	public final EntityMaterial depletedMaterial;

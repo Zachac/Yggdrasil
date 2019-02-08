@@ -2,7 +2,7 @@ package org.ex.yggdrasil.parser.commands;
 
 import java.util.Map.Entry;
 
-import org.ex.yggdrasil.model.entities.players.specialization.AbstractSpecialization;
+import org.ex.yggdrasil.model.entities.players.specialization.specializations.AbstractSpecialization;
 import org.ex.yggdrasil.parser.Command;
 import org.ex.yggdrasil.parser.CommandData;
 

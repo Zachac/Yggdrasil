@@ -1,10 +1,14 @@
-package org.ex.yggdrasil.model.entities.players.specialization;
+package org.ex.yggdrasil.model.entities.players.specialization.specializations;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.ex.yggdrasil.model.entities.players.specialization.Specialization;
+import org.ex.yggdrasil.model.entities.players.specialization.Specializations;
+
 import java.util.Set;
 
 public class SpecializationLevels implements Serializable {

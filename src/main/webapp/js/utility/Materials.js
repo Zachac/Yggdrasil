@@ -12,3 +12,4 @@ addMaterial("water");
 addMaterial("missing_texture");
 addMaterial("human");
 addMaterial("bush");
+addMaterial("bush_depleted");
