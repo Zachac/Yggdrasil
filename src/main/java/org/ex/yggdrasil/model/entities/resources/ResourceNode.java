@@ -33,12 +33,7 @@ public class ResourceNode extends Entity {
 	 * @return the item if it was consumed, or null if it wasn't
 	 */
 	public Item consume(float chance) {
-		if (chance < R.nextFloat()) {
-			this.consume();
-			return null;
-		} else {
-			return this.consume();
-		}
+		return chance < R.nextFloat() ? null : this.consume();
 	}
 
 	public synchronized Item consume() {
@@ -47,15 +42,16 @@ public class ResourceNode extends Entity {
 		}
 		
 		deplete();
+		
 		return this.type.item;
 	}
 	
 	private void deplete() {
 		this.depleted = true;
 		this.setMaterial(type.depletedMaterial);
+		UpdateProcessor.update(this);
 		long respawnTime = System.currentTimeMillis() + this.type.respawn_time + (int) (R.nextFloat() * this.type.respawn_variance);
 		World.get().time.scheduleEvent(this.reset, respawnTime);
-		UpdateProcessor.update(this);
 	}
 	
 	private class Reset implements Runnable, Serializable {
@@ -80,8 +76,8 @@ public class ResourceNode extends Entity {
 		return this.type.name();
 	}
 
-	public boolean isType(ResourceNodeType type) {
-		return this.type == type;
+	public ResourceNodeType getType() {
+		return this.type;
 	}
 
 	public boolean isDepleted() {

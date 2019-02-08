@@ -101,7 +101,7 @@ public class Time implements Serializable {
 			try {
 				while (true) {
 					ScheduledEventExecutor.execute(scheduledEvents);
-					ContinuousEventExecutor.execute(tickers);
+					ContinuousEventExecutor.execute(tickTime, tickers);
 					tickTime++;
 					Time.TIME_UNIT.sleep(Time.TICK_LENGTH);
 				}

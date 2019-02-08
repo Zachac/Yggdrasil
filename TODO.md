@@ -5,7 +5,6 @@ A list of things to do.
 * Add context menu with actions
 
 ## Back End
-* Move forageing to be a continuous action
 * Abstract foraging
 * Abstract gathering class
 * Add multi type resource node types
@@ -13,6 +12,7 @@ A list of things to do.
 * Add actions to entities
 
 ## Complete
+* ~~Move forageing to be a continuous action~~
 * ~~Add basic foraging class~~
 * ~~Add resource nodes~~
 * ~~Create map of Chunk the player is in~~

@@ -10,20 +10,13 @@ public interface ContinuousEvent extends Serializable {
 	 * Must be added to Time.addContinuuousEvent. 
 	 * @return if this continuous event has finished.
 	 */
-	public boolean tick();
+	public boolean tick(long tick);
 	
 	/**
 	 * A method to indicate the event was cancelled. All subsequent calls to tick() 
 	 * should return false and should not contain side effects. 
 	 */
 	public void cancel();
-
-	/**
-	 * Set's the player who's action is this continuous event.
-	 * When this event ends, naturally, the player's action is set to null.
-	 * @param p the player to set.
-	 */
-	public void setPlayer(Player p);
 	
 	public Player getPlayer();
 	

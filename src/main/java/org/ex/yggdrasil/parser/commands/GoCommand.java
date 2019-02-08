@@ -106,7 +106,7 @@ public class GoCommand extends Command {
 		}
 		
 		@Override
-		public boolean tick() {
+		public boolean tick(long tick) {
 			if (finished) {
 				return finished;
 			}
@@ -142,11 +142,6 @@ public class GoCommand extends Command {
 		@Override
 		public void cancel() {
 			this.finished = true;
-		}
-
-		@Override
-		public void setPlayer(Player p) {
-			throw new UnsupportedOperationException();
 		}
 
 		@Override

@@ -7,22 +7,22 @@ import org.ex.yggdrasil.model.entities.players.Player;
 
 public class ContinuousEventExecutor {
 
-	public static void execute(LinkedList<ContinuousEvent> l) {
+	public static void execute(long tick, LinkedList<ContinuousEvent> l) {
 	
 		Iterator<ContinuousEvent> iter = l.iterator();
 		
 		while (iter.hasNext()) {
-			boolean hasFinished = safelyExecute(iter.next());
+			boolean hasFinished = safelyExecute(tick, iter.next());
 			if (hasFinished) {
 				iter.remove();
 			}
 		}
 	}
 
-	public static boolean safelyExecute(ContinuousEvent event) {
+	public static boolean safelyExecute(long tick, ContinuousEvent event) {
 		boolean hasFinished;
 		try {
-			hasFinished = event.tick();					
+			hasFinished = event.tick(tick);					
 		} catch (Exception e) {
 			e.printStackTrace();
 			Player p = event.getPlayer();
