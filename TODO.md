@@ -7,11 +7,11 @@ A list of things to do.
 ## Back End
 * Abstract foraging
 * Abstract gathering class
-* Add multi type resource node types
-* Add configuration for chance per resource type
 * Add actions to entities
 
 ## Complete
+* ~~Add configuration for chance per resource type~~
+* ~~Add multi type resource node types~~
 * ~~Move forageing to be a continuous action~~
 * ~~Add basic foraging class~~
 * ~~Add resource nodes~~
