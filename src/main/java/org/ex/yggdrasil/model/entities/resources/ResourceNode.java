@@ -43,7 +43,7 @@ public class ResourceNode extends Entity {
 		
 		deplete();
 		
-		return this.type.item;
+		return this.type.items.get(R.nextFloat());
 	}
 	
 	private void deplete() {
