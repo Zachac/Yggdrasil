@@ -71,7 +71,7 @@ public class GatheringSpecialization extends AbstractSpecialization {
 		}
 
 		private static void startGathering(Player p, Specialization s, ResourceNode node) {
-			p.setAction(new GatheringAction(p, s, node));
+			p.addAction(new GatheringAction(p, s, node));
 		}
 
 		/**

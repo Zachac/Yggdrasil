@@ -85,7 +85,13 @@ public class Player extends Entity implements Serializable {
 	 */
 	public void addAction(ContinuousEvent e) {
 		Objects.requireNonNull(e);
-		this.actionBacklog.add(e);
+		
+		if (this.action == null) {
+			this.action = e;
+			UpdateProcessor.update(this);
+		} else {
+			this.actionBacklog.add(e);			
+		}
 	}
 
 	public synchronized void login() throws AlreadyLoggedInException {
