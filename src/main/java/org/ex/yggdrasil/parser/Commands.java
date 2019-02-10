@@ -1,5 +1,6 @@
 package org.ex.yggdrasil.parser;
 
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +35,15 @@ public class Commands {
 		
 		for (Class<?> cl : commands) {
 			LOG.debug("Adding {}", cl);
-			total++;
 			try {
-				Command c = (Command) cl.newInstance();
-				result.put(c.name, c);
-				loaded++;
+				if (!Modifier.isAbstract(cl.getModifiers())) {
+					total++;
+					Command c = (Command) cl.newInstance();
+					result.put(c.name, c);
+					loaded++;
+				}
 			} catch (InstantiationException | ClassCastException | IllegalAccessException e) {
-				LOG.error("Unnable to instantiate command {}", cl);
+				LOG.error("Unable to instantiate command {}", cl);
 				LOG.error("Could not instantiate command", e);
 			}
 		}

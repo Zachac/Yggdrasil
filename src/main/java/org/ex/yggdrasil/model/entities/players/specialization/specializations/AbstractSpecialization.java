@@ -10,15 +10,16 @@ public abstract class AbstractSpecialization implements Specialization, Serializ
 
 	private int level;
 	private int xp;
+
+	private int[] xpRequirements;
 	
-	public AbstractSpecialization() {
+	public AbstractSpecialization(int[] xpRequirements) {
 		this.level = 1;
 		this.xp = 0;
+		this.xpRequirements = xpRequirements;
 	}
-
-	protected abstract int[] getXpRequirements();
 	
-	protected final boolean levelUp() {
+	public final boolean levelUp() {
 		if (level >= getMaxLevel()) {
 			return false;
 		} if (xp < getNextLevelXp()) {
@@ -29,13 +30,13 @@ public abstract class AbstractSpecialization implements Specialization, Serializ
 		return true;
 	}
 	
-	protected void addXp(int xp) {
+	public void addXp(int xp) {
 		this.xp += xp;
 	}
 	
 	@Override
 	public int getMaxLevel() {
-		return getXpRequirements().length;
+		return xpRequirements.length;
 	}
 	
 	@Override
@@ -50,7 +51,7 @@ public abstract class AbstractSpecialization implements Specialization, Serializ
 
 	@Override
 	public int getNextLevelXp() {
-		return getXpRequirements()[this.level];
+		return xpRequirements[this.level];
 	}
 	
 	@Override

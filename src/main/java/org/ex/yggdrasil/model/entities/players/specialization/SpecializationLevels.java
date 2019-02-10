@@ -1,4 +1,4 @@
-package org.ex.yggdrasil.model.entities.players.specialization.specializations;
+package org.ex.yggdrasil.model.entities.players.specialization;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.ex.yggdrasil.model.entities.players.specialization.Specialization;
-import org.ex.yggdrasil.model.entities.players.specialization.Specializations;
+import org.ex.yggdrasil.model.entities.players.specialization.specializations.AbstractSpecialization;
 
 import java.util.Set;
 
