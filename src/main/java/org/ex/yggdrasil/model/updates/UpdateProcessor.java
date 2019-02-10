@@ -3,7 +3,9 @@ package org.ex.yggdrasil.model.updates;
 import java.util.Collection;
 
 import org.ex.yggdrasil.model.entities.Entity;
+import org.ex.yggdrasil.model.entities.items.Item;
 import org.ex.yggdrasil.model.entities.players.Player;
+import org.ex.yggdrasil.model.entities.players.inventory.Inventory;
 import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.chunks.Chunk;
 import org.glassfish.grizzly.http.server.util.Enumerator;
@@ -36,6 +38,10 @@ public class UpdateProcessor {
 		for (Entity e : entities) {			
 			source.updates.addEntity(e);
 		}
+		
+		for (int i = 0; i < Inventory.MAX_SIZE; i++) {
+			source.updates.addInventoryUpdate(new InventoryUpdate(i, source.inventory.get(i)));
+		}
 	}
 
 	public static void update(Chunk chunk, Biome type, int x, int y) {
@@ -45,5 +51,9 @@ public class UpdateProcessor {
 		while (players.hasMoreElements()) {
 			players.nextElement().updates.addBiomeUpdate(b);
 		}
+	}
+
+	public static void inventoryUpdate(Player p, int position, Item i) {
+		p.updates.addInventoryUpdate(new InventoryUpdate(position, i));
 	}
 }

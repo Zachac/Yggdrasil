@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.ex.yggdrasil.model.entities.Entity;
 import org.ex.yggdrasil.model.entities.EntityMaterial;
+import org.ex.yggdrasil.model.entities.players.inventory.Inventory;
 import org.ex.yggdrasil.model.entities.players.specialization.SpecializationLevels;
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
 import org.ex.yggdrasil.model.updates.UpdateProcessor;
@@ -24,16 +25,18 @@ public class Player extends Entity implements Serializable {
 
 	private static final long serialVersionUID = -862762766117190960L;
 
+	public final Queue<String> messages;
+	public final NetworkUpdate updates;
+	public final Inventory inventory;
 	public final SpecializationLevels specialization;
 	public final String userName;
-	private long experience;
-	transient boolean loggedIn;
-	private transient ContinuousEvent action;
-
-	public final Queue<String> messages;
+	
 	private final Queue<ContinuousEvent> actionBacklog;
-
-	public final NetworkUpdate updates;
+	
+	private long experience;
+	
+	private transient boolean loggedIn;
+	private transient ContinuousEvent action;
 
 	public Player(String userName, Chunk location) {
 		super(location);
@@ -44,12 +47,13 @@ public class Player extends Entity implements Serializable {
 
 		this.userName = userName;
 		this.updates = new NetworkUpdate();
-		specialization = new SpecializationLevels();
-		experience = 0;
-		action = null;
-		messages = new ConcurrentLinkedQueue<>();
-		actionBacklog = new ConcurrentLinkedQueue<>();
-		loggedIn = false;
+		this.specialization = new SpecializationLevels();
+		this.experience = 0;
+		this.action = null;
+		this.messages = new ConcurrentLinkedQueue<>();
+		this.actionBacklog = new ConcurrentLinkedQueue<>();
+		this.loggedIn = false;
+		this.inventory = new Inventory(this);
 	}
 
 	public long getExperience() {

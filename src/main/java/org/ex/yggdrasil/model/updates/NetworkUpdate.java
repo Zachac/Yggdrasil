@@ -1,6 +1,8 @@
 package org.ex.yggdrasil.model.updates;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,6 +18,7 @@ public class NetworkUpdate implements Serializable {
 
 	private final Set<Entity> entities;
 	private final Set<BiomeUpdate> biomeUpdates;
+	private final List<InventoryUpdate> inventoryUpdates;
 	private Entity followEntity;
 	
 	private boolean shouldSend;
@@ -25,6 +28,7 @@ public class NetworkUpdate implements Serializable {
 	public NetworkUpdate() {
 		this.entities = new TreeSet<>();
 		this.biomeUpdates = new TreeSet<>();
+		this.inventoryUpdates = new LinkedList<>();
 		shouldSend = false;
 	}
 	
@@ -72,6 +76,15 @@ public class NetworkUpdate implements Serializable {
 	public Set<BiomeUpdate> getBiomeUpdates() {
 		return biomeUpdates;
 	}
+
+	public void addInventoryUpdate(InventoryUpdate inventoryUpdate) {
+		inventoryUpdates.add(inventoryUpdate);
+		shouldSend = true;
+	}
+
+	public Collection<InventoryUpdate> getInventoryUpdates() {
+		return inventoryUpdates;
+	}
 	
 	public boolean shouldSend() {
 		return shouldSend;
@@ -83,6 +96,7 @@ public class NetworkUpdate implements Serializable {
 		shouldSend = false;
 		entities.clear();
 		biomeUpdates.clear();
+		inventoryUpdates.clear();
 	}
 
 	/**

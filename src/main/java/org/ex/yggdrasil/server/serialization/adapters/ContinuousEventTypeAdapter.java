@@ -9,11 +9,15 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class ContinuousEventTypeAdapter implements JsonSerializer<ContinuousEvent> {
+public class ContinuousEventTypeAdapter implements JsonSerializer<ContinuousEvent>, TypeAdapter {
 
 	@Override
 	public JsonElement serialize(ContinuousEvent src, Type typeOfSrc, JsonSerializationContext context) {
 		return new JsonPrimitive(src.getClass().getSimpleName());
 	}
 
+	@Override
+	public Class<?> getType() {
+		return ContinuousEvent.class;
+	}
 }

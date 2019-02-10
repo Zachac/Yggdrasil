@@ -9,11 +9,16 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class MaterialTypeAdapter implements JsonSerializer<Material>  {
+public class MaterialTypeAdapter implements JsonSerializer<Material>, TypeAdapter {
 
 	@Override
 	public JsonElement serialize(Material src, Type typeOfSrc, JsonSerializationContext context) {
 		return new JsonPrimitive(src.toString());
+	}
+
+	@Override
+	public Class<?> getType() {
+		return Material.class;
 	}
 
 }

@@ -11,7 +11,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class PlayerTypeAdapter extends AbstractEntityTypeAdapter implements JsonSerializer<Player> {
+public class PlayerTypeAdapter extends AbstractEntityTypeAdapter implements JsonSerializer<Player>, TypeAdapter {
 
 	@Override
 	public JsonElement serialize(Player src, Type typeOfSrc, JsonSerializationContext context) {
@@ -27,5 +27,10 @@ public class PlayerTypeAdapter extends AbstractEntityTypeAdapter implements Json
 		}
 		
 		return root;
+	}
+
+	@Override
+	public Class<?> getType() {
+		return Player.class;
 	}
 }

@@ -1,40 +1,54 @@
 package org.ex.yggdrasil.server.serialization;
 
-import org.ex.yggdrasil.model.Material;
-import org.ex.yggdrasil.model.entities.players.Player;
-import org.ex.yggdrasil.model.entities.resources.ResourceNode;
-import org.ex.yggdrasil.model.updates.BiomeUpdate;
+import java.util.Set;
+
 import org.ex.yggdrasil.model.updates.NetworkUpdate;
-import org.ex.yggdrasil.model.world.chunks.Chunk;
-import org.ex.yggdrasil.model.world.chunks.Coordinate2D;
-import org.ex.yggdrasil.model.world.time.ContinuousEvent;
-import org.ex.yggdrasil.server.serialization.adapters.BiomeUpdateTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.ChunkTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.ContinuousEventTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.Coordinate2DTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.EntityTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.MaterialTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.NetworkUpdateTypeAdapter;
-import org.ex.yggdrasil.server.serialization.adapters.PlayerTypeAdapter;
+import org.ex.yggdrasil.server.serialization.adapters.TypeAdapter;
+import org.ex.yggdrasil.util.YggdrasilReflections;
+import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Serializer {
 
-	private static Gson gson = new GsonBuilder()
-			.excludeFieldsWithoutExposeAnnotation()
-			.registerTypeAdapter(ContinuousEvent.class, new ContinuousEventTypeAdapter())
-			.registerTypeAdapter(Player.class, new PlayerTypeAdapter())
-			.registerTypeAdapter(Coordinate2D.class, new Coordinate2DTypeAdapter())
-			.registerTypeAdapter(NetworkUpdate.class, new NetworkUpdateTypeAdapter())
-			.registerTypeAdapter(Chunk.class, new ChunkTypeAdapter())
-			.registerTypeAdapter(Material.class, new MaterialTypeAdapter())
-			.registerTypeAdapter(BiomeUpdate.class, new BiomeUpdateTypeAdapter())
-			.registerTypeAdapter(ResourceNode.class, new EntityTypeAdapter())
-			.create();
+	private static final Logger LOG = LoggerFactory.getLogger(Serializer.class);
+	
+	private static Gson gson = getSerializer();
 	
 	public static String prepare(NetworkUpdate n) {
 		return gson.toJson(n);
+	}
+	
+	private static Gson getSerializer() {
+		LOG.info("Building serialization classes");
+		
+		Reflections r = YggdrasilReflections.get();
+		
+		Set<Class<? extends TypeAdapter>> classes = r.getSubTypesOf(TypeAdapter.class);
+		
+		GsonBuilder builder = new GsonBuilder();
+		
+		int total = 0;
+		int loaded = 0;
+		
+		for (Class<? extends TypeAdapter> c : classes) {
+			LOG.debug("Adding {}", c);
+			try {
+				total++;
+				TypeAdapter adapter = c.newInstance();
+				builder.registerTypeAdapter(adapter.getType(), adapter);
+				loaded++;
+			} catch (Exception e) {
+				LOG.error("Failed to load {}", c.getName());
+				LOG.error("Unexpected exception", e);
+			}
+		}
+		
+		LOG.info("Loaded {}/{} serializers", total, loaded);
+		
+		return builder.create();
 	}
 }

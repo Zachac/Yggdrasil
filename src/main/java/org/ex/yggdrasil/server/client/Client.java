@@ -44,10 +44,10 @@ public class Client implements Runnable {
 			startSubThreads();
 		} catch (Exception e) {
 			if (player == null) {
-				LOG.info("Player failed to login");
+				LOG.error("Player failed to login", e);
 			} else {
 				LOG.info("Unexpected exception for player {}", player);
-				e.printStackTrace();				
+				LOG.error("Unexpected exception", e);
 			}
 		}
 		

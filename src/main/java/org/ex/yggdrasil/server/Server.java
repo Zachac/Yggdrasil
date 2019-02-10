@@ -9,6 +9,7 @@ import org.ex.yggdrasil.model.world.World;
 import org.ex.yggdrasil.model.world.chunks.Biome;
 import org.ex.yggdrasil.model.world.generation.RandomResourceDistributionWorldGenerator;
 import org.ex.yggdrasil.parser.Commands;
+import org.ex.yggdrasil.server.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,7 @@ public abstract class Server {
 		
 		load(Specializations.class);
 		load(Commands.class);
+		load(Serializer.class);
 		
 		World.get().time.start();
 		LOG.info("World time started at tick {}", World.get().time.getTickTime());

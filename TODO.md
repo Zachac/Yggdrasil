@@ -3,13 +3,13 @@ A list of things to do.
 
 ## Front End
 * Add context menu with actions
+* Add inventory display
 
 ## Back End
-* Abstract foraging
-* Abstract gathering class
 * Add actions to entities
 
 ## Complete
+* ~~Add inventory to backend~~
 * ~~Add configuration for chance per resource type~~
 * ~~Add multi type resource node types~~
 * ~~Move forageing to be a continuous action~~

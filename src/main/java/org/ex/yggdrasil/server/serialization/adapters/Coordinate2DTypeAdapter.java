@@ -10,7 +10,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class Coordinate2DTypeAdapter implements JsonSerializer<Coordinate2D> {
+public class Coordinate2DTypeAdapter implements JsonSerializer<Coordinate2D>, TypeAdapter {
 
 	@Override
 	public JsonElement serialize(Coordinate2D src, Type typeOfSrc, JsonSerializationContext context) {
@@ -22,4 +22,8 @@ public class Coordinate2DTypeAdapter implements JsonSerializer<Coordinate2D> {
 		return root;
 	}
 
+	@Override
+	public Class<?> getType() {
+		return Coordinate2D.class;
+	}
 }

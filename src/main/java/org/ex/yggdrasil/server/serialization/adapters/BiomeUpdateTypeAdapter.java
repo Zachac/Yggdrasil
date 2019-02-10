@@ -10,7 +10,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class BiomeUpdateTypeAdapter implements JsonSerializer<BiomeUpdate>  {
+public class BiomeUpdateTypeAdapter implements JsonSerializer<BiomeUpdate>, TypeAdapter {
 
 	@Override
 	public JsonElement serialize(BiomeUpdate src, Type typeOfSrc, JsonSerializationContext context) {
@@ -22,5 +22,9 @@ public class BiomeUpdateTypeAdapter implements JsonSerializer<BiomeUpdate>  {
 		
 		return root;
 	}
-
+	
+	@Override
+	public Class<?> getType() {
+		return BiomeUpdate.class;
+	}
 }

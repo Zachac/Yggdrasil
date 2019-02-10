@@ -10,6 +10,8 @@ import org.ex.yggdrasil.model.world.time.AbstractContinousEvent;
 
 public class ResourceRetrievalAction extends AbstractContinousEvent {
 
+	private static final String FULL_INVENTORY = "Your inventory is full";
+
 	private static final long serialVersionUID = 2018454681389702463L;
 
 	private static final String SINGULAR_RECIEVE = "You get a ";
@@ -36,12 +38,15 @@ public class ResourceRetrievalAction extends AbstractContinousEvent {
 	 * @param p
 	 * @param s
 	 * @param node
-	 * @return whether or not the node is now depleted.
+	 * @return whether or not the player should continue.
 	 */
 	private boolean gather(Player p, Specialization s, ResourceNode node) {
 		if (node.isDepleted()) {
 			p.messages.add(NOTHING_LEFT);
-			return true;
+			return false;
+		} else if (p.inventory.isFull()) {
+			p.messages.add(FULL_INVENTORY);
+			return false;
 		}
 
 		Item item = node.consume(s.getCurrentLevel() / 5.0f);
@@ -49,11 +54,16 @@ public class ResourceRetrievalAction extends AbstractContinousEvent {
 		if (item != null) {
 			p.messages.add((item.plural ? PLURAL_RECIEVE : SINGULAR_RECIEVE) + item);
 			((AbstractSpecialization) s).addXp(1);
+			p.inventory.add(item);
+
+			if (p.inventory.isFull()) {
+				p.messages.add(FULL_INVENTORY);
+			}
 		} else {
 			p.messages.add(idle_text);
 		}
-
-		return node.isDepleted();
+		
+		return !node.isDepleted() && !p.inventory.isFull();
 	}
 	
 	@Override
@@ -63,7 +73,9 @@ public class ResourceRetrievalAction extends AbstractContinousEvent {
 		}
 		
 		if (((tick & 1) == 0) != start) {
-			return gather(p, s, node);
+			// attempt to retrieve and return that we are canceled if
+			// the player should not continue
+			return !gather(p, s, node);
 		} else {
 			return false;
 		}

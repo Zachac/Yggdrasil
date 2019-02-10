@@ -11,7 +11,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class ChunkTypeAdapter implements JsonSerializer<Chunk>  {
+public class ChunkTypeAdapter implements JsonSerializer<Chunk>, TypeAdapter {
 
 	@Override
 	public JsonElement serialize(Chunk src, Type typeOfSrc, JsonSerializationContext context) {
@@ -31,4 +31,8 @@ public class ChunkTypeAdapter implements JsonSerializer<Chunk>  {
 		return root;
 	}
 
+	@Override
+	public Class<?> getType() {
+		return Chunk.class;
+	}
 }
