@@ -52,7 +52,7 @@ public class ResourceRetrievalAction extends AbstractContinousEvent {
 		Item item = node.consume(s.getCurrentLevel() / 5.0f);
 
 		if (item != null) {
-			p.messages.add((item.plural ? PLURAL_RECIEVE : SINGULAR_RECIEVE) + item);
+			p.messages.add((item.isPlural() ? PLURAL_RECIEVE : SINGULAR_RECIEVE) + item);
 			((AbstractSpecialization) s).addXp(1);
 			p.inventory.add(item);
 

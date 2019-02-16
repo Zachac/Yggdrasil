@@ -2,10 +2,11 @@ package org.ex.yggdrasil.model.entities.resources;
 
 import org.ex.yggdrasil.model.entities.EntityMaterial;
 import org.ex.yggdrasil.model.entities.items.Item;
+import org.ex.yggdrasil.model.entities.items.Items;
 
 public enum ResourceNodeType {
 
-	BUSH(new ItemDrops(Item.STICK, Item.LEAVES), EntityMaterial.BUSH, EntityMaterial.BUSH_DEPLETED, 15000, 15000, new String[0]);
+	BUSH(new ItemDrops(Items.STICK, Items.LEAVES), EntityMaterial.BUSH, EntityMaterial.BUSH_DEPLETED, 15000, 15000, new String[0]);
 	
 	public final EntityMaterial activeMaterial;
 	public final EntityMaterial depletedMaterial;

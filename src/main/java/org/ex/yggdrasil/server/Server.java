@@ -33,6 +33,7 @@ public abstract class Server {
 		load(Specializations.class);
 		load(Commands.class);
 		load(Serializer.class);
+//		load(Items.class);
 		
 		World.get().time.start();
 		LOG.info("World time started at tick {}", World.get().time.getTickTime());

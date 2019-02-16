@@ -1,11 +1,7 @@
 package org.ex.yggdrasil.model.entities.items;
 
-public enum Item {
-	STICK(false), LEAVES(true);
+public interface Item {
 	
-	public final boolean plural;
+	boolean isPlural();
 	
-	Item(boolean plural) {
-		this.plural = plural;
-	}
 }
