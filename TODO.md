@@ -7,8 +7,13 @@ A list of things to do.
 
 ## Back End
 * Add actions to entities
+* Add item entities
+* Add drop command
+* Add take command
+* Add walk to command
 
 ## Complete
+* ~~Add inventory command~~
 * ~~Add inventory to backend~~
 * ~~Add configuration for chance per resource type~~
 * ~~Add multi type resource node types~~
